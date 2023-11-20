@@ -14,24 +14,8 @@ const Home = () => {
         className={styles.picture}
       />
       <div className={styles.textBlock}>
-        <h1>Welcome to Info Map App!</h1>
-        <ul className={styles.list}>
-          <li>
-            <h3>See places of interest on World map</h3>
-            <br />
-          </li>
-          <li>
-            <h3>Change categories of places</h3>
-            <br />
-          </li>
-          <li>
-            <h3>Select the amount of visible places</h3>
-            <br />
-          </li>
-          <li>
-            <h3>Move through the whole map</h3>
-          </li>
-        </ul>
+        <h1>Welcome to Tetris App!</h1>
+        .....
         <div>
           <LoadingButton
             endIcon={<ArrowForwardIosIcon />}
