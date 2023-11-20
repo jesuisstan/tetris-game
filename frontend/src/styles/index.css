@@ -1,4 +1,10 @@
-@import './mapColors.css';
+:root {
+  --TETRIS_WHITE: rgb(227, 227, 227);
+  --TETRIS_BLUE: rgb(36, 138, 193);
+  --TETRIS_BLUE_TRANS: rgba(36, 138, 193, 0.9);
+  --TETRIS_ORANGE: rgb(220, 74, 88);
+  --TETRIS_BLACK: rgb(2, 2, 2);
+}
 
 * {
   margin: 0;
@@ -12,25 +18,25 @@
 body {
   font-style: normal;
   letter-spacing: 0.15px;
-  color: var(--MAP_BLACK);
-  background: var(--MAP_WHITE);
+  color: var(--TETRIS_BLACK);
+  background: var(--TETRIS_WHITE);
 }
 
 a {
-  color: var(--MAP_BLACK);
+  color: var(--TETRIS_BLACK);
   text-decoration: none;
   font-weight: 500;
 }
 
 a:hover {
-  color: var(--MAP_WHITE);
+  color: var(--TETRIS_WHITE);
 }
 
 nav {
   width: 100%;
   position: sticky;
   top: 0px;
-  background-color: var(--MAP_BLUE);
+  background-color: var(--TETRIS_BLUE);
   height: 50px;
   flex-direction: row;
   gap: 42px;
@@ -45,6 +51,6 @@ h1 {
 }
 
 .active {
-  color: var(--MAP_WHITE);
+  color: var(--TETRIS_WHITE);
   text-decoration: none;
 }

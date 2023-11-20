@@ -12,15 +12,12 @@ import axios from 'axios';
 import errorAlert from '../../utils/errorAlert';
 import saveAlert from '../../utils/saveAlert';
 import * as MUI from '../../styles/MUIstyles';
-import * as colors from '../../styles/mapColors';
+import * as colors from '../../styles/tetris-colors';
 import styles from '../../styles/Login.module.css';
 
 const baseUrl = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_FRONTEND_PORT}`;
 
-const SignUpModal = ({
-  open,
-  setOpen
-}) => {
+const SignUpModal = ({ open, setOpen }) => {
   const navigate = useNavigate();
   const [load, setLoad] = useState(false);
 
@@ -65,7 +62,7 @@ const SignUpModal = ({
 
   return (
     <Modal
-      sx={{ color: colors.MAP_BLACK }}
+      sx={{ color: colors.TETRIS_BLACK }}
       open={open}
       onClose={(event, reason) => {
         if (event && reason === 'closeClick') {

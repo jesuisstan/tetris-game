@@ -1,12 +1,10 @@
-@import './mapColors.css';
-
 .navbar {
   position: fixed;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  background-color: var(--MAP_BLUE);
+  background-color: var(--TETRIS_BLUE);
   width: 100%;
   height: 50px;
   opacity: 0.9;

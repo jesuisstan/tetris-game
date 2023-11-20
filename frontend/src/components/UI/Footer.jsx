@@ -14,9 +14,9 @@ const Footer = () => {
         <p className={styles.copyright}>
           {!isSmallScreen && (
             <>
-              Info Map Fullstack App © 2023 | Frontend assessment |
+              Tetris Game Fullstack App © 2024 | 
               <a
-                href="https://github.com/jesuisstan/InfoMapApp"
+                href="https://github.com/jesuisstan/tetris-game"
                 className={styles.footerLink}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -34,6 +34,15 @@ const Footer = () => {
             rel="noopener noreferrer"
           >
             Stan Krivtsoff
+          </a>
+          {` & `}
+          <a
+            href="https://www.linkedin.com/in/rustam-khafizov-7944971bb/"
+            className={styles.footerLink}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Rustam Khafizov
           </a>
         </p>
       </footer>

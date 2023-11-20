@@ -12,18 +12,18 @@ const FloatingButton = ({ onClick }) => {
         left: '94%',
         transform: 'translateX(-50%)',
         zIndex: 12000,
-        color: colors.MAP_BLACK,
+        color: colors.TETRIS_BLACK,
         opacity: 0.8,
         '&:hover': {
-          color: colors.MAP_WHITE
+          color: colors.TETRIS_WHITE
         }
       }}
     >
       <Fab
         sx={{
-          bgcolor: colors.MAP_ORANGE,
+          bgcolor: colors.TETRIS_ORANGE,
           '&:hover': {
-            bgcolor: colors.MAP_BLACK
+            bgcolor: colors.TETRIS_BLACK
           }
         }}
         color="inherit"

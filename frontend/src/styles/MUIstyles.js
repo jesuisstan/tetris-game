@@ -1,4 +1,4 @@
-import * as colors from './mapColors';
+import * as colors from './tetris-colors';
 import { createTheme } from '@mui/material';
 
 export const theme = createTheme({
@@ -12,7 +12,7 @@ export const modalDialog = {
   maxWidth: '442px',
   minWidth: '300px',
   border: '0px solid #000',
-  bgcolor: colors.MAP_WHITE,
+  bgcolor: colors.TETRIS_WHITE,
   borderRadius: '4px',
   paddingBottom: '30px'
 };
@@ -32,12 +32,12 @@ export const modalClose = {
   right: 'calc(-1/4 * var(--IconButton-size))',
   boxShadow: '0 2px 12px 0 rgba(0 0 0 / 0.2)',
   borderRadius: '50%',
-  color: colors.MAP_BLACK,
-  bgcolor: colors.MAP_ORANGE,
+  color: colors.TETRIS_BLACK,
+  bgcolor: colors.TETRIS_ORANGE,
   transition: 'background-color 0.2s, color 0.2s ease-in-out',
   ':hover': {
-    color: colors.MAP_WHITE,
-    bgcolor: colors.MAP_BLACK
+    color: colors.TETRIS_WHITE,
+    bgcolor: colors.TETRIS_BLACK
   }
 };
 
@@ -46,12 +46,12 @@ export const LoadButton = {
   fontWeight: 'bold',
   minWidth: 125,
   borderRadius: '90px',
-  backgroundColor: colors.MAP_ORANGE,
-  color: colors.MAP_BLACK,
+  backgroundColor: colors.TETRIS_ORANGE,
+  color: colors.TETRIS_BLACK,
   transition: 'background-color 0.2s ease-in-out, color 0.2s ease-in-out',
   ':hover': {
-    color: colors.MAP_WHITE,
-    bgcolor: colors.MAP_BLACK
+    color: colors.TETRIS_WHITE,
+    bgcolor: colors.TETRIS_BLACK
   }
 };
 
@@ -60,7 +60,7 @@ export const burgerItem = {
   fontWeight: '500',
   letterSpacing: '0.02857em',
   ':hover': {
-    color: colors.MAP_WHITE,
+    color: colors.TETRIS_WHITE,
     cursor: 'pointer'
   }
 };
@@ -71,6 +71,6 @@ export const selector = {
   backgroundColor: 'whitesmoke',
   minWidth: 150,
   ':hover': {
-    backgroundColor: colors.MAP_WHITE
+    backgroundColor: colors.TETRIS_WHITE
   }
 };

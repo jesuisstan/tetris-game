@@ -9,13 +9,11 @@ import errorAlert from '../../utils/errorAlert';
 import axios from 'axios';
 import LoadingButton from '@mui/lab/LoadingButton';
 //import { User } from '../../types/User';
-import * as colors from '../../styles/mapColors';
+import * as colors from '../../styles/tetris-colors';
 import * as MUI from '../../styles/MUIstyles';
 import styles from '../../styles/Login.module.css';
 
-const PleaseLogin = ({
-  setUser
-}) => {
+const PleaseLogin = ({ setUser }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [signUpOpen, setSignUpOpen] = useState(false);
@@ -82,13 +80,13 @@ const PleaseLogin = ({
         flexDirection: 'column',
         alignItems: 'center',
         gap: '21px',
-        color: colors.MAP_BLUE,
+        color: colors.TETRIS_BLUE,
         justifyContent: 'center'
       }}
     >
       <p>loading...</p>
       <BarLoader
-        color={colors.MAP_BLUE}
+        color={colors.TETRIS_BLUE}
         loading={loading}
         aria-label="Loading Spinner"
         data-testid="loader"
@@ -105,7 +103,7 @@ const PleaseLogin = ({
       }}
     >
       <SignUpModal open={signUpOpen} setOpen={setSignUpOpen} />
-      <ErrorOutlineIcon fontSize="large" sx={{ color: colors.MAP_ORANGE }} />
+      <ErrorOutlineIcon fontSize="large" sx={{ color: colors.TETRIS_ORANGE }} />
       <h1>Please login to continue</h1>
 
       <Stack spacing={2}>

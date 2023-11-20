@@ -15,7 +15,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import * as utils from '../../utils/authHandlers';
 import * as MUI from '../../styles/MUIstyles';
-import * as colors from '../../styles/mapColors';
+import * as colors from '../../styles/tetris-colors';
 
 const Menu = ({ user, setUser }) => {
   const navigate = useNavigate();
@@ -52,7 +52,7 @@ const Menu = ({ user, setUser }) => {
             color="inherit"
             onClick={() => setMenuDrawerOpen(!menuDrawerOpen)}
           >
-            <MenuIcon style={{ fill: colors.MAP_BLACK }} />
+            <MenuIcon style={{ fill: colors.TETRIS_BLACK }} />
           </IconButton>
         ) : (
           <div className={styles.left}>

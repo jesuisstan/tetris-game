@@ -1,12 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { Drawer, List, ListItem, ListItemText } from '@mui/material';
-import * as colors from '../../styles/mapColors';
+import * as colors from '../../styles/tetris-colors';
 import * as MUI from '../../styles/MUIstyles';
 
-const MenuDrawer = ({
-  open,
-  setOpen
-}) => {
+const MenuDrawer = ({ open, setOpen }) => {
   const navigate = useNavigate();
 
   const handleDrawerToggle = () => {
@@ -17,14 +14,14 @@ const MenuDrawer = ({
     <Drawer
       PaperProps={{
         style: {
-          backgroundColor: colors.MAP_BLUE_TRANS
+          backgroundColor: colors.TETRIS_BLUE_TRANS
         }
       }}
       anchor="left"
       open={open}
       onClose={handleDrawerToggle}
     >
-      <List sx={{ color: colors.MAP_BLACK }}>
+      <List sx={{ color: colors.TETRIS_BLACK }}>
         <ListItem
           onClick={() => {
             navigate('/');

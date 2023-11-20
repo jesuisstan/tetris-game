@@ -4,7 +4,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import * as MUI from '../styles/MUIstyles';
-import * as colors from '../styles/mapColors';
+import * as colors from '../styles/tetris-colors';
 
 const NotFound = () => {
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ const NotFound = () => {
         gap: '21px'
       }}
     >
-      <ErrorOutlineIcon fontSize="large" sx={{ color: colors.MAP_ORANGE }} />
+      <ErrorOutlineIcon fontSize="large" sx={{ color: colors.TETRIS_ORANGE }} />
       <h1>Not Found</h1>
       <LoadingButton
         loading={loading}
