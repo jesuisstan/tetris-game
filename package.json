@@ -1,0 +1,16 @@
+{
+  "name": "red-tetris",
+  "version": "1.0.0",
+  "description": "",
+  "dependencies": {
+    "concurrently": "^6.0.0",
+    "cross-env": "^7.0.3"
+  },
+  "scripts": {
+    "start:backend": "npm run copy-env:backend && cd backend && npm install && npm start",
+    "start:frontend": "npm run copy-env:frontend && cd frontend && npm install && npm start",
+    "copy-env:backend": "node -e \"require('fs').copyFileSync('.env', 'backend/.env')\"",
+    "copy-env:frontend": "node -e \"require('fs').copyFileSync('.env', 'frontend/.env')\"",
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
+  }
+}

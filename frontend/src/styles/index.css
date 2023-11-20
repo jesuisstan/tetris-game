@@ -1,0 +1,50 @@
+@import './mapColors.css';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-style: normal;
+  letter-spacing: 0.15px;
+  color: var(--MAP_BLACK);
+  background: var(--MAP_WHITE);
+}
+
+a {
+  color: var(--MAP_BLACK);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+a:hover {
+  color: var(--MAP_WHITE);
+}
+
+nav {
+  width: 100%;
+  position: sticky;
+  top: 0px;
+  background-color: var(--MAP_BLUE);
+  height: 50px;
+  flex-direction: row;
+  gap: 42px;
+}
+
+h1 {
+  font-weight: 500;
+}
+
+.App {
+  text-align: center;
+}
+
+.active {
+  color: var(--MAP_WHITE);
+  text-decoration: none;
+}

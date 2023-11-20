@@ -1,0 +1,38 @@
+@import './mapColors.css';
+
+.formInput {
+  display: flex;
+  flex-direction: column;
+  width: 280px;
+}
+
+.input {
+  padding: 12px;
+  margin: 5px 0px;
+  border-radius: 5px;
+  border: 1px solid var(--MAP_BLACK);
+}
+
+.input:hover {
+  border-color: var(--MAP_BLUE);
+}
+
+.label {
+  font-size: 12px;
+  color: var(--MAP_BLUE);
+}
+
+.helper {
+  font-size: 12px;
+  padding: 3px;
+  color: var(--MAP_ORANGE);
+  display: none;
+}
+
+/*input:invalid[focused='true'] {
+  border: 1px solid var(--MAP_ORANGE);
+}*/
+
+input:invalid[focused='true'] ~ span {
+  display: block;
+}

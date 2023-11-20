@@ -1,0 +1,35 @@
+.main {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  text-align: left;
+}
+
+.textBlock {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 30px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.picture {
+  display: inline;
+  width: 21%;
+  height: 21%;
+}
+
+.list {
+  padding-left: 40px;
+}
+
+@media (width < 768px) {
+  .main {
+    flex-direction: column;
+  }
+  .picture {
+    display: none;
+  }
+}
