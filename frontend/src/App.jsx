@@ -6,37 +6,52 @@ import MainLayout from './components/UI/MainLayout';
 import PleaseLogin from './components/Login/PleaseLogin';
 import * as utils from './utils/authHandlers';
 import './styles/index.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from './redux/actions/userActions';
 
 const App = () => {
-  const [user, setUser] = useState({
-    _id: '',
-    nickname: '',
-    email: '',
-    firstName: '',
-    lastName: ''
-  });
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state);
+
+  //const [user, setUser] = useState({
+  //  _id: '',
+  //  nickname: '',
+  //  email: '',
+  //  firstName: '',
+  //  lastName: ''
+  //});
+
+  ////fetch user data from database
+  //useEffect(() => {
+  //  utils.getUserData(setUser);
+  //}, []);
 
   //fetch user data from database
   useEffect(() => {
-    utils.getUserData(setUser);
-  }, []);
+    utils.getUserData(dispatch);
+  }, [dispatch]);
 
+console.log(user)
   return (
     <BrowserRouter>
       <div className="App">
         <Routes>
           <Route
             path="/"
-            element={<MainLayout user={user} setUser={setUser} />}
+            element={<MainLayout />}
           >
             <Route index={true} element={<Home />} />
             <Route
-              path="infomap"
+              path="game"
               element={
-                user.nickname ? <div>Tetris</div> : <PleaseLogin setUser={setUser} />
+                user.nickname ? (
+                  <div>Tetris</div>
+                ) : (
+                  <PleaseLogin />
+                )
               }
             />
-            <Route path="login" element={<PleaseLogin setUser={setUser} />} />
+            <Route path="login" element={<PleaseLogin  />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

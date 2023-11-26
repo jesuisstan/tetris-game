@@ -8,12 +8,14 @@ import FormInput from '../UI/FormInput';
 import errorAlert from '../../utils/errorAlert';
 import axios from 'axios';
 import LoadingButton from '@mui/lab/LoadingButton';
-//import { User } from '../../types/User';
 import * as colors from '../../styles/tetris-colors';
 import * as MUI from '../../styles/MUIstyles';
 import styles from '../../styles/Login.module.css';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../redux/actions/userActions';
 
-const PleaseLogin = ({ setUser }) => {
+const PleaseLogin = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [signUpOpen, setSignUpOpen] = useState(false);
@@ -29,6 +31,29 @@ const PleaseLogin = ({ setUser }) => {
     }, 1000);
   }, []);
 
+  //const handleLogin = async (e) => {
+  //  e.preventDefault();
+  //  setLoadingLogin(true);
+  //  try {
+  //    const response = await axios.post(`/api/auth/signin`, values, {
+  //      withCredentials: true
+  //    });
+  //    setUser(response.data);
+  //    navigate('/game');
+  //  } catch (error) {
+  //    if (axios.isAxiosError(error)) {
+  //      const axiosError = error;
+  //      const statusCode = axiosError.response?.status;
+  //      if (statusCode === 400) errorAlert('Wrong password');
+  //      else if (statusCode === 404)
+  //        errorAlert('User with such an email is not found');
+  //      else errorAlert('Something went wrong');
+
+  //      setLoadingLogin(false);
+  //    }
+  //  }
+  //};
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoadingLogin(true);
@@ -36,8 +61,8 @@ const PleaseLogin = ({ setUser }) => {
       const response = await axios.post(`/api/auth/signin`, values, {
         withCredentials: true
       });
-      setUser(response.data);
-      navigate('/infomap');
+      dispatch(setUser(response.data)); // Dispatch setUser action with the fetched user data
+      navigate('/game');
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const axiosError = error;

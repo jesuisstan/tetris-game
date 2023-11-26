@@ -14,7 +14,8 @@ const MenuDrawer = ({ open, setOpen }) => {
     <Drawer
       PaperProps={{
         style: {
-          backgroundColor: colors.TETRIS_BLUE_TRANS
+          backgroundColor: colors.TETRIS_BLUE_TRANS,
+          minWidth: '200px'
         }
       }}
       anchor="left"
@@ -32,12 +33,12 @@ const MenuDrawer = ({ open, setOpen }) => {
         </ListItem>
         <ListItem
           onClick={() => {
-            navigate('/infomap');
+            navigate('/game');
             setOpen(false);
           }}
         >
           <ListItemText
-            primary="Info Map"
+            primary="Tetris game"
             disableTypography
             sx={MUI.burgerItem}
           />

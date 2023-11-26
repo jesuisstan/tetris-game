@@ -16,9 +16,13 @@ import MenuItem from '@mui/material/MenuItem';
 import * as utils from '../../utils/authHandlers';
 import * as MUI from '../../styles/MUIstyles';
 import * as colors from '../../styles/tetris-colors';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from '../../redux/actions/userActions';
 
-const Menu = ({ user, setUser }) => {
+const Menu = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
   const isSmallScreen = useMediaQuery('(max-width:600px)');
   const isUltraSmallScreen = useMediaQuery('(max-width:350px)');
   const [menuDrawerOpen, setMenuDrawerOpen] = useState(false);
@@ -57,7 +61,7 @@ const Menu = ({ user, setUser }) => {
         ) : (
           <div className={styles.left}>
             <NavLink to=".">Home</NavLink>
-            <NavLink to="infomap">Info Map</NavLink>
+            <NavLink to="game">Tetris game</NavLink>
           </div>
         )}
         <div className={styles.right}>
