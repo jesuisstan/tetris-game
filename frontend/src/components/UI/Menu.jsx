@@ -1,5 +1,4 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-//import { User } from '../../types/User';
 import Avatar from '@mui/material/Avatar';
 import { useState } from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -13,15 +12,15 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import MenuUI from '@mui/material/Menu';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import * as utils from '../../utils/authHandlers';
+import * as utils from '../../utils/auth-handlers';
 import * as MUI from '../../styles/MUIstyles';
 import * as colors from '../../styles/tetris-colors';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUser } from '../../redux/actions/userActions';
+import { setUser } from '../../store/user-slice';
 
 const Menu = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const isSmallScreen = useMediaQuery('(max-width:600px)');
   const isUltraSmallScreen = useMediaQuery('(max-width:350px)');
@@ -40,7 +39,8 @@ const Menu = () => {
 
   const authenticate = async () => {
     if (user._id) {
-      utils.logout(setUser);
+      const userData = await utils.logout();
+      dispatch(setUser(userData));
       navigate('/');
     } else {
       navigate('/login');

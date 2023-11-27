@@ -5,14 +5,14 @@ import BarLoader from 'react-spinners/BarLoader';
 import SignUpModal from './SignUpModal';
 import Stack from '@mui/material/Stack';
 import FormInput from '../UI/FormInput';
-import errorAlert from '../../utils/errorAlert';
+import errorAlert from '../../utils/error-alert';
 import axios from 'axios';
 import LoadingButton from '@mui/lab/LoadingButton';
 import * as colors from '../../styles/tetris-colors';
 import * as MUI from '../../styles/MUIstyles';
 import styles from '../../styles/Login.module.css';
 import { useDispatch } from 'react-redux';
-import { setUser } from '../../redux/actions/userActions';
+import { setUser } from '../../store/user-slice';
 
 const PleaseLogin = () => {
   const dispatch = useDispatch();
@@ -30,29 +30,6 @@ const PleaseLogin = () => {
       setLoading(false);
     }, 1000);
   }, []);
-
-  //const handleLogin = async (e) => {
-  //  e.preventDefault();
-  //  setLoadingLogin(true);
-  //  try {
-  //    const response = await axios.post(`/api/auth/signin`, values, {
-  //      withCredentials: true
-  //    });
-  //    setUser(response.data);
-  //    navigate('/game');
-  //  } catch (error) {
-  //    if (axios.isAxiosError(error)) {
-  //      const axiosError = error;
-  //      const statusCode = axiosError.response?.status;
-  //      if (statusCode === 400) errorAlert('Wrong password');
-  //      else if (statusCode === 404)
-  //        errorAlert('User with such an email is not found');
-  //      else errorAlert('Something went wrong');
-
-  //      setLoadingLogin(false);
-  //    }
-  //  }
-  //};
 
   const handleLogin = async (e) => {
     e.preventDefault();

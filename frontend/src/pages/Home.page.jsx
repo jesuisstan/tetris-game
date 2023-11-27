@@ -23,7 +23,7 @@ const Home = () => {
             color="inherit"
             sx={MUI.LoadButton}
             onClick={() => {
-              navigate('/infomap');
+              navigate('/game');
             }}
           >
             Start

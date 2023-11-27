@@ -36,7 +36,7 @@ app.use(
 app.use(cookieParser());
 
 app.use('/api/check', (req, res) => {
-  res.send("Hello from InfoMapApp server")
+  res.send("Hello from Tetris server")
 });
 
 app.use('/api/auth', authRoutes);
