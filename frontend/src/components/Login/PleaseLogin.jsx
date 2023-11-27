@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import BarLoader from 'react-spinners/BarLoader';
 import SignUpModal from './SignUpModal';
 import Stack from '@mui/material/Stack';
 import FormInput from '../UI/FormInput';
@@ -13,6 +12,7 @@ import * as MUI from '../../styles/MUIstyles';
 import styles from '../../styles/Login.module.css';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../store/user-slice';
+import TetrisLoader from '../UI/TetrisLoader';
 
 const PleaseLogin = () => {
   const dispatch = useDispatch();
@@ -75,25 +75,7 @@ const PleaseLogin = () => {
   };
 
   return loading ? (
-    <div
-      style={{
-        alignSelf: 'center',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: '21px',
-        color: colors.TETRIS_BLUE,
-        justifyContent: 'center'
-      }}
-    >
-      <p>loading...</p>
-      <BarLoader
-        color={colors.TETRIS_BLUE}
-        loading={loading}
-        aria-label="Loading Spinner"
-        data-testid="loader"
-      />
-    </div>
+    <TetrisLoader />
   ) : (
     <div
       style={{

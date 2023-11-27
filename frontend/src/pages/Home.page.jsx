@@ -6,11 +6,12 @@ import styles from '../styles/HomePage.module.css';
 
 const Home = () => {
   const navigate = useNavigate();
+
   return (
     <div className={styles.main}>
       <img
         src={require('../assets/location.png')}
-        alt="InfoMapApp"
+        alt="tetrisApp"
         className={styles.picture}
       />
       <div className={styles.textBlock}>
