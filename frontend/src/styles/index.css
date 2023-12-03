@@ -1,16 +1,20 @@
 :root {
   --TETRIS_WHITE: rgb(227, 227, 227);
-  --TETRIS_BLUE: rgb(36, 138, 193);
-  --TETRIS_BLUE_TRANS: rgba(36, 138, 193, 0.9);
-  --TETRIS_ORANGE: rgb(220, 74, 88);
   --TETRIS_BLACK: rgb(2, 2, 2);
+  --TETRIS_RED: rgb(85, 37, 33);
+  --TETRIS_RED_TRANS: rgba(85, 37, 33, 0.87);
+  --TETRIS_PINK: rgb(199, 97, 100);
+  --TETRIS_BLUE: rgb(36, 138, 193);
+  --TETRIS_GREEN: rgb(0, 186, 188);
+  --TETRIS_GREEN_TRANS: rgba(0, 185, 188, 0.9);
+  --TETRIS_BLUE_TRANS: rgba(36, 138, 193, 0.9);
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Montserrat', sans-serif !important;
+  font-family: 'Orbitron', sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -18,25 +22,25 @@
 body {
   font-style: normal;
   letter-spacing: 0.15px;
-  color: var(--TETRIS_BLACK);
-  background: var(--TETRIS_WHITE);
+  color: var(--TETRIS_PINK);
+  background: var(--TETRIS_BLACK);
 }
 
 a {
-  color: var(--TETRIS_BLACK);
+  color: var(--TETRIS_PINK);
   text-decoration: none;
   font-weight: 500;
 }
 
 a:hover {
-  color: var(--TETRIS_WHITE);
+  color: var(--TETRIS_GREEN);
 }
 
 nav {
   width: 100%;
   position: sticky;
   top: 0px;
-  background-color: var(--TETRIS_BLUE);
+  background-color: var(--TETRIS_RED);
   height: 50px;
   flex-direction: row;
   gap: 42px;
@@ -44,6 +48,7 @@ nav {
 
 h1 {
   font-weight: 500;
+  text-align: center;
 }
 
 .App {

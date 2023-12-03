@@ -3,7 +3,7 @@ import { createTheme } from '@mui/material';
 
 export const theme = createTheme({
   typography: {
-    fontFamily: 'Montserrat, sans-serif'
+    fontFamily: 'Orbitron, sans-serif'
   }
 });
 
@@ -18,7 +18,7 @@ export const modalDialog = {
 };
 
 export const modalHeader = {
-  fontFamily: 'Montserrat, sans-serif',
+  fontFamily: '"Orbitron", sans-serif',
   fontSize: '1.2rem',
   letterSpacing: '0.02857em',
   textAlign: 'center',
@@ -33,25 +33,23 @@ export const modalClose = {
   boxShadow: '0 2px 12px 0 rgba(0 0 0 / 0.2)',
   borderRadius: '50%',
   color: colors.TETRIS_BLACK,
-  bgcolor: colors.TETRIS_ORANGE,
-  transition: 'background-color 0.2s, color 0.2s ease-in-out',
+  bgcolor: colors.TETRIS_WHITE,
+  transition: 'background-color 0.3s',
   ':hover': {
-    color: colors.TETRIS_WHITE,
-    bgcolor: colors.TETRIS_BLACK
+    bgcolor: colors.TETRIS_GREEN
   }
 };
 
 export const LoadButton = {
-  fontFamily: '"Montserrat", sans-serif',
+  fontFamily: '"Orbitron", sans-serif',
   fontWeight: 'bold',
   minWidth: 125,
   borderRadius: '90px',
-  backgroundColor: colors.TETRIS_ORANGE,
+  backgroundColor: colors.TETRIS_WHITE,
   color: colors.TETRIS_BLACK,
-  transition: 'background-color 0.2s ease-in-out, color 0.2s ease-in-out',
+  transition: 'background-color 0.3s ease-in-out',
   ':hover': {
-    color: colors.TETRIS_WHITE,
-    bgcolor: colors.TETRIS_BLACK
+    bgcolor: colors.TETRIS_GREEN
   }
 };
 
@@ -60,7 +58,7 @@ export const burgerItem = {
   fontWeight: '500',
   letterSpacing: '0.02857em',
   ':hover': {
-    color: colors.TETRIS_WHITE,
+    color: colors.TETRIS_GREEN,
     cursor: 'pointer'
   }
 };

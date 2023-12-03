@@ -6,7 +6,7 @@ import styles from '../../styles/Footer.module.css';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 const Footer = () => {
-  const isSmallScreen = useMediaQuery('(max-width:350px)');
+  const isSmallScreen = useMediaQuery('(max-width:521px)');
 
   return (
     <div className={styles.footerBasic}>
@@ -14,7 +14,7 @@ const Footer = () => {
         <p className={styles.copyright}>
           {!isSmallScreen && (
             <>
-              Tetris Game Fullstack App © 2024 | 
+              Tetris Game Fullstack App © 2024 |
               <a
                 href="https://github.com/jesuisstan/tetris-game"
                 className={styles.footerLink}

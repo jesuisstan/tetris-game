@@ -1,7 +1,16 @@
 import { useNavigate } from 'react-router-dom';
-import { Drawer, List, ListItem, ListItemText } from '@mui/material';
+import {
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemButton,
+  ListItemIcon
+} from '@mui/material';
 import * as colors from '../../styles/tetris-colors';
 import * as MUI from '../../styles/MUIstyles';
+import HomeIcon from '@mui/icons-material/Home';
+import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
 
 const MenuDrawer = ({ open, setOpen }) => {
   const navigate = useNavigate();
@@ -14,7 +23,7 @@ const MenuDrawer = ({ open, setOpen }) => {
     <Drawer
       PaperProps={{
         style: {
-          backgroundColor: colors.TETRIS_BLUE_TRANS,
+          backgroundColor: colors.TETRIS_RED_TRANS,
           minWidth: '200px'
         }
       }}
@@ -22,14 +31,19 @@ const MenuDrawer = ({ open, setOpen }) => {
       open={open}
       onClose={handleDrawerToggle}
     >
-      <List sx={{ color: colors.TETRIS_BLACK }}>
+      <List sx={{ color: colors.TETRIS_PINK }}>
         <ListItem
           onClick={() => {
             navigate('/');
             setOpen(false);
           }}
         >
-          <ListItemText primary="Home" disableTypography sx={MUI.burgerItem} />
+          <ListItemButton sx={MUI.burgerItem}>
+            <ListItemIcon>
+              <HomeIcon sx={{ color: colors.TETRIS_WHITE }} />
+            </ListItemIcon>
+            <ListItemText primary="Home" disableTypography />
+          </ListItemButton>
         </ListItem>
         <ListItem
           onClick={() => {
@@ -37,11 +51,12 @@ const MenuDrawer = ({ open, setOpen }) => {
             setOpen(false);
           }}
         >
-          <ListItemText
-            primary="Tetris game"
-            disableTypography
-            sx={MUI.burgerItem}
-          />
+          <ListItemButton sx={MUI.burgerItem}>
+            <ListItemIcon>
+              <VideogameAssetIcon sx={{ color: colors.TETRIS_WHITE }} />
+            </ListItemIcon>
+            <ListItemText primary="Tetris game" disableTypography />
+          </ListItemButton>
         </ListItem>
       </List>
     </Drawer>

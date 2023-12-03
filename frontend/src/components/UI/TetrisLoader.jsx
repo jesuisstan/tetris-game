@@ -10,13 +10,13 @@ const TetrisLoader = () => {
         flexDirection: 'column',
         alignItems: 'center',
         gap: '21px',
-        color: colors.TETRIS_BLUE,
+        color: colors.TETRIS_WHITE,
         justifyContent: 'center'
       }}
     >
-      <p>...loading...</p>
+      <p>loading...</p>
       <PacmanLoader
-        color={colors.TETRIS_BLUE}
+        color={colors.TETRIS_WHITE}
         loading={true}
         aria-label="Loading Spinner"
         data-testid="loader"

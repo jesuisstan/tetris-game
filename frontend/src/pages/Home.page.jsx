@@ -10,7 +10,7 @@ const Home = () => {
   return (
     <div className={styles.main}>
       <img
-        src={require('../assets/location.png')}
+        src={require('../assets/logo.png')}
         alt="tetrisApp"
         className={styles.picture}
       />

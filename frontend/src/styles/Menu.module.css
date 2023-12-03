@@ -4,7 +4,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  background-color: var(--TETRIS_BLUE);
+  background-color: var(--TETRIS_RED);
   width: 100%;
   height: 50px;
   opacity: 0.9;

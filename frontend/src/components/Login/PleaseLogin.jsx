@@ -87,9 +87,8 @@ const PleaseLogin = () => {
       }}
     >
       <SignUpModal open={signUpOpen} setOpen={setSignUpOpen} />
-      <ErrorOutlineIcon fontSize="large" sx={{ color: colors.TETRIS_ORANGE }} />
+      <ErrorOutlineIcon fontSize="large" sx={{ color: colors.TETRIS_PINK }} />
       <h1>Please login to continue</h1>
-
       <Stack spacing={2}>
         <div
           style={{

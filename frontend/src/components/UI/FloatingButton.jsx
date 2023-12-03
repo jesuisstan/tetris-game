@@ -21,7 +21,7 @@ const FloatingButton = ({ onClick }) => {
     >
       <Fab
         sx={{
-          bgcolor: colors.TETRIS_ORANGE,
+          bgcolor: colors.TETRIS_PINK,
           '&:hover': {
             bgcolor: colors.TETRIS_BLACK
           }

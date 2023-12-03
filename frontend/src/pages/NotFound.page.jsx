@@ -19,7 +19,7 @@ const NotFound = () => {
         gap: '21px'
       }}
     >
-      <ErrorOutlineIcon fontSize="large" sx={{ color: colors.TETRIS_ORANGE }} />
+      <ErrorOutlineIcon fontSize="large" sx={{ color: colors.TETRIS_PINK }} />
       <h1>Not Found</h1>
       <LoadingButton
         loading={loading}

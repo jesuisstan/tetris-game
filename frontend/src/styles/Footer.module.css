@@ -1,7 +1,7 @@
 .footerBasic {
   position: fixed;
   bottom: 0;
-  background-color: var(--TETRIS_BLUE);
+  background-color: var(--TETRIS_RED);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -10,8 +10,8 @@
   height: 21px;
   padding: 5px;
   white-space: nowrap;
-  color: var(--TETRIS_BLACK);
-  font-weight: bold;
+  color: var(--TETRIS_WHITE);
+  font-weight: normal;
   opacity: 0.9;
   z-index: 11111;
 }
@@ -26,12 +26,12 @@
 .footerLink:link,
 .footerLink:visited {
   font-size: 10px;
-  color: var(--TETRIS_BLACK);
+  color: var(--TETRIS_PINK);
   font-weight: bold;
   opacity: 1;
   transition: color 0.3s ease;
 }
 
 .footerLink:hover {
-  color: var(--TETRIS_ORANGE);
+  color: var(--TETRIS_GREEN);
 }

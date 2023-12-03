@@ -5,7 +5,7 @@ const saveAlert = () => {
   Swal.fire({
     position: 'center',
     width: 'auto',
-    color: colors.TETRIS_BLUE,
+    color: colors.TETRIS_GREEN,
     background: 'rgba(0, 0, 0, 0)',
     title: 'S A V E D',
     showConfirmButton: false,

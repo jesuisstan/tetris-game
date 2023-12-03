@@ -56,7 +56,7 @@ const Menu = () => {
             color="inherit"
             onClick={() => setMenuDrawerOpen(!menuDrawerOpen)}
           >
-            <MenuIcon style={{ fill: colors.TETRIS_BLACK }} />
+            <MenuIcon style={{ fill: colors.TETRIS_WHITE }} />
           </IconButton>
         ) : (
           <div className={styles.left}>

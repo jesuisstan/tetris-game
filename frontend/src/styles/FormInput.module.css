@@ -12,23 +12,23 @@
 }
 
 .input:hover {
-  border-color: var(--TETRIS_BLUE);
+  border-color: var(--TETRIS_GREEN);
 }
 
 .label {
   font-size: 12px;
-  color: var(--TETRIS_BLUE);
+  color: var(--TETRIS_GREEN);
 }
 
 .helper {
   font-size: 12px;
   padding: 3px;
-  color: var(--TETRIS_ORANGE);
+  color: var(--TETRIS_PINK);
   display: none;
 }
 
 /*input:invalid[focused='true'] {
-  border: 1px solid var(--TETRIS_ORANGE);
+  border: 1px solid var(--TETRIS_PINK);
 }*/
 
 input:invalid[focused='true'] ~ span {
