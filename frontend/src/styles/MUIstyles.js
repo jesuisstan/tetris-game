@@ -50,7 +50,10 @@ export const LoadButton = {
   color: colors.TETRIS_BLACK,
   transition: 'background-color 0.2s ease-in-out',
   ':hover': {
-    bgcolor: colors.TETRIS_PINK
+    backgroundColor: colors.TETRIS_PINK
+  },
+  '& .MuiCircularProgress-circle': {
+    color: colors.TETRIS_WHITE
   }
 };
 
