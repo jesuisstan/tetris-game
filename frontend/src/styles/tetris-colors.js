@@ -1,8 +1,8 @@
-export const TETRIS_WHITE = 'rgb(227, 227, 227)';
-export const TETRIS_BLACK = 'rgb(0, 12, 12)';
+export const TETRIS_WHITE = 'rgb(238,227,193)';
+export const TETRIS_BLACK = 'rgb(10, 10, 10)';
 
-export const TETRIS_RED = 'rgb(85,37,33)';
-export const TETRIS_RED_TRANS = 'rgba(85,37,33, 0.87)';
+export const TETRIS_RED = 'rgb(208,2,27)';
+export const TETRIS_RED_TRANS = 'rgba(208,2,27, 0.87)';
 
 export const TETRIS_PINK = 'rgb(199,97,100)';
 

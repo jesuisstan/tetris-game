@@ -21,17 +21,22 @@ const MenuDrawer = ({ open, setOpen }) => {
 
   return (
     <Drawer
+      sx={{ zIndex: '11112' }}
       PaperProps={{
         style: {
-          backgroundColor: colors.TETRIS_RED_TRANS,
-          minWidth: '200px'
+          backgroundColor: colors.TETRIS_WHITE,
+          opacity: '0.9',
+          minWidth: '200px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between'
         }
       }}
       anchor="left"
       open={open}
       onClose={handleDrawerToggle}
     >
-      <List sx={{ color: colors.TETRIS_PINK }}>
+      <List sx={{ color: colors.TETRIS_BLACK }}>
         <ListItem
           onClick={() => {
             navigate('/');
@@ -40,7 +45,7 @@ const MenuDrawer = ({ open, setOpen }) => {
         >
           <ListItemButton sx={MUI.burgerItem}>
             <ListItemIcon>
-              <HomeIcon sx={{ color: colors.TETRIS_WHITE }} />
+              <HomeIcon sx={{ color: colors.TETRIS_RED }} />
             </ListItemIcon>
             <ListItemText primary="Home" disableTypography />
           </ListItemButton>
@@ -53,12 +58,27 @@ const MenuDrawer = ({ open, setOpen }) => {
         >
           <ListItemButton sx={MUI.burgerItem}>
             <ListItemIcon>
-              <VideogameAssetIcon sx={{ color: colors.TETRIS_WHITE }} />
+              <VideogameAssetIcon sx={{ color: colors.TETRIS_RED }} />
             </ListItemIcon>
             <ListItemText primary="Play" disableTypography />
           </ListItemButton>
         </ListItem>
       </List>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          marginBottom: '42px'
+        }}
+      >
+        {' '}
+        {/* Add margin at the bottom */}
+        <img
+          src={require('../../assets/logo.png')}
+          alt="tetris-logo"
+          width={'42px'}
+        />
+      </div>
     </Drawer>
   );
 };

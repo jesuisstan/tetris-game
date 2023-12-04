@@ -1,7 +1,7 @@
 :root {
-  --TETRIS_WHITE: rgb(227, 227, 227);
-  --TETRIS_BLACK: rgb(0, 12, 12);
-  --TETRIS_RED: rgb(85, 37, 33);
+  --TETRIS_WHITE: rgb(238,227,193);
+  --TETRIS_BLACK: rgb(10, 10, 10);
+  --TETRIS_RED: rgb(208,2,27);
   --TETRIS_RED_TRANS: rgba(85, 37, 33, 0.87);
   --TETRIS_PINK: rgb(199, 97, 100);
   --TETRIS_BLUE: rgb(36, 138, 193);
@@ -17,6 +17,7 @@
   font-family: 'Orbitron', sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: color 0.3s ease;
 }
 
 body {
@@ -27,9 +28,9 @@ body {
 }
 
 a {
-  color: var(--TETRIS_PINK);
+  color: var(--TETRIS_BLACK);
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 a:hover {
@@ -40,7 +41,7 @@ nav {
   width: 100%;
   position: sticky;
   top: 0px;
-  background-color: var(--TETRIS_RED);
+  background-color: var(--TETRIS_BLACK);
   height: 50px;
   flex-direction: row;
   gap: 42px;
@@ -56,6 +57,6 @@ h1 {
 }
 
 .active {
-  color: var(--TETRIS_WHITE);
+  color: var(--TETRIS_RED);
   text-decoration: none;
 }

@@ -49,13 +49,13 @@ export const LoadButton = {
   color: colors.TETRIS_BLACK,
   transition: 'background-color 0.3s ease-in-out',
   ':hover': {
-    bgcolor: colors.TETRIS_GREEN
+    bgcolor: colors.TETRIS_PINK
   }
 };
 
 export const burgerItem = {
   transition: 'transform 0.5s ease-in-out, color 0.2s ease-out',
-  fontWeight: '500',
+  fontWeight: '700',
   letterSpacing: '0.02857em',
   ':hover': {
     color: colors.TETRIS_GREEN,

@@ -73,18 +73,36 @@ const Menu = () => {
             <Tooltip title="See profile data">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 {user.nickname ? (
-                  <Avatar sx={{ bgcolor: colors.TETRIS_GREEN }}>
+                  <Avatar
+                    sx={{
+                      bgcolor: colors.TETRIS_GREEN,
+                      color: colors.TETRIS_BLACK,
+                      fontSize: '16px'
+                    }}
+                  >
                     {user.firstName[0]}
-                    {user.lastName[0]}{' '}
+                    {user.lastName[0]}
                   </Avatar>
                 ) : (
-                  <Avatar alt="ava" />
+                  <Avatar
+                    sx={{
+                      bgcolor: colors.TETRIS_PINK,
+                      color: colors.TETRIS_BLACK
+                    }}
+                    alt="ava"
+                  />
                 )}
               </IconButton>
             </Tooltip>
 
             <MenuUI
               sx={{ mt: '42px' }}
+              PaperProps={{
+                style: {
+                  backgroundColor: colors.TETRIS_WHITE,
+                  opacity: '0.95'
+                }
+              }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
