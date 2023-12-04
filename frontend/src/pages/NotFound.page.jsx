@@ -1,26 +1,21 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LoadingButton from '@mui/lab/LoadingButton';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import * as MUI from '../styles/MUIstyles';
 import * as colors from '../styles/tetris-colors';
+import styles from '../styles/NotFound.module.css';
 
 const NotFound = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: '21px'
-      }}
-    >
-      <ErrorOutlineIcon fontSize="large" sx={{ color: colors.TETRIS_PINK }} />
-      <h1>Not Found</h1>
+    <div className={styles.basic}>
+      <div className={styles.glitch}>
+        <h1>404</h1>
+        <h1>Not Found</h1>
+      </div>
       <LoadingButton
         loading={loading}
         startIcon={<ArrowBackIosIcon />}
