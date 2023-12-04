@@ -1,7 +1,6 @@
 .footerBasic {
   position: fixed;
   bottom: 0;
-  background-color: var(--TETRIS_WHITE);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,9 +10,12 @@
   padding: 5px;
   white-space: nowrap;
   letter-spacing: 1px;
-  color: var(--TETRIS_BLACK);
+  color: var(--TETRIS_WHITE);
   font-weight: normal;
   z-index: 11111;
+  border-top: 1px solid transparent;
+  border-image: linear-gradient(to right, transparent 30px,  var(--TETRIS_WHITE) 30px,  var(--TETRIS_WHITE) calc(100% - 30px), transparent calc(100% - 30px)) 1;
+  transition: border 0.5s ease-in-out;
 }
 
 .copyright {
@@ -26,7 +28,7 @@
 .footerLink:link,
 .footerLink:visited {
   font-size: 10px;
-  color: var(--TETRIS_RED);
+  color: var(--TETRIS_PINK);
   font-weight: bold;
   opacity: 1;
   transition: color 0.3s ease;
@@ -34,4 +36,17 @@
 
 .footerLink:hover {
   color: var(--TETRIS_GREEN);
+}
+
+@media (width <= 300px) {
+  .footerBasic {
+    border-image: linear-gradient(
+        to right,
+        transparent 0px,
+        var(--TETRIS_WHITE) 0px,
+        var(--TETRIS_WHITE) calc(100% - 0px),
+        transparent calc(100% - 0px)
+      )
+      1;
+  }
 }

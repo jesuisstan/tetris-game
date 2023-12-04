@@ -4,7 +4,6 @@ import { useState } from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import IconButton from '@mui/material/IconButton';
 import MenuDrawer from './MenuDrawer';
-import styles from '../../styles/Menu.module.css';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import MenuUI from '@mui/material/Menu';
@@ -15,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../../store/user-slice';
 import Divider from '@mui/material/Divider';
 import * as colors from '../../styles/tetris-colors';
+import styles from '../../styles/Menu.module.css';
 
 const Menu = () => {
   const navigate = useNavigate();
@@ -46,122 +46,120 @@ const Menu = () => {
   };
 
   return (
-    <div>
-      <nav className={styles.navbar}>
-        {isSmallScreen ? (
-          <IconButton
-            sx={{ marginLeft: '42px' }}
-            color="inherit"
-            onClick={() => setMenuDrawerOpen(!menuDrawerOpen)}
+    <nav className={styles.navbar}>
+      {isSmallScreen ? (
+        <IconButton
+          sx={{ marginLeft: '42px' }}
+          color="inherit"
+          onClick={() => setMenuDrawerOpen(!menuDrawerOpen)}
+        >
+          <img
+            src={require('../../assets/logo.png')}
+            alt="tetris-logo"
+            width={'42px'}
+          />
+        </IconButton>
+      ) : (
+        <div className={styles.left}>
+          <NavLink to=".">Home</NavLink>
+          <NavLink to="game">Play</NavLink>
+        </div>
+      )}
+      <div className={styles.right}>
+        <div className={styles.userData}>
+          {!isSmallScreen && user.nickname}
+
+          <Tooltip title="See profile data">
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              {user.nickname ? (
+                <Avatar
+                  sx={{
+                    bgcolor: colors.TETRIS_GREEN,
+                    color: colors.TETRIS_BLACK,
+                    fontSize: '16px'
+                  }}
+                >
+                  {user.firstName[0]}
+                  {user.lastName[0]}
+                </Avatar>
+              ) : (
+                <Avatar
+                  sx={{
+                    bgcolor: colors.TETRIS_PINK,
+                    color: colors.TETRIS_BLACK
+                  }}
+                  alt="ava"
+                />
+              )}
+            </IconButton>
+          </Tooltip>
+
+          <MenuUI
+            sx={{ mt: '42px' }}
+            PaperProps={{
+              style: {
+                backgroundColor: colors.TETRIS_WHITE,
+                opacity: '0.95'
+              }
+            }}
+            id="menu-appbar"
+            anchorEl={anchorElUser}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'center'
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'center'
+            }}
+            open={Boolean(anchorElUser)}
+            onClose={() => handleCloseUserMenu()}
           >
-            <img
-              src={require('../../assets/logo.png')}
-              alt="tetris-logo"
-              width={'42px'}
-            />
-          </IconButton>
-        ) : (
-          <div className={styles.left}>
-            <NavLink to=".">Home</NavLink>
-            <NavLink to="game">Play</NavLink>
-          </div>
-        )}
-        <div className={styles.right}>
-          <div className={styles.userData}>
-            {!isSmallScreen && user.nickname}
-
-            <Tooltip title="See profile data">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                {user.nickname ? (
-                  <Avatar
-                    sx={{
-                      bgcolor: colors.TETRIS_GREEN,
-                      color: colors.TETRIS_BLACK,
-                      fontSize: '16px'
-                    }}
-                  >
-                    {user.firstName[0]}
-                    {user.lastName[0]}
-                  </Avatar>
-                ) : (
-                  <Avatar
-                    sx={{
-                      bgcolor: colors.TETRIS_PINK,
-                      color: colors.TETRIS_BLACK
-                    }}
-                    alt="ava"
-                  />
-                )}
-              </IconButton>
-            </Tooltip>
-
-            <MenuUI
-              sx={{ mt: '42px' }}
-              PaperProps={{
-                style: {
-                  backgroundColor: colors.TETRIS_WHITE,
-                  opacity: '0.95'
-                }
+            {user.nickname && (
+              <div>
+                <MenuItem>
+                  {user.firstName} {user.lastName}
+                </MenuItem>
+                <MenuItem>{user.email}</MenuItem>
+                <Divider />
+              </div>
+            )}
+            <MenuItem
+              onClick={() => {
+                authenticate();
+                setAnchorElUser(null);
               }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'center'
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'center'
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={() => handleCloseUserMenu()}
             >
-              {user.nickname && (
-                <div>
-                  <MenuItem>
-                    {user.firstName} {user.lastName}
-                  </MenuItem>
-                  <MenuItem>{user.email}</MenuItem>
-                  <Divider />
+              {user._id ? (
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    gap: '15px'
+                  }}
+                >
+                  <LogoutIcon />
+                  Logout
+                </div>
+              ) : (
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    gap: '15px'
+                  }}
+                >
+                  <LoginIcon />
+                  Login
                 </div>
               )}
-              <MenuItem
-                onClick={() => {
-                  authenticate();
-                  setAnchorElUser(null);
-                }}
-              >
-                {user._id ? (
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      gap: '15px'
-                    }}
-                  >
-                    <LogoutIcon />
-                    Logout
-                  </div>
-                ) : (
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      gap: '15px'
-                    }}
-                  >
-                    <LoginIcon />
-                    Login
-                  </div>
-                )}
-              </MenuItem>
-            </MenuUI>
-          </div>
+            </MenuItem>
+          </MenuUI>
         </div>
-        <MenuDrawer open={menuDrawerOpen} setOpen={setMenuDrawerOpen} />
-      </nav>
-    </div>
+      </div>
+      <MenuDrawer open={menuDrawerOpen} setOpen={setMenuDrawerOpen} />
+    </nav>
   );
 };
 

@@ -28,7 +28,7 @@ body {
 }
 
 a {
-  color: var(--TETRIS_BLACK);
+  color: var(--TETRIS_WHITE);
   text-decoration: none;
   font-weight: 600;
 }
@@ -57,6 +57,6 @@ h1 {
 }
 
 .active {
-  color: var(--TETRIS_RED);
+  color: var(--TETRIS_PINK);
   text-decoration: none;
 }

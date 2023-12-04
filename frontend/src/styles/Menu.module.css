@@ -4,10 +4,19 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  background-color: var(--TETRIS_WHITE);
   width: 100%;
   height: 50px;
   z-index: 1100;
+  border-bottom: 1px solid transparent;
+  border-image: linear-gradient(
+      to right,
+      transparent 30px,
+      var(--TETRIS_WHITE) 30px,
+      var(--TETRIS_WHITE) calc(100% - 30px),
+      transparent calc(100% - 30px)
+    )
+    1;
+  transition: border 0.5s ease-in-out;
 }
 
 .left {
@@ -15,7 +24,7 @@
   justify-content: flex-start;
   flex-direction: row;
   gap: 42px;
-  margin-left: 42px;
+  margin-left: 62px;
   white-space: nowrap;
   font-size: 21px;
 }
@@ -26,7 +35,7 @@
   flex-direction: row;
   align-items: center;
   gap: 42px;
-  margin-right: 42px;
+  margin-right: 62px;
 }
 
 .userData {
@@ -40,5 +49,18 @@
 @media (width <= 350px) {
   .right {
     gap: 0px;
+  }
+}
+
+@media (width <= 300px) {
+  .navbar {
+    border-image: linear-gradient(
+        to right,
+        transparent 0px,
+        var(--TETRIS_WHITE) 0px,
+        var(--TETRIS_WHITE) calc(100% - 0px),
+        transparent calc(100% - 0px)
+      )
+      1;
   }
 }
