@@ -11,8 +11,8 @@ export const modalDialog = {
   width: 'auto',
   maxWidth: '442px',
   minWidth: '300px',
-  border: '0px solid #000',
-  bgcolor: colors.TETRIS_WHITE,
+  border: `1px solid ${colors.TETRIS_WHITE}`,
+  bgcolor: colors.TETRIS_BLACK,
   borderRadius: '4px',
   paddingBottom: '30px'
 };
@@ -23,7 +23,8 @@ export const modalHeader = {
   letterSpacing: '0.02857em',
   textAlign: 'center',
   fontWeight: 'bold',
-  paddingBottom: '18px'
+  paddingBottom: '18px',
+  color: colors.TETRIS_PINK
 };
 
 export const modalClose = {
@@ -34,9 +35,9 @@ export const modalClose = {
   borderRadius: '50%',
   color: colors.TETRIS_BLACK,
   bgcolor: colors.TETRIS_WHITE,
-  transition: 'background-color 0.3s',
+  transition: 'background-color 0.2s',
   ':hover': {
-    bgcolor: colors.TETRIS_GREEN
+    bgcolor: colors.TETRIS_PINK
   }
 };
 
@@ -47,7 +48,7 @@ export const LoadButton = {
   borderRadius: '90px',
   backgroundColor: colors.TETRIS_WHITE,
   color: colors.TETRIS_BLACK,
-  transition: 'background-color 0.3s ease-in-out',
+  transition: 'background-color 0.2s ease-in-out',
   ':hover': {
     bgcolor: colors.TETRIS_PINK
   }
@@ -60,15 +61,5 @@ export const burgerItem = {
   ':hover': {
     color: colors.TETRIS_GREEN,
     cursor: 'pointer'
-  }
-};
-
-export const selector = {
-  transition: 'transform 0.5s ease-in-out, color 0.2s ease-out',
-  m: 0.5,
-  backgroundColor: 'whitesmoke',
-  minWidth: 150,
-  ':hover': {
-    backgroundColor: colors.TETRIS_WHITE
   }
 };
