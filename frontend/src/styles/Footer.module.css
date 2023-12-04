@@ -10,6 +10,7 @@
   height: 21px;
   padding: 5px;
   white-space: nowrap;
+  letter-spacing: 1px;
   color: var(--TETRIS_WHITE);
   font-weight: normal;
   opacity: 0.9;

@@ -3,27 +3,25 @@ import Avatar from '@mui/material/Avatar';
 import { useState } from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import MenuDrawer from './MenuDrawer';
 import styles from '../../styles/Menu.module.css';
-import LoadingButton from '@mui/lab/LoadingButton';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import MenuUI from '@mui/material/Menu';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import * as utils from '../../utils/auth-handlers';
-import * as MUI from '../../styles/MUIstyles';
-import * as colors from '../../styles/tetris-colors';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../../store/user-slice';
+import Divider from '@mui/material/Divider';
+import * as colors from '../../styles/tetris-colors';
 
 const Menu = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const isSmallScreen = useMediaQuery('(max-width:600px)');
-  const isUltraSmallScreen = useMediaQuery('(max-width:350px)');
+  //const isUltraSmallScreen = useMediaQuery('(max-width:350px)');
   const [menuDrawerOpen, setMenuDrawerOpen] = useState(false);
   const [anchorElUser, setAnchorElUser] = useState(null);
 
@@ -56,67 +54,91 @@ const Menu = () => {
             color="inherit"
             onClick={() => setMenuDrawerOpen(!menuDrawerOpen)}
           >
-            <MenuIcon style={{ fill: colors.TETRIS_WHITE }} />
+            <img
+              src={require('../../assets/logo.png')}
+              alt="tetris-logo"
+              width={'42px'}
+            />
           </IconButton>
         ) : (
           <div className={styles.left}>
             <NavLink to=".">Home</NavLink>
-            <NavLink to="game">Tetris game</NavLink>
+            <NavLink to="game">Play</NavLink>
           </div>
         )}
         <div className={styles.right}>
           <div className={styles.userData}>
             {!isSmallScreen && user.nickname}
-            {!isUltraSmallScreen && (
-              <Tooltip title="See profile data">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar
-                    alt=""
-                    src={
-                      user.nickname
-                        ? require('../../assets/loggedInUser.png')
-                        : ''
-                    }
-                  />
-                </IconButton>
-              </Tooltip>
-            )}
-            {user.nickname && (
-              <MenuUI
-                sx={{ mt: '42px' }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'center'
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'center'
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={() => handleCloseUserMenu()}
-              >
-                <MenuItem>
-                  {user.firstName} {user.lastName}
-                </MenuItem>
-                <MenuItem>{user.email}</MenuItem>
-              </MenuUI>
-            )}
-          </div>
-          <div>
-            <LoadingButton
-              startIcon={user._id ? <LogoutIcon /> : <LoginIcon />}
-              variant="contained"
-              color="inherit"
-              sx={MUI.LoadButton}
-              onClick={() => {
-                authenticate();
+
+            <Tooltip title="See profile data">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                {user.nickname ? (
+                  <Avatar sx={{ bgcolor: colors.TETRIS_GREEN }}>
+                    {user.firstName[0]}
+                    {user.lastName[0]}{' '}
+                  </Avatar>
+                ) : (
+                  <Avatar alt="ava" />
+                )}
+              </IconButton>
+            </Tooltip>
+
+            <MenuUI
+              sx={{ mt: '42px' }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'center'
               }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'center'
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={() => handleCloseUserMenu()}
             >
-              {user._id ? 'Logout' : 'Login'}
-            </LoadingButton>
+              {user.nickname && (
+                <div>
+                  <MenuItem>
+                    {user.firstName} {user.lastName}
+                  </MenuItem>
+                  <MenuItem>{user.email}</MenuItem>
+                  <Divider />
+                </div>
+              )}
+              <MenuItem
+                onClick={() => {
+                  authenticate();
+                  setAnchorElUser(null);
+                }}
+              >
+                {user._id ? (
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      gap: '15px'
+                    }}
+                  >
+                    <LogoutIcon />
+                    Logout
+                  </div>
+                ) : (
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      gap: '15px'
+                    }}
+                  >
+                    <LoginIcon />
+                    Login
+                  </div>
+                )}
+              </MenuItem>
+            </MenuUI>
           </div>
         </div>
         <MenuDrawer open={menuDrawerOpen} setOpen={setMenuDrawerOpen} />

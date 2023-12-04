@@ -55,7 +55,7 @@ const MenuDrawer = ({ open, setOpen }) => {
             <ListItemIcon>
               <VideogameAssetIcon sx={{ color: colors.TETRIS_WHITE }} />
             </ListItemIcon>
-            <ListItemText primary="Tetris game" disableTypography />
+            <ListItemText primary="Play" disableTypography />
           </ListItemButton>
         </ListItem>
       </List>

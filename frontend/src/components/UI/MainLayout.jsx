@@ -9,11 +9,11 @@ const MainLayout = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setLoading(false); // Set loading to false after 3 seconds
+      setLoading(false); // Set loading to false after 2 seconds
     }, 2000);
 
     return () => {
-      clearTimeout(timer); // Clear the timer if component unmounts before 3 seconds
+      clearTimeout(timer); // Clear the timer if component unmounts before 2 seconds
     };
   }, []);
 

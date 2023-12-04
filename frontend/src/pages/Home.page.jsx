@@ -11,7 +11,7 @@ const Home = () => {
     <div className={styles.main}>
       <img
         src={require('../assets/logo.png')}
-        alt="tetrisApp"
+        alt="tetris-logo"
         className={styles.picture}
       />
       <div className={styles.textBlock}>
