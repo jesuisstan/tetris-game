@@ -1,7 +1,5 @@
 # Project Documentation: Tetris Game Fullstack App
 
-The source code with explanatory comments is available on GitHub [repository](https://github.com/jesuisstan/tetris-game).
-
 ## Objective
 
 The primary goal of this project was to develop a full-stack tetris multiplayer game
