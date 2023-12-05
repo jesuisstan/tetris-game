@@ -12,8 +12,6 @@
     "@mui/lab": "^5.0.0-alpha.134",
     "@mui/material": "^5.13.4",
     "@mui/system": "^5.13.5",
-    "@mui/x-date-pickers": "^6.7.0",
-    "@mui/x-date-pickers-pro": "^6.7.0",
     "@reduxjs/toolkit": "^1.9.7",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -37,6 +35,8 @@
     "react-scripts": "5.0.1",
     "react-spinners": "^0.13.8",
     "redux": "^4.2.1",
+    "socket.io-client": "^4.7.2",
+    "styled-components": "^6.1.1",
     "sweetalert": "^2.1.2",
     "sweetalert2": "^11.7.12",
     "web-vitals": "^2.1.4"

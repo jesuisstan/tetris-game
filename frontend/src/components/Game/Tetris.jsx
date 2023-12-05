@@ -1,0 +1,59 @@
+const Tetris = () => {
+  return (
+    <div>
+      <p>playing....</p>
+
+      <div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+        <div>tetris</div>
+      </div>
+    </div>
+  );
+};
+
+export default Tetris;

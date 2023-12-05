@@ -1,5 +1,6 @@
 export const TETRIS_WHITE = 'rgb(238,227,193)';
 export const TETRIS_BLACK = 'rgb(10, 10, 10)';
+export const TETRIS_BLACK_TRANS = 'rgba(10, 10, 10, 0.87)';
 
 export const TETRIS_RED = 'rgb(208,2,27)';
 export const TETRIS_RED_TRANS = 'rgba(208,2,27, 0.87)';

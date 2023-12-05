@@ -13,8 +13,16 @@
   color: var(--TETRIS_WHITE);
   font-weight: normal;
   z-index: 11111;
+  background-color: var(--TETRIS_BLACK_TRANS);
   border-top: 1px solid transparent;
-  border-image: linear-gradient(to right, transparent 30px,  var(--TETRIS_WHITE) 30px,  var(--TETRIS_WHITE) calc(100% - 30px), transparent calc(100% - 30px)) 1;
+  border-image: linear-gradient(
+      to right,
+      transparent 30px,
+      var(--TETRIS_WHITE) 30px,
+      var(--TETRIS_WHITE) calc(100% - 30px),
+      transparent calc(100% - 30px)
+    )
+    1;
   transition: border 0.5s ease-in-out;
 }
 

@@ -42,8 +42,11 @@ const SignUpModal = ({ open, setOpen }) => {
       navigate('/login');
     } catch (error) {
       setLoad(false);
+      const statusCode = error.response?.status;
+      if (statusCode === 409 || statusCode === 451)
+        errorAlert(`${error.response.data.message}`);
+      else errorAlert('Something went wrong');
       setOpen(false);
-      errorAlert('Error while creating new account');
     }
   };
 

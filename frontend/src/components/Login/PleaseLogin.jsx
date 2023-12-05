@@ -41,16 +41,12 @@ const PleaseLogin = () => {
       dispatch(setUser(response.data)); // Dispatch setUser action with the fetched user data
       navigate('/game');
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const axiosError = error;
-        const statusCode = axiosError.response?.status;
-        if (statusCode === 400) errorAlert('Wrong password');
-        else if (statusCode === 404)
-          errorAlert('User with such an email is not found');
-        else errorAlert('Something went wrong');
+      const statusCode = error.response?.status;
+      if (statusCode === 409 || statusCode === 451)
+        errorAlert(`${error.response.data.message}`);
+      else errorAlert('Something went wrong');
 
-        setLoadingLogin(false);
-      }
+      setLoadingLogin(false);
     }
   };
 

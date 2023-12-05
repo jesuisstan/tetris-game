@@ -5,15 +5,27 @@ import jwt from 'jsonwebtoken';
 
 export const signup = async (req, res, next) => {
   try {
+    const existingUserByEmail = await User.findOne({ email: req.body.email });
+    const existingUserByNickname = await User.findOne({
+      nickname: req.body.nickname
+    });
+
+    if (existingUserByEmail) {
+      return next(createError(409, 'Email already exists in database!'));
+    }
+
+    if (existingUserByNickname) {
+      return next(createError(451, 'Nickname already exists in database!'));
+    }
+
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(req.body.password, salt);
     const newUser = new User({ ...req.body, password: hash });
-    console.log('server received user data: '); //todo
-    console.log(newUser);//todo
 
     await newUser.save();
     res.status(200).send('User has been created!');
   } catch (err) {
+    console.log('server error: ', err);
     next(err);
   }
 };
@@ -21,11 +33,11 @@ export const signup = async (req, res, next) => {
 export const signin = async (req, res, next) => {
   try {
     const user = await User.findOne({ email: req.body.email });
-    if (!user) return next(createError(404, 'User not found!'));
+    if (!user) return next(createError(451, 'User not found!'));
 
     const isCorrect = await bcrypt.compare(req.body.password, user.password);
 
-    if (!isCorrect) return next(createError(400, 'Wrong Credentials!'));
+    if (!isCorrect) return next(createError(409, 'Wrong password!'));
 
     const token = jwt.sign({ id: user._id }, process.env.JWT);
     const { password, ...others } = user._doc;

@@ -1,13 +1,14 @@
 import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from './store/user-slice';
 import Home from './pages/Home.page';
 import NotFound from './pages/NotFound.page';
+import TetrisGame from './pages/TetrisGame.page';
 import MainLayout from './components/UI/MainLayout';
 import PleaseLogin from './components/Login/PleaseLogin';
 import * as utils from './utils/auth-handlers';
 import './styles/index.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { setUser } from './store/user-slice';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -33,7 +34,7 @@ const App = () => {
             <Route index={true} element={<Home />} />
             <Route
               path="game"
-              element={user.nickname ? <div>Tetris</div> : <PleaseLogin />}
+              element={user.nickname ? <TetrisGame /> : <PleaseLogin />}
             />
             <Route path="login" element={<PleaseLogin />} />
             <Route path="*" element={<NotFound />} />
