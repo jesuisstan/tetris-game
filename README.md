@@ -6,13 +6,13 @@ The primary goal of this project was to develop a full-stack tetris multiplayer 
 
 ## Implementation
 
-The project was implemented using functional components and popular hooks in ReactJS with TypeScript and [Create React App](https://facebook.github.io/create-react-app/docs/getting-started), leveraging the Material UI library for its components and styling, in addition to custom CSS modules. The App was developed to be responsive, following a multi-platform approach. The following steps were taken to complete the project:
+The project was implemented using functional components and popular hooks in ReactJS with JavaScript and [Create React App](https://facebook.github.io/create-react-app/docs/getting-started), leveraging the Material UI library for its components and styling, in addition to custom CSS modules. The App was developed to be responsive, following a multi-platform approach. The following steps were taken to complete the project:
 
-1.  **Backend + MongoDB implementation**: Backend was built with NestJS. Database (MongoDB) was attached to backend to store all user accounts data. Authentication (sign up and sign in) with user's email and password (encrypted) is also implemented.
+1.  **Backend + MongoDB implementation**: Backend was built with Node.js (express). Database (MongoDB) was attached to backend to store all user accounts data. Authentication (sign up and sign in) with user's email and password (encrypted) is also implemented.
 
 2. **Material UI, Custom Styling with CSS Modules & Custom Fonts**: Material UI components were utilized to achieve a consistent and visually appealing design. Components such as TextField, Drawer, LoadingButton and others were used to create responsive and user-friendly web-app and related elements. The Google font was applied to the project to improve attractiveness of the App.
 
-4. **Deployment**: 
+4. **Deployment**:...
 
 5. **Version Control**: The code was hosted on GitHub and made publicly accessible. The repository can be found at https://github.com/jesuisstan/tetris-game.
 
