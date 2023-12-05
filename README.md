@@ -12,7 +12,7 @@ The project was implemented using functional components and popular hooks in Rea
 
 1.  **Backend + MongoDB implementation**: Backend was built with NestJS. Database (MongoDB) was attached to backend to store all user accounts data. Authentication (sign up and sign in) with user's email and password (encrypted) is also implemented.
 
-2. **Material UI, Custom Styling with CSS Modules & Custom Fonts**: Material UI components were utilized to achieve a consistent and visually appealing design. Components such as TextField, Drawer, FloatingButton, LoadingButton and others were used to create responsive and user-friendly web-app and related elements. The Montserrat font was applied to the project to improve attractiveness of the App.
+2. **Material UI, Custom Styling with CSS Modules & Custom Fonts**: Material UI components were utilized to achieve a consistent and visually appealing design. Components such as TextField, Drawer, LoadingButton and others were used to create responsive and user-friendly web-app and related elements. The Google font was applied to the project to improve attractiveness of the App.
 
 4. **Deployment**: 
 
@@ -39,7 +39,7 @@ While the project has been successfully implemented and deployed, there are pote
 By addressing these areas for improvement, the project can be further optimized and polished, providing an even better user experience.
 
 ## How to use
-##### 1. Adjust .env file if you need other HOST, PORT, MONGO or YELP variables.
+##### 1. Adjust .env file if you need other HOST, PORT, MONGO variables.
 ##### 2. Adjust "proxy" line in frontend/package.json file so that it points to your Server (to avoid CORS errors)
 For example:
 - "proxy": "http://backend:4444" (if you use docker compose to run the App)
@@ -60,12 +60,12 @@ b) with NPM:
 npm install
 ```
 
-- Start Info Map Fullstack App:
+- Start Tetris App:
 ```sh
 npm start
 ```
 
-##### 4. Open the App link in browser ([http://localhost:4040](http://localhost:4040) or [http://209.38.216.33:4040](http://209.38.216.33:4040) by default).
+##### 4. Open the App link in browser ([http://localhost:4040](http://localhost:4040) by default).
 
 ##### 5. Additional commands:
 - to list all Docker container:
