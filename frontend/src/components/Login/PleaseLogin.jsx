@@ -7,12 +7,13 @@ import FormInput from '../UI/FormInput';
 import errorAlert from '../../utils/error-alert';
 import axios from 'axios';
 import LoadingButton from '@mui/lab/LoadingButton';
-import * as colors from '../../styles/tetris-colors';
-import * as MUI from '../../styles/MUIstyles';
-import styles from '../../styles/Login.module.css';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../store/user-slice';
 import TetrisLoader from '../UI/TetrisLoader';
+
+import * as colors from '../../styles/tetris-colors';
+import * as MUI from '../../styles/MUIstyles';
+import styles from '../../styles/Login.module.css';
 
 const PleaseLogin = () => {
   const dispatch = useDispatch();

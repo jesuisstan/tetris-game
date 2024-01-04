@@ -18,27 +18,34 @@ const MainLayout = () => {
   }, []);
 
   return (
-    <div>
+    <div
+      style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}
+    >
+      <Menu />
       {loading ? (
         <div
           style={{
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            height: '100vh'
+            flexGrow: 1
           }}
         >
           <TetrisLoader />
         </div>
       ) : (
-        <div>
-          <Menu />
-          <div style={{ marginTop: '90px' }}>
-            <Outlet />
-          </div>
-          <Footer />
-        </div>
+        <main
+          style={{
+            flexGrow: 1,
+            marginTop: '90px',
+            marginBottom: '20px',
+            position: 'relative'
+          }}
+        >
+          <Outlet />
+        </main>
       )}
+      <Footer />
     </div>
   );
 };

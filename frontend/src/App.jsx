@@ -34,7 +34,13 @@ const App = () => {
             <Route index={true} element={<Home />} />
             <Route
               path="game"
-              element={user.nickname ? <TetrisGame /> : <PleaseLogin />}
+              element={
+                user.nickname ? (
+                  <TetrisGame rows={20} columns={10} />
+                ) : (
+                  <PleaseLogin />
+                )
+              }
             />
             <Route path="login" element={<PleaseLogin />} />
             <Route path="*" element={<NotFound />} />

@@ -1,0 +1,10 @@
+.tetris {
+  /*position: relative;*/
+  /*display: flex;
+  flex-direction: row;*/
+
+  height: 100%; /* Ensure the container takes up the full height of its parent */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
