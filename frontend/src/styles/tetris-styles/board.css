@@ -1,16 +1,9 @@
-.boardContainer {
-  height: 100%; /* Ensure the container takes up the full height of its parent */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .board {
   width: auto;
   min-width:45vh;
 
   /*height: 100%;*/
-  min-height: 83vh;
+  min-height: 87vh;
   /*max-width: 60vw;*/
   background: rgb(32, 0, 64);
   border: 10px solid rgb(32, 0, 64);
@@ -46,7 +39,7 @@
 
 .tetromino.ghost {
   background-color: transparent;
-  border: 2px solid rgba(255, 255, 255, 0.042);
+  border: 2px solid rgba(255, 255, 255, 0.1);
 }
 
 .tetromino.ghost .Sparkle {

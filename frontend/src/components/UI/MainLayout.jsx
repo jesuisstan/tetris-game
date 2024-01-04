@@ -37,8 +37,8 @@ const MainLayout = () => {
         <main
           style={{
             flexGrow: 1,
-            marginTop: '90px',
-            marginBottom: '20px',
+            marginTop: '50px',
+            marginBottom: '21px',
             position: 'relative'
           }}
         >

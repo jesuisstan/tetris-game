@@ -22,11 +22,12 @@ const Tetris = ({ rows, columns, setGameOver }) => {
 
   return (
     <div className={styles.tetris}>
-      <GameStats gameStats={gameStats} />
-
+      <>AAAA</>
+      {/*<Previews tetrominoes={player.tetrominoes} />*/}
       <Board board={board} />
 
-      <Previews tetrominoes={player.tetrominoes} />
+      <>BBBB</>
+      {/*<GameStats gameStats={gameStats} />*/}
 
       <GameController
         board={board}

@@ -71,93 +71,108 @@ const PleaseLogin = () => {
     });
   };
 
-  return loading ? (
-    <TetrisLoader />
-  ) : (
+  return (
     <div
       style={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         textAlign: 'left',
-        gap: '21px'
+        gap: '21px',
+        marginTop: '21px'
       }}
     >
-      <SignUpModal open={signUpOpen} setOpen={setSignUpOpen} />
-      <ErrorOutlineIcon fontSize="large" sx={{ color: colors.TETRIS_PINK }} />
-      <h1>Please login to continue</h1>
-      <Stack spacing={2}>
+      {loading ? (
+        <TetrisLoader />
+      ) : (
         <div
           style={{
             display: 'flex',
             flexDirection: 'column',
-            gap: '21px',
             alignItems: 'center',
-            justifyContent: 'center'
+            gap: '21px'
           }}
         >
-          <form onSubmit={handleLogin} className={styles.formList}>
-            <FormInput
-              {...{
-                id: 1,
-                name: 'email',
-                type: 'email',
-                placeholder: 'Email',
-                errorMessage: 'Should be a valid email with max length 42',
-                label: 'Email',
-                pattern: '^(?=.{1,42}$)\\S+@\\S+\\.\\S+$',
-                required: true
+          <SignUpModal open={signUpOpen} setOpen={setSignUpOpen} />
+          <ErrorOutlineIcon
+            fontSize="large"
+            sx={{ color: colors.TETRIS_PINK }}
+          />
+          <h1>Please login to continue</h1>
+          <Stack spacing={2}>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '21px',
+                alignItems: 'center',
+                justifyContent: 'center'
               }}
-              value={values.email}
-              onChange={onChange}
-            />
-            <FormInput
-              {...{
-                id: 2,
-                name: 'password',
-                type: 'password',
-                placeholder: 'Password',
-                errorMessage:
-                  '3-20 chars, 1 letter, 1 number, 1 special symbol',
-                label: 'Password',
-                pattern: `^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{3,20}$`,
-                required: true
-              }}
-              value={values.password}
-              onChange={onChange}
-            />
-            <LoadingButton
-              type="submit"
-              loading={loadingLogin}
-              variant="contained"
-              color="inherit"
-              sx={MUI.LoadButton}
             >
-              Log In
-            </LoadingButton>
-            <LoadingButton
-              type="submit"
-              loading={loadingLogin}
-              variant="contained"
-              color="inherit"
-              sx={MUI.LoadButton}
-              onClick={testLogin}
-              startIcon={<ErrorOutlineIcon />}
-            >
-              Test
-            </LoadingButton>
-          </form>
-          <LoadingButton
-            type="submit"
-            variant="contained"
-            color="inherit"
-            sx={{ ...MUI.LoadButton, width: '87%' }}
-            onClick={() => setSignUpOpen(true)}
-          >
-            Sign Up
-          </LoadingButton>
+              <form onSubmit={handleLogin} className={styles.formList}>
+                <FormInput
+                  {...{
+                    id: 1,
+                    name: 'email',
+                    type: 'email',
+                    placeholder: 'Email',
+                    errorMessage: 'Should be a valid email with max length 42',
+                    label: 'Email',
+                    pattern: '^(?=.{1,42}$)\\S+@\\S+\\.\\S+$',
+                    required: true
+                  }}
+                  value={values.email}
+                  onChange={onChange}
+                />
+                <FormInput
+                  {...{
+                    id: 2,
+                    name: 'password',
+                    type: 'password',
+                    placeholder: 'Password',
+                    errorMessage:
+                      '3-20 chars, 1 letter, 1 number, 1 special symbol',
+                    label: 'Password',
+                    pattern: `^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{3,20}$`,
+                    required: true
+                  }}
+                  value={values.password}
+                  onChange={onChange}
+                />
+                <LoadingButton
+                  type="submit"
+                  loading={loadingLogin}
+                  variant="contained"
+                  color="inherit"
+                  sx={MUI.LoadButton}
+                >
+                  Log In
+                </LoadingButton>
+                <LoadingButton
+                  type="submit"
+                  loading={loadingLogin}
+                  variant="contained"
+                  color="inherit"
+                  sx={MUI.LoadButton}
+                  onClick={testLogin}
+                  startIcon={<ErrorOutlineIcon />}
+                >
+                  Test
+                </LoadingButton>
+              </form>
+              <LoadingButton
+                type="submit"
+                variant="contained"
+                color="inherit"
+                sx={{ ...MUI.LoadButton, width: '87%' }}
+                onClick={() => setSignUpOpen(true)}
+              >
+                Sign Up
+              </LoadingButton>
+            </div>
+          </Stack>
         </div>
-      </Stack>
+      )}
     </div>
   );
 };
