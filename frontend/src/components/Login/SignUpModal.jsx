@@ -12,7 +12,7 @@ import errorAlert from '../../utils/error-alert';
 import saveAlert from '../../utils/save-alert';
 import * as MUI from '../../styles/MUIstyles';
 import * as colors from '../../styles/tetris-colors';
-import styles from '../../styles/Login.module.css';
+import styles from '../../styles/login.module.css';
 
 const baseUrl = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_FRONTEND_PORT}`;
 

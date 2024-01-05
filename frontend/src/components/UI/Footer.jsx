@@ -2,8 +2,9 @@
 Footer component.
 */
 
-import styles from '../../styles/Footer.module.css';
 import useMediaQuery from '@mui/material/useMediaQuery';
+
+import styles from '../../styles/footer.module.css';
 
 const Footer = () => {
   const isSmallScreen = useMediaQuery('(max-width:521px)');

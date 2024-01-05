@@ -1,7 +1,7 @@
+import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Menu from './Menu';
 import Footer from './Footer';
-import { useEffect, useState } from 'react';
 import TetrisLoader from './TetrisLoader';
 
 const MainLayout = () => {

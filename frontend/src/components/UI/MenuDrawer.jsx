@@ -7,10 +7,11 @@ import {
   ListItemButton,
   ListItemIcon
 } from '@mui/material';
-import * as colors from '../../styles/tetris-colors';
-import * as MUI from '../../styles/MUIstyles';
 import HomeIcon from '@mui/icons-material/Home';
 import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
+
+import * as colors from '../../styles/tetris-colors';
+import * as MUI from '../../styles/MUIstyles';
 
 const MenuDrawer = ({ open, setOpen }) => {
   const navigate = useNavigate();

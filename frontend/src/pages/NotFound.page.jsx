@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import LoadingButton from '@mui/lab/LoadingButton';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import * as MUI from '../styles/MUIstyles';
-import styles from '../styles/NotFound.module.css';
+import styles from '../styles/not-found.module.css';
 
 const NotFound = () => {
   const navigate = useNavigate();

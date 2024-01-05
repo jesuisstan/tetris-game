@@ -13,8 +13,9 @@ import * as utils from '../../utils/auth-handlers';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../../store/user-slice';
 import Divider from '@mui/material/Divider';
+
 import * as colors from '../../styles/tetris-colors';
-import styles from '../../styles/Menu.module.css';
+import styles from '../../styles/menu.module.css';
 
 const Menu = () => {
   const navigate = useNavigate();

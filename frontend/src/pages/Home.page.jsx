@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import LoadingButton from '@mui/lab/LoadingButton';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import * as MUI from '../styles/MUIstyles';
-import styles from '../styles/HomePage.module.css';
+import styles from '../styles/home-page.module.css';
 
 const Home = () => {
   const navigate = useNavigate();

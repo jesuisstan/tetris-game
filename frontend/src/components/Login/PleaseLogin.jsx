@@ -13,7 +13,7 @@ import TetrisLoader from '../UI/TetrisLoader';
 
 import * as colors from '../../styles/tetris-colors';
 import * as MUI from '../../styles/MUIstyles';
-import styles from '../../styles/Login.module.css';
+import styles from '../../styles/login.module.css';
 
 const PleaseLogin = () => {
   const dispatch = useDispatch();

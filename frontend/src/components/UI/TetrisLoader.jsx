@@ -1,4 +1,5 @@
 import PacmanLoader from 'react-spinners/PacmanLoader';
+
 import * as colors from '../../styles/tetris-colors';
 
 const TetrisLoader = () => {
