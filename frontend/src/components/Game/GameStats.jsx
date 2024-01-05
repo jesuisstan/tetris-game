@@ -7,12 +7,12 @@ const GameStats = ({ gameStats }) => {
   const linesToLevel = linesPerLevel - linesCompleted;
 
   return (
-    <ul className="GameStats GameStats__right">
-      <li>Level</li>
+    <ul className="gameStats">
+      <li>Level:</li>
       <li className="value">{level}</li>
-      <li>Lines to level up</li>
+      <li>Lines to level up:</li>
       <li className="value">{linesToLevel}</li>
-      <li>Points</li>
+      <li>Points:</li>
       <li className="value">{points}</li>
     </ul>
   );

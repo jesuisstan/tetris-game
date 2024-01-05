@@ -21,21 +21,23 @@ const Tetris = ({ rows, columns, setGameOver }) => {
   });
 
   return (
-    <div className={styles.tetris}>
-      <>AAAA</>
-      {/*<Previews tetrominoes={player.tetrominoes} />*/}
-      <Board board={board} />
+    <div className={styles.tetrisMain}>
+      <div className={styles.wrapper}>
+        <Board board={board} />
 
-      <>BBBB</>
-      {/*<GameStats gameStats={gameStats} />*/}
+        <div className={styles.infoBlock}>
+          <GameStats gameStats={gameStats} />
+          <Previews tetrominoes={player.tetrominoes} />
+        </div>
 
-      <GameController
-        board={board}
-        gameStats={gameStats}
-        player={player}
-        setGameOver={setGameOver}
-        setPlayer={setPlayer}
-      />
+        <GameController
+          board={board}
+          gameStats={gameStats}
+          player={player}
+          setGameOver={setGameOver}
+          setPlayer={setPlayer}
+        />
+      </div>
     </div>
   );
 };

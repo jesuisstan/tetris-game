@@ -1,14 +1,13 @@
 .board {
   width: auto;
-  min-width:45vh;
+  min-width:41vh;
 
   /*height: 100%;*/
-  min-height: 87vh;
+  min-height: 82vh;
   /*max-width: 60vw;*/
-  background: rgb(32, 0, 64);
-  border: 10px solid rgb(32, 0, 64);
+  background: var(--TETRIS_PINK);
+  border: 3px solid var(--TETRIS_WHITE);
   border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   display: grid;
   grid-gap: 2px;
 }
@@ -20,26 +19,28 @@
 }
 
 .tetromino {
-  border-top: 3px solid rgba(255, 255, 255, 0.1);
-  border-left: 3px solid rgba(255, 255, 255, 0.1);
-  border-bottom: 3px solid rgba(0, 0, 0, 0.1);
-  border-right: 3px solid rgba(0, 0, 0, 0.1);
+  border-top: 3px solid var(--TETROMONO_SHADOW_PRIMARY);
+  border-left: 3px solid var(--TETROMONO_SHADOW_PRIMARY);
+  border-bottom: 3px solid var(--TETROMONO_SHADOW_SECONDARY);
+  border-right: 3px solid var(--TETROMONO_SHADOW_SECONDARY);
 }
 
 .tetromino .Sparkle {
   position: absolute;
   z-index: 10;
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   left: -2px;
   top: -2px;
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: var(--TETRIS_WHITE);
   border-radius: 4px 4px;
+  opacity: 0.8;
 }
 
 .tetromino.ghost {
   background-color: transparent;
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid var(--TETRIS_WHITE);
+  opacity: 0.2;
 }
 
 .tetromino.ghost .Sparkle {
@@ -47,23 +48,23 @@
 }
 
 .tetromino__i {
-  background-color: rgba(80, 227, 230, 1);
+  background-color: var(--TETRIS_RED);
 }
 .tetromino__j {
-  background-color: rgba(36, 95, 223, 1);
+  background-color: var(--TETRIS_GRAY);
 }
 .tetromino__l {
-  background-color: rgba(223, 173, 36, 1);
+  background-color: var(--TETRIS_WHITE);;
 }
 .tetromino__o {
-  background-color: rgba(223, 217, 36, 1);
+  background-color: var(--TETRIS_GREEN);;
 }
 .tetromino__s {
-  background-color: rgba(48, 211, 56, 1);
+  background-color: var(--TETRIS_VIOLET);
 }
 .tetromino__t {
-  background-color: rgba(132, 61, 198, 1);
+  background-color: var(--TETRIS_BLUE);
 }
 .tetromino__z {
-  background-color: rgba(240, 80, 195, 1);
+  background-color: var(--TETRIS_ORANGE);
 }
