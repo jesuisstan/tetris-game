@@ -5,6 +5,8 @@ import userRoutes from './routes/usersRoute.js';
 import authRoutes from './routes/authRoute.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import http from 'http';
+import { Server } from 'socket.io';
 
 const app = express();
 
@@ -28,7 +30,7 @@ app.use(
   cors({
     origin: `${process.env.REACT_APP_HOST}:${process.env.REACT_APP_FRONTEND_PORT}`,
     methods: 'GET,POST,PUT,DELETE',
-    credentials: true,
+    credentials: true
   })
 );
 
@@ -36,7 +38,7 @@ app.use(
 app.use(cookieParser());
 
 app.use('/api/check', (req, res) => {
-  res.send("Hello from Tetris server")
+  res.send('Hello from Tetris server');
 });
 
 app.use('/api/auth', authRoutes);
@@ -53,7 +55,16 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(process.env.SERVER_PORT, () => {
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: `${process.env.REACT_APP_HOST}:${process.env.REACT_APP_FRONTEND_PORT}`,
+    methods: 'GET,POST,PUT,DELETE',
+    credentials: true
+  }
+});
+
+server.listen(process.env.SERVER_PORT, () => {
   console.log('Server is running on port ' + process.env.SERVER_PORT);
   connect();
 });
