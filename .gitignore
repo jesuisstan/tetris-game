@@ -24,6 +24,7 @@ package-lock.json
 
 # production
 /build
+/frontend/build
 
 # misc
 .DS_Store
