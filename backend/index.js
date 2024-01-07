@@ -64,6 +64,20 @@ const io = new Server(server, {
   }
 });
 
+io.on('connection', (socket) => {
+  socket.on('join', ({ inviterNickname, room }) => {
+    socket.join(room);
+
+    socket.emit('message', {
+      data: { user: { nickname: inviterNickname }, message: `Hey from Server (room: ${room})` }
+    });
+  });
+
+  io.on('disconnect', () => {
+    console.log('Disconnect');
+  });
+});
+
 server.listen(process.env.SERVER_PORT, () => {
   console.log('Server is running on port ' + process.env.SERVER_PORT);
   connect();

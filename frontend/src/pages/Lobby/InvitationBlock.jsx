@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import LoadingButton from '@mui/lab/LoadingButton';
 import FormInput from '../../components/UI/FormInput';
 import Stack from '@mui/material/Stack';
@@ -16,9 +16,7 @@ const InvitationBlock = () => {
 
   const onChange = (event) => {
     const { value } = event.target;
-    let modifiedValue = value;
-
-    modifiedValue = modifiedValue.replace(/\s/g, '');
+    let modifiedValue = value.replace(/\s/g, '');
     setRoom(modifiedValue);
   };
 
@@ -28,8 +26,6 @@ const InvitationBlock = () => {
     const roomUri = `/tetris/${room}[${user.nickname}]`;
     navigate(roomUri);
   };
-
-  console.log('values: ', 'room =', room);
 
   return (
     <div
@@ -55,7 +51,7 @@ const InvitationBlock = () => {
             <FormInput
               {...{
                 id: 1,
-                name: 'nickname',
+                name: 'inviterNickname',
                 type: 'text',
                 placeholder: 'nickname',
                 errorMessage: 'Max 20 characters. Allowed: a-Z',
