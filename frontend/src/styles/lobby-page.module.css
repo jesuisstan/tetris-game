@@ -1,0 +1,23 @@
+.mainWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 42px;
+  margin-top: 21px;
+}
+
+.formWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: left;
+  gap: 21px;
+  margin: 21px 21px 0;
+}
+
+@media (width < 1025px) {
+  .mainWrapper {
+    flex-direction: column;
+  }
+}

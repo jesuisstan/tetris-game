@@ -63,7 +63,7 @@ const Menu = () => {
       ) : (
         <div className={styles.left}>
           <NavLink to=".">Home</NavLink>
-          <NavLink to="game">Play</NavLink>
+          <NavLink to="lobby">Play</NavLink>
         </div>
       )}
       <div className={styles.right}>

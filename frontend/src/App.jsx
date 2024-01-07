@@ -1,13 +1,15 @@
 import { useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from './store/user-slice';
 import Home from './pages/Home.page';
 import NotFound from './pages/NotFound.page';
-import TetrisGame from './pages/TetrisGame.page';
+import Lobby from './pages/Lobby/Lobby.page';
 import MainLayout from './components/UI/MainLayout';
 import PleaseLogin from './components/Login/PleaseLogin';
+import GameLayout from './components/Game/GameLayout';
 import * as utils from './utils/auth-handlers';
+
 import './styles/index.css';
 
 const App = () => {
@@ -27,21 +29,24 @@ const App = () => {
   }, [dispatch, user._id]);
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <div className="App">
         <Routes>
           <Route path="/" element={<MainLayout />}>
             <Route index={true} element={<Home />} />
-            <Route
-              path="game"
-              element={user.nickname ? <TetrisGame /> : <PleaseLogin />}
-            />
             <Route path="login" element={<PleaseLogin />} />
+
             <Route path="*" element={<NotFound />} />
+
+            <Route
+              path="lobby"
+              element={user.nickname ? <Lobby /> : <PleaseLogin />}
+            />
+            <Route path="/tetris/:room?" element={<GameLayout />} />
           </Route>
         </Routes>
       </div>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 

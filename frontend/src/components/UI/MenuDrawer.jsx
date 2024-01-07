@@ -53,7 +53,7 @@ const MenuDrawer = ({ open, setOpen }) => {
         </ListItem>
         <ListItem
           onClick={() => {
-            navigate('/game');
+            navigate('/lobby');
             setOpen(false);
           }}
         >

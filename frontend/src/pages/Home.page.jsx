@@ -24,7 +24,7 @@ const Home = () => {
             color="inherit"
             sx={MUI.LoadButton}
             onClick={() => {
-              navigate('/game');
+              navigate('/lobby');
             }}
           >
             Start

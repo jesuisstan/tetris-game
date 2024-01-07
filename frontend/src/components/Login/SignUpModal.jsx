@@ -28,8 +28,8 @@ const SignUpModal = ({ open, setOpen }) => {
     password: ''
   });
 
-  const handleSignUp = async (e) => {
-    e.preventDefault();
+  const handleSignUp = async (event) => {
+    event.preventDefault();
 
     setLoad(true);
     try {

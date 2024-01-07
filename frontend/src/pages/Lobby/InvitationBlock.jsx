@@ -1,25 +1,21 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import Tetris from '../components/Game/Tetris';
-import { useGameOver } from '../hooks/useGameOver';
 import LoadingButton from '@mui/lab/LoadingButton';
-import FormInput from '../components/UI/FormInput';
+import FormInput from '../../components/UI/FormInput';
+import Stack from '@mui/material/Stack';
 
-import * as MUI from '../styles/MUIstyles';
-import styles from '../styles/tetris-styles/tetris.module.css';
+import * as MUI from '../../styles/MUIstyles';
+import styles from '../../styles/lobby-page.module.css';
 
-const TetrisGame = () => {
+const InvitationBlock = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
 
-  const [gameOver, setGameOver, resetGameOver] = useGameOver();
   const [values, setValues] = useState({
     nickname: '',
     room: ''
   });
-
-  const start = () => resetGameOver();
 
   const onChange = (event) => {
     const { name, value } = event.target;
@@ -29,9 +25,10 @@ const TetrisGame = () => {
     setValues({ ...values, [name]: modifiedValue });
   };
 
-  const createRoom = () => {
-    console.log('cliiiiicked');
-    //start();
+  const createRoom = (event) => {
+    event.preventDefault();
+    const roomUri = `/tetris/${values.room}[${user.nickname}]`;
+    navigate(roomUri);
   };
 
   console.log(
@@ -43,10 +40,26 @@ const TetrisGame = () => {
   );
 
   return (
-    <div style={{ marginTop: '21px' }}>
-      {gameOver ? (
-        <>
-          <form onSubmit={createRoom} className={styles.formCreateRoom}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '21px'
+      }}
+    >
+      <h1>Create a room</h1>
+      <Stack spacing={2}>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '21px',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
+          <form onSubmit={createRoom} className={styles.formWrapper}>
             <FormInput
               {...{
                 id: 1,
@@ -61,12 +74,12 @@ const TetrisGame = () => {
               value={user.nickname}
               onChange={onChange}
               disabled
-              style={{color: `var(--TETRIS_WHITE)`}}
+              style={{ color: `var(--TETRIS_WHITE)` }}
             />
 
             <FormInput
               {...{
-                id: 1,
+                id: 2,
                 name: 'room',
                 type: 'text',
                 placeholder: 'room name',
@@ -84,25 +97,15 @@ const TetrisGame = () => {
               //loading={loadingLogin}
               variant="contained"
               color="inherit"
-              sx={MUI.LoadButton}
+              sx={{ ...MUI.LoadButton, width: '100%' }}
             >
-              Create room
+              Create
             </LoadingButton>
           </form>
-          <LoadingButton
-            variant="contained"
-            color="inherit"
-            sx={MUI.LoadButton}
-            onClick={start}
-          >
-            Play
-          </LoadingButton>
-        </>
-      ) : (
-        <Tetris rows={20} columns={10} setGameOver={setGameOver} />
-      )}
+        </div>
+      </Stack>
     </div>
   );
 };
 
-export default TetrisGame;
+export default InvitationBlock;
