@@ -11,7 +11,6 @@ import { useDispatch } from 'react-redux';
 import { setUser } from '../../store/user-slice';
 import TetrisLoader from '../UI/TetrisLoader';
 
-import * as colors from '../../styles/tetris-colors';
 import * as MUI from '../../styles/MUIstyles';
 import styles from '../../styles/login.module.css';
 
@@ -40,7 +39,7 @@ const PleaseLogin = () => {
         withCredentials: true
       });
       dispatch(setUser(response.data)); // Dispatch setUser action with the fetched user data
-      navigate('/game');
+      navigate('/lobby');
     } catch (error) {
       const statusCode = error.response?.status;
       if (statusCode === 409 || statusCode === 451)
@@ -96,7 +95,7 @@ const PleaseLogin = () => {
           <SignUpModal open={signUpOpen} setOpen={setSignUpOpen} />
           <ErrorOutlineIcon
             fontSize="large"
-            sx={{ color: colors.TETRIS_PINK }}
+            sx={{ color: 'var(--TETRIS_PINK)' }}
           />
           <h1>Please login to continue</h1>
           <Stack spacing={2}>
@@ -116,7 +115,7 @@ const PleaseLogin = () => {
                     name: 'email',
                     type: 'email',
                     placeholder: 'Email',
-                    errorMessage: 'Should be a valid email with max length 42',
+                    errorMessage: 'Valid email with max length 42',
                     label: 'Email',
                     pattern: '^(?=.{1,42}$)\\S+@\\S+\\.\\S+$',
                     required: true
@@ -130,8 +129,7 @@ const PleaseLogin = () => {
                     name: 'password',
                     type: 'password',
                     placeholder: 'Password',
-                    errorMessage:
-                      '3-20 chars, 1 letter, 1 number, 1 special symbol',
+                    errorMessage: '3-20 chars, 1 letter, 1 number, 1 symbol',
                     label: 'Password',
                     pattern: `^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{3,20}$`,
                     required: true

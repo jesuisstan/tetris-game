@@ -11,7 +11,6 @@ import axios from 'axios';
 import errorAlert from '../../utils/error-alert';
 import saveAlert from '../../utils/save-alert';
 import * as MUI from '../../styles/MUIstyles';
-import * as colors from '../../styles/tetris-colors';
 import styles from '../../styles/login.module.css';
 
 const baseUrl = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_FRONTEND_PORT}`;
@@ -64,7 +63,7 @@ const SignUpModal = ({ open, setOpen }) => {
 
   return (
     <Modal
-      sx={{ color: colors.TETRIS_BLACK }}
+      sx={{ color: 'var(--TETRIS_BLACK)' }}
       open={open}
       onClose={(event, reason) => {
         if (event && reason === 'closeClick') {
@@ -96,10 +95,11 @@ const SignUpModal = ({ open, setOpen }) => {
                   name: 'firstName',
                   type: 'text',
                   placeholder: 'First name',
-                  errorMessage: 'Max 20 characters. Allowed: A-Z a-z',
+                  errorMessage: 'Max 20 characters. Allowed: a-Z',
                   label: 'First name',
                   pattern: '^[A-Za-z]{1,20}$',
-                  required: true
+                  required: true,
+                  autoComplete: 'off'
                 }}
                 value={values.firstName}
                 onChange={onChange}
@@ -110,10 +110,11 @@ const SignUpModal = ({ open, setOpen }) => {
                   name: 'lastName',
                   type: 'text',
                   placeholder: 'Last name',
-                  errorMessage: 'Max 20 characters. Allowed: A-Z a-z',
+                  errorMessage: 'Max 20 characters. Allowed: a-Z',
                   label: 'Last name',
                   pattern: '^[A-Za-z]{1,20}$',
-                  required: true
+                  required: true,
+                  autoComplete: 'off'
                 }}
                 value={values.lastName}
                 onChange={onChange}
@@ -124,10 +125,11 @@ const SignUpModal = ({ open, setOpen }) => {
                   name: 'nickname',
                   type: 'text',
                   placeholder: 'Nickname',
-                  errorMessage: 'Max 20 characters. Allowed: A-Z a-z 0-9',
+                  errorMessage: 'Max 20 characters. Allowed: a-Z 0-9',
                   label: 'Nickname',
                   pattern: '^[A-Za-z0-9]{1,20}$',
-                  required: true
+                  required: true,
+                  autoComplete: 'off'
                 }}
                 value={values.nickname}
                 onChange={onChange}
@@ -138,7 +140,7 @@ const SignUpModal = ({ open, setOpen }) => {
                   name: 'email',
                   type: 'email',
                   placeholder: 'Email',
-                  errorMessage: 'Should be a valid email with max length 42',
+                  errorMessage: 'Valid email with max length 42',
                   label: 'Email',
                   pattern: '^(?=.{1,42}$)\\S+@\\S+\\.\\S+$',
                   required: true
@@ -152,8 +154,7 @@ const SignUpModal = ({ open, setOpen }) => {
                   name: 'password',
                   type: 'password',
                   placeholder: 'Password',
-                  errorMessage:
-                    '3-20 chars, 1 letter, 1 number, 1 special symbol',
+                  errorMessage: '3-20 chars, 1 letter, 1 number, 1 symbol',
                   label: 'Password',
                   pattern: `^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{3,20}$`,
                   required: true

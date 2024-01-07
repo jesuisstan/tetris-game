@@ -11,33 +11,25 @@ import styles from '../../styles/lobby-page.module.css';
 const InvitationBlock = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
-
-  const [values, setValues] = useState({
-    nickname: '',
-    room: ''
-  });
+  const [loading, setLoading] = useState(false);
+  const [room, setRoom] = useState('');
 
   const onChange = (event) => {
-    const { name, value } = event.target;
+    const { value } = event.target;
     let modifiedValue = value;
 
     modifiedValue = modifiedValue.replace(/\s/g, '');
-    setValues({ ...values, [name]: modifiedValue });
+    setRoom(modifiedValue);
   };
 
   const createRoom = (event) => {
     event.preventDefault();
-    const roomUri = `/tetris/${values.room}[${user.nickname}]`;
+    setLoading(true)
+    const roomUri = `/tetris/${room}[${user.nickname}]`;
     navigate(roomUri);
   };
 
-  console.log(
-    'values: ',
-    'nickname =',
-    values.nickname,
-    ', room =',
-    values.room
-  );
+  console.log('values: ', 'room =', room);
 
   return (
     <div
@@ -66,7 +58,7 @@ const InvitationBlock = () => {
                 name: 'nickname',
                 type: 'text',
                 placeholder: 'nickname',
-                errorMessage: 'Max 20 characters. Allowed: A-Z a-z',
+                errorMessage: 'Max 20 characters. Allowed: a-Z',
                 label: 'Nickname',
                 pattern: '^[A-Za-z]{1,20}$',
                 required: true
@@ -83,18 +75,19 @@ const InvitationBlock = () => {
                 name: 'room',
                 type: 'text',
                 placeholder: 'room name',
-                errorMessage: 'Max 20 characters. Allowed: A-Z a-z',
+                errorMessage: 'Max 20 characters. Allowed: a-Z 0-9',
                 label: 'Room name',
-                pattern: '^[A-Za-z]{1,20}$',
-                required: true
+                pattern: '^[A-Za-z0-9]{1,20}$',
+                required: true,
+                autoComplete: 'off'
               }}
-              value={values.room}
+              value={room}
               onChange={onChange}
             />
 
             <LoadingButton
               type="submit"
-              //loading={loadingLogin}
+              loading={loading}
               variant="contained"
               color="inherit"
               sx={{ ...MUI.LoadButton, width: '100%' }}

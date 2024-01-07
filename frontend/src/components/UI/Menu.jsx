@@ -14,7 +14,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../../store/user-slice';
 import Divider from '@mui/material/Divider';
 
-import * as colors from '../../styles/tetris-colors';
 import styles from '../../styles/menu.module.css';
 
 const Menu = () => {
@@ -75,8 +74,8 @@ const Menu = () => {
               {user.nickname ? (
                 <Avatar
                   sx={{
-                    bgcolor: colors.TETRIS_GREEN,
-                    color: colors.TETRIS_BLACK,
+                    bgcolor: 'var(--TETRIS_GREEN)',
+                    color: 'var(--TETRIS_BLACK)',
                     fontSize: '16px'
                   }}
                 >
@@ -86,8 +85,8 @@ const Menu = () => {
               ) : (
                 <Avatar
                   sx={{
-                    bgcolor: colors.TETRIS_PINK,
-                    color: colors.TETRIS_BLACK
+                    bgcolor: 'var(--TETRIS_PINK)',
+                    color: 'var(--TETRIS_BLACK)'
                   }}
                   alt="ava"
                 />
@@ -99,7 +98,7 @@ const Menu = () => {
             sx={{ mt: '42px' }}
             PaperProps={{
               style: {
-                backgroundColor: colors.TETRIS_WHITE,
+                backgroundColor: 'var(--TETRIS_WHITE)',
                 opacity: '0.95'
               }
             }}

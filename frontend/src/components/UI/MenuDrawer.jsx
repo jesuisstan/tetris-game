@@ -10,7 +10,6 @@ import {
 import HomeIcon from '@mui/icons-material/Home';
 import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
 
-import * as colors from '../../styles/tetris-colors';
 import * as MUI from '../../styles/MUIstyles';
 
 const MenuDrawer = ({ open, setOpen }) => {
@@ -25,7 +24,7 @@ const MenuDrawer = ({ open, setOpen }) => {
       sx={{ zIndex: '11112' }}
       PaperProps={{
         style: {
-          backgroundColor: colors.TETRIS_WHITE,
+          backgroundColor: 'var(--TETRIS_WHITE)',
           opacity: '0.9',
           minWidth: '200px',
           display: 'flex',
@@ -37,7 +36,7 @@ const MenuDrawer = ({ open, setOpen }) => {
       open={open}
       onClose={handleDrawerToggle}
     >
-      <List sx={{ color: colors.TETRIS_BLACK }}>
+      <List sx={{ color: 'var(--TETRIS_BLACK)' }}>
         <ListItem
           onClick={() => {
             navigate('/');
@@ -46,7 +45,7 @@ const MenuDrawer = ({ open, setOpen }) => {
         >
           <ListItemButton sx={MUI.burgerItem}>
             <ListItemIcon>
-              <HomeIcon sx={{ color: colors.TETRIS_RED }} />
+              <HomeIcon sx={{ color: 'var(--TETRIS_RED)' }} />
             </ListItemIcon>
             <ListItemText primary="Home" disableTypography />
           </ListItemButton>
@@ -59,7 +58,7 @@ const MenuDrawer = ({ open, setOpen }) => {
         >
           <ListItemButton sx={MUI.burgerItem}>
             <ListItemIcon>
-              <VideogameAssetIcon sx={{ color: colors.TETRIS_RED }} />
+              <VideogameAssetIcon sx={{ color: 'var(--TETRIS_RED)' }} />
             </ListItemIcon>
             <ListItemText primary="Play" disableTypography />
           </ListItemButton>

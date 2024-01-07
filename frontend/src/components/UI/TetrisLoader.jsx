@@ -1,7 +1,5 @@
 import PacmanLoader from 'react-spinners/PacmanLoader';
 
-import * as colors from '../../styles/tetris-colors';
-
 const TetrisLoader = () => {
   return (
     <div
@@ -11,13 +9,13 @@ const TetrisLoader = () => {
         flexDirection: 'column',
         alignItems: 'center',
         gap: '21px',
-        color: colors.TETRIS_WHITE,
+        color: 'var(--TETRIS_WHITE)',
         justifyContent: 'center'
       }}
     >
       <p>loading...</p>
       <PacmanLoader
-        color={colors.TETRIS_WHITE}
+        color={`var(--TETRIS_WHITE)`}
         loading={true}
         aria-label="Loading Spinner"
         data-testid="loader"

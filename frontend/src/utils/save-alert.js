@@ -1,11 +1,10 @@
 import Swal from 'sweetalert2';
-import * as colors from '../styles/tetris-colors';
 
 const saveAlert = () => {
   Swal.fire({
     position: 'center',
     width: 'auto',
-    color: colors.TETRIS_GREEN,
+    color: 'var(--TETRIS_GREEN)',
     background: 'rgba(0, 0, 0, 0)',
     title: 'S A V E D',
     showConfirmButton: false,

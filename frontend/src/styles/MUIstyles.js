@@ -1,4 +1,3 @@
-import * as colors from './tetris-colors';
 import { createTheme } from '@mui/material';
 
 export const theme = createTheme({
@@ -11,8 +10,8 @@ export const modalDialog = {
   width: 'auto',
   maxWidth: '442px',
   minWidth: '300px',
-  border: `1px solid ${colors.TETRIS_WHITE}`,
-  bgcolor: colors.TETRIS_BLACK,
+  border: `1px solid var(--TETRIS_WHITE)`,
+  bgcolor: 'var(--TETRIS_BLACK)',
   borderRadius: '4px',
   paddingBottom: '30px'
 };
@@ -23,8 +22,7 @@ export const modalHeader = {
   letterSpacing: '0.02857em',
   textAlign: 'center',
   fontWeight: 'bold',
-  paddingBottom: '18px',
-  color: colors.TETRIS_PINK
+  color: 'var(--TETRIS_PINK)'
 };
 
 export const modalClose = {
@@ -33,11 +31,11 @@ export const modalClose = {
   right: 'calc(-1/4 * var(--IconButton-size))',
   boxShadow: '0 2px 12px 0 rgba(0 0 0 / 0.2)',
   borderRadius: '50%',
-  color: colors.TETRIS_BLACK,
-  bgcolor: colors.TETRIS_WHITE,
+  color: 'var(--TETRIS_BLACK)',
+  bgcolor: 'var(--TETRIS_WHITE)',
   transition: 'background-color 0.2s',
   ':hover': {
-    bgcolor: colors.TETRIS_PINK
+    bgcolor: 'var(--TETRIS_PINK)'
   }
 };
 
@@ -46,14 +44,14 @@ export const LoadButton = {
   fontWeight: 'bold',
   minWidth: 125,
   borderRadius: '90px',
-  backgroundColor: colors.TETRIS_WHITE,
-  color: colors.TETRIS_BLACK,
+  backgroundColor: 'var(--TETRIS_WHITE)',
+  color: 'var(--TETRIS_BLACK)',
   transition: 'background-color 0.2s ease-in-out',
   ':hover': {
-    backgroundColor: colors.TETRIS_PINK
+    backgroundColor: 'var(--TETRIS_PINK)'
   },
   '& .MuiCircularProgress-circle': {
-    color: colors.TETRIS_WHITE
+    color: 'var(--TETRIS_BLACK)'
   }
 };
 
@@ -62,7 +60,7 @@ export const burgerItem = {
   fontWeight: '700',
   letterSpacing: '0.02857em',
   ':hover': {
-    color: colors.TETRIS_GREEN,
+    color: 'var(--TETRIS_GREEN)',
     cursor: 'pointer'
   }
 };

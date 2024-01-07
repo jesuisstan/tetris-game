@@ -27,6 +27,7 @@ const JoinRoomBlock = () => {
 
   const joinRoom = (event) => {
     event.preventDefault();
+    setLoading(true)
     const roomUri = `/tetris/${values.room}[${values.nickname}]`;
     navigate(roomUri);
   };
@@ -66,10 +67,11 @@ const JoinRoomBlock = () => {
                 name: 'nickname',
                 type: 'text',
                 placeholder: 'nickname',
-                errorMessage: 'Max 20 characters. Allowed: A-Z a-z',
+                errorMessage: 'Max 20 characters. Allowed: a-Z',
                 label: 'Nickname of an opponent',
-                pattern: '^[A-Za-z]{1,20}$',
-                required: true
+                pattern: '^[A-Za-z0-9]{1,20}$',
+                required: true,
+                autoComplete: 'off'
               }}
               value={values.nickname}
               onChange={onChange}
@@ -81,10 +83,11 @@ const JoinRoomBlock = () => {
                 name: 'room',
                 type: 'text',
                 placeholder: 'room name',
-                errorMessage: 'Max 20 characters. Allowed: A-Z a-z',
+                errorMessage: 'Max 20 characters. Allowed: a-Z 0-9',
                 label: 'Room name',
-                pattern: '^[A-Za-z]{1,20}$',
-                required: true
+                pattern: '^[A-Za-z0-9]{1,20}$',
+                required: true,
+                autoComplete: 'off'
               }}
               value={values.room}
               onChange={onChange}
