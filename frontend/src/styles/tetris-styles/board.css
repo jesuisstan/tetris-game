@@ -5,7 +5,7 @@
   /*height: 100%;*/
   min-height: 82vh;
   /*max-width: 60vw;*/
-  background: var(--TETRIS_PINK);
+  background: var(--TETRIS_BLACK);
   border: 3px solid var(--TETRIS_WHITE);
   border-radius: 10px;
   display: grid;
