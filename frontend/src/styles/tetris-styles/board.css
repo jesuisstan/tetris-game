@@ -1,6 +1,6 @@
 .board {
   width: auto;
-  min-width:41vh;
+  min-width: 41vh;
 
   /*height: 100%;*/
   min-height: 82vh;
@@ -48,23 +48,23 @@
 }
 
 .tetromino__i {
+  background-color: var(--TETRIS_GREEN);
+}
+.tetromino__o {
   background-color: var(--TETRIS_RED);
 }
 .tetromino__j {
-  background-color: var(--TETRIS_GRAY);
+  background-color: var(--TETRIS_PINK);
 }
 .tetromino__l {
-  background-color: var(--TETRIS_WHITE);;
-}
-.tetromino__o {
-  background-color: var(--TETRIS_GREEN);;
+  background-color: var(--TETRIS_RED_DARK);
 }
 .tetromino__s {
-  background-color: var(--TETRIS_VIOLET);
-}
-.tetromino__t {
-  background-color: var(--TETRIS_BLUE);
+  background-color: var(--TETRIS_RED_MIDDLE);
 }
 .tetromino__z {
-  background-color: var(--TETRIS_ORANGE);
+  background-color: var(--TETRIS_RED_LIGHT);
+}
+.tetromino__t {
+  background-color: var(--TETRIS_RED_DOWN_MID);
 }
