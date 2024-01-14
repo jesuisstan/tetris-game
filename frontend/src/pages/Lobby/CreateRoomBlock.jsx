@@ -8,7 +8,7 @@ import Stack from '@mui/material/Stack';
 import * as MUI from '../../styles/MUIstyles';
 import styles from '../../styles/lobby-page.module.css';
 
-const InvitationBlock = () => {
+const CreateRoomBlock = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
@@ -97,4 +97,4 @@ const InvitationBlock = () => {
   );
 };
 
-export default InvitationBlock;
+export default CreateRoomBlock;

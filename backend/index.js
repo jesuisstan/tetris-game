@@ -64,16 +64,55 @@ const io = new Server(server, {
   }
 });
 
-io.on('connection', (socket) => {
-  socket.on('join', ({ inviterNickname, room }) => {
-    socket.join(room);
+const MAX_PLAYERS_PER_ROOM = 2; // Change this value based on your requirement
 
-    socket.emit('message', {
-      data: { user: { nickname: inviterNickname }, message: `Hey from Server (room: ${room})` }
-    });
+// Room capacity tracking
+const roomCapacity = new Map();
+
+// Function to check room capacity and reject if full
+const checkRoomCapacity = (room) => {
+  const currentPlayers = roomCapacity.get(room) || 0;
+
+  if (currentPlayers >= MAX_PLAYERS_PER_ROOM) {
+    return false;
+  } else {
+    roomCapacity.set(room, currentPlayers + 1);
+    return true;
+  }
+};
+
+io.on('connection', (socket) => {
+  socket.on('join', ({ player }) => {
+    const roomIsFull = !checkRoomCapacity(player.room);
+
+    if (roomIsFull) {
+      // Room is full, reject the player
+      socket.emit('roomFull', {
+        message: 'The room is full. Please try another room.',
+      });
+      socket.disconnect();
+    } else {
+      // Room is not full, let the player join
+      socket.join(player.room);
+
+      socket.emit('message', {
+        data: {
+          player: { nickname: player.nickname, role: player.role },
+          message: `Hey from Server (room: ${player.room})`,
+        },
+      });
+    }
   });
 
-  io.on('disconnect', () => {
+  socket.on('disconnect', () => {
+    // Decrement room capacity on disconnect
+    const room = Object.keys(socket.rooms).find((room) => room !== socket.id);
+    if (room) {
+      const currentPlayers = roomCapacity.get(room) || 0;
+      if (currentPlayers > 0) {
+        roomCapacity.set(room, currentPlayers - 1);
+      }
+    }
     console.log('Disconnect');
   });
 });

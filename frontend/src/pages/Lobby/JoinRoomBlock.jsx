@@ -52,7 +52,7 @@ const JoinRoomBlock = () => {
             <FormInput
               {...{
                 id: 1,
-                name: 'inviterNickname',
+                name: 'nickname',
                 type: 'text',
                 placeholder: 'nickname',
                 errorMessage: 'Max 20 characters. Allowed: a-Z',
