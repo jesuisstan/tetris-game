@@ -9,8 +9,6 @@ import GameController from './GameController';
 
 import styles from '../../styles/tetris-styles/tetris.module.css';
 
-
-
 const Tetris = ({ rows, columns, setGameOver }) => {
   const [gameStats, addLinesCleared] = useGameStats();
   const [player, setPlayer, resetPlayer] = usePlayer();

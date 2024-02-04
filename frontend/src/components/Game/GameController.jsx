@@ -1,10 +1,12 @@
-import { Action, actionForKey, actionIsDrop } from "../../utils/input";
-import { playerController } from "../../utils/player-controller";
+import { Action, actionForKey, actionIsDrop } from '../../utils/input';
+import { playerController } from '../../utils/player-controller';
 
-import { useDropTime } from "../../hooks/useDropTime";
-import { useInterval } from "../../hooks/useInterval";
+import { useDropTime } from '../../hooks/useDropTime';
+import { useInterval } from '../../hooks/useInterval';
 
-import "../../styles/tetris-styles/game-controller.css";
+import '../../styles/tetris-styles/game-controller.css';
+import { useRef } from 'react';
+import FocusButton from '../UI/FocusButton';
 
 const GameController = ({
   board,
@@ -56,14 +58,27 @@ const GameController = ({
     });
   };
 
+  const inputRef = useRef(null);
+
+  const focusOnTetris = () => {
+    // Ensure the input element retains focus
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
+
   return (
-    <input
-      className="GameController"
-      type="text"
-      onKeyDown={onKeyDown}
-      onKeyUp={onKeyUp}
-      autoFocus
-    />
+    <div>
+      <FocusButton title="Focus on tetris" onClick={focusOnTetris} />
+      <input
+        ref={inputRef}
+        className="GameController"
+        type="text"
+        onKeyDown={onKeyDown}
+        onKeyUp={onKeyUp}
+        autoFocus
+      />
+    </div>
   );
 };
 

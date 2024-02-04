@@ -41,6 +41,7 @@ const GameLayout = () => {
 
     socket.on('roomFull', ({ message }) => {
       errorAlert(message);
+      navigate('/lobby');
     });
   }, []);
 
