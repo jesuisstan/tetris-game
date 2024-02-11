@@ -1,15 +1,15 @@
 import express from "express";
-import { signin, signup, logout } from "../controllers/auth.js";
+import Player from "../classes/Player.js";
 
 const router = express.Router();
 
 //CREATE A USER
-router.post("/signup", signup)
+router.post("/signup", Player.signup)
 
 //SIGN IN
-router.post("/signin", signin)
+router.post("/signin", Player.signin)
 
 //LOGOUT
-router.get("/logout", logout);
+router.get("/logout", Player.logout);
 
 export default router;
