@@ -45,7 +45,7 @@ const MenuDrawer = ({ open, setOpen }) => {
         >
           <ListItemButton sx={MUI.burgerItem}>
             <ListItemIcon>
-              <HomeIcon sx={{ color: 'var(--TETRIS_RED)' }} />
+              <HomeIcon sx={{ color: 'var(--TETRIS_PINK)' }} />
             </ListItemIcon>
             <ListItemText primary="Home" disableTypography />
           </ListItemButton>
@@ -58,7 +58,7 @@ const MenuDrawer = ({ open, setOpen }) => {
         >
           <ListItemButton sx={MUI.burgerItem}>
             <ListItemIcon>
-              <VideogameAssetIcon sx={{ color: 'var(--TETRIS_RED)' }} />
+              <VideogameAssetIcon sx={{ color: 'var(--TETRIS_PINK)' }} />
             </ListItemIcon>
             <ListItemText primary="Play" disableTypography />
           </ListItemButton>
