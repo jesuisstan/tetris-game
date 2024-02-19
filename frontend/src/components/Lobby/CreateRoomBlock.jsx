@@ -22,7 +22,7 @@ const CreateRoomBlock = () => {
 
   const createRoom = (event) => {
     event.preventDefault();
-    setLoading(true)
+    setLoading(true);
     const roomUri = `/tetris/${room}[${user.nickname}]`;
     navigate(roomUri);
   };
@@ -50,27 +50,10 @@ const CreateRoomBlock = () => {
           <form onSubmit={createRoom} className={styles.formWrapper}>
             <FormInput
               {...{
-                id: 1,
-                name: 'inviterNickname',
-                type: 'text',
-                placeholder: 'nickname',
-                errorMessage: 'Max 20 characters. Allowed: a-Z',
-                label: 'Nickname',
-                pattern: '^[A-Za-z]{1,20}$',
-                required: true
-              }}
-              value={user.nickname}
-              onChange={onChange}
-              disabled
-              style={{ color: `var(--TETRIS_WHITE)` }}
-            />
-
-            <FormInput
-              {...{
                 id: 2,
                 name: 'room',
                 type: 'text',
-                placeholder: 'room name',
+                //placeholder: 'room name',
                 errorMessage: 'Max 20 characters. Allowed: a-Z 0-9',
                 label: 'Room name',
                 pattern: '^[A-Za-z0-9]{1,20}$',

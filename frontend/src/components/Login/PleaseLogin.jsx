@@ -11,8 +11,13 @@ import { useDispatch } from 'react-redux';
 import { setUser } from '../../store/user-slice';
 import TetrisLoader from '../UI/TetrisLoader';
 
+import io from 'socket.io-client';
+
 import * as MUI from '../../styles/MUIstyles';
 import styles from '../../styles/login.module.css';
+
+const baseUrl = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_FRONTEND_PORT}`;
+const socket = io.connect(baseUrl);
 
 const PleaseLogin = () => {
   const dispatch = useDispatch();
@@ -39,6 +44,7 @@ const PleaseLogin = () => {
         withCredentials: true
       });
       dispatch(setUser(response.data)); // Dispatch setUser action with the fetched user data
+      socket.emit('user_logged_in', response.data);
       navigate('/lobby');
     } catch (error) {
       const statusCode = error.response?.status;
@@ -69,6 +75,13 @@ const PleaseLogin = () => {
       password: process.env.REACT_APP_TEST_PASSWORD
     });
   };
+
+  // listen to mesages from server:
+  useEffect(() => {
+    socket.on('welcome', ({ message }) => {
+      console.log('message from server:', message);
+    });
+  }, []);
 
   return (
     <div

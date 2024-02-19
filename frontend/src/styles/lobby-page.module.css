@@ -1,6 +1,6 @@
 .mainWrapper {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 42px;
@@ -16,8 +16,8 @@
   margin: 21px 21px 0;
 }
 
-@media (width < 1025px) {
+/*@media (width < 1025px) {
   .mainWrapper {
     flex-direction: column;
   }
-}
+}*/

@@ -7,7 +7,7 @@ const Lobby = () => {
   return (
     <div className={styles.mainWrapper}>
       <CreateRoomBlock />
-      - OR -
+      <div style={{ color: 'var(--TETRIS_GREEN)' }}>----- OR -----</div>
       <JoinRoomBlock />
     </div>
   );

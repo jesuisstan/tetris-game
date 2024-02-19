@@ -7,14 +7,17 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import http from 'http';
 import { Server } from 'socket.io';
+import Player from './classes/Player.js';
+
+const MAX_PLAYERS_PER_ROOM = 2;
+let Players = [];
 
 const app = express();
+app.use(express.json());
 
 dotenv.config();
 
-app.use(express.json());
-
-const connect = () => {
+const connectToDatabase = () => {
   mongoose
     .connect(process.env.MONGO)
     .then(() => {
@@ -64,8 +67,6 @@ const io = new Server(server, {
   }
 });
 
-const MAX_PLAYERS_PER_ROOM = 2; // Change this value based on your requirement
-
 // Room capacity tracking
 const roomCapacity = new Map();
 
@@ -82,13 +83,31 @@ const checkRoomCapacity = (room) => {
 };
 
 io.on('connection', (socket) => {
+  socket.on('user_logged_in', async (data) => {
+    try {
+      // Create a new Player instance with the received data
+      const newPlayer = new Player(data);
+      Players.push(newPlayer);
+
+      console.log('Playersssssssssss: ', Players);
+
+      // Emit a welcome message to the client
+      socket.emit('welcome', {
+        message: `Welcome, ${newPlayer.nickname}!`
+      });
+    } catch (error) {
+      console.error('Error creating new player:', error);
+      socket.emit('welcome_error');
+    }
+  });
+
   socket.on('join', ({ player }) => {
     const roomIsFull = !checkRoomCapacity(player.room);
 
     if (roomIsFull) {
       // Room is full, reject the player
       socket.emit('roomFull', {
-        message: 'The room is full. Please try another room.',
+        message: 'The room is full. Please try another room.'
       });
       socket.disconnect();
     } else {
@@ -98,8 +117,8 @@ io.on('connection', (socket) => {
       socket.emit('message', {
         data: {
           player: { nickname: player.nickname, role: player.role },
-          message: `Hey from Server (room: ${player.room})`,
-        },
+          message: `Hey from Server (room: ${player.room})`
+        }
       });
     }
   });
@@ -119,5 +138,5 @@ io.on('connection', (socket) => {
 
 server.listen(process.env.SERVER_PORT, () => {
   console.log('Server is running on port ' + process.env.SERVER_PORT);
-  connect();
+  connectToDatabase();
 });

@@ -12,6 +12,7 @@
     "start:frontend": "npm run copy-env:frontend && cd frontend && npm install && npm start",
     "copy-env:backend": "node -e \"require('fs').copyFileSync('.env', 'backend/.env')\"",
     "copy-env:frontend": "node -e \"require('fs').copyFileSync('.env', 'frontend/.env')\"",
-    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+    "clean-all": "rm -rf node_modules && rm -rf ./backend/node_modules && rm -rf ./frontend/node_modules"
   }
 }

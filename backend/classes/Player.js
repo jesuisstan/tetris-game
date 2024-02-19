@@ -7,6 +7,8 @@ import { createError } from '../error.js';
 class Player extends User {
   constructor(userData) {
     super(userData);
+    //this.id = id;
+    //this.room = room;
   }
 
   static async signup(req, res, next) {
