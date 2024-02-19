@@ -153,6 +153,9 @@ const JoinRoomBlock = () => {
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
+          style={{
+            backgroundColor: 'var(--TETRIS_WHITE)'
+          }}
         />
       </Paper>
     </div>

@@ -13,7 +13,7 @@
   align-items: center;
   text-align: left;
   gap: 21px;
-  margin: 21px 21px 0;
+  /*margin: 21px 21px 0;*/
 }
 
 /*@media (width < 1025px) {
