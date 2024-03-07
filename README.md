@@ -39,14 +39,13 @@ By addressing these areas for improvement, the project can be further optimized 
 ##### 1. Install general dependencies (JS, package manager, etc):
 
 - install Node version manager (nvm):
-  ```sh
-  sudo apt install curl
-  ```
+```sh
+sudo apt install curl
+```
 
-````
-  ```sh
-  curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
-````
+```sh
+curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
+```
 
 ```sh
 source ~/.profile
@@ -89,7 +88,7 @@ OR
 
 b) with NPM:
 
-- install all the dependencies according to 'package.json' file from the root dir:
+- install all the application dependencies according to 'package.json' file from the root dir:
 
 ```sh
 npm install
