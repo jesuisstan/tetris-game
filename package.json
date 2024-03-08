@@ -8,11 +8,13 @@
     "cross-env": "^7.0.3"
   },
   "scripts": {
-    "start:backend": "npm run copy-env:backend && cd backend && npm install && npm start",
-    "start:frontend": "npm run copy-env:frontend && cd frontend && npm install && npm start",
     "copy-env:backend": "node -e \"require('fs').copyFileSync('.env', 'backend/.env')\"",
     "copy-env:frontend": "node -e \"require('fs').copyFileSync('.env', 'frontend/.env')\"",
+    "start:backend": "npm run copy-env:backend && cd backend && npm install && npm start",
+    "start:frontend": "npm run copy-env:frontend && cd frontend && npm install && npm start",
     "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
-    "clean-all": "rm -rf node_modules && rm -rf ./backend/node_modules && rm -rf ./frontend/node_modules"
+    "clean:backend": "rm -rf ./backend/node_modules && rm -f ./backend/package-lock.json && rm -f ./backend/.env",
+    "clean:frontend": "rm -rf ./frontend/node_modules && rm -f ./frontend/package-lock.json && rm -f ./frontend/.env",
+    "clean:all": "rm -rf node_modules && rm -f package-lock.json && npm run clean:backend && npm run clean:frontend"
   }
 }
