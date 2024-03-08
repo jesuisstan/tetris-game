@@ -1,5 +1,5 @@
 # Use the Node.js base image for the frontend
-FROM node:14 as frontend
+FROM node:21 as frontend
 
 # Set the working directory for the frontend in the container
 WORKDIR /app/frontend

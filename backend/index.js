@@ -93,8 +93,6 @@ io.on('connection', (socket) => {
       const newPlayer = new Player(data);
       Players.push(newPlayer);
 
-      console.log('Playersssssssssss: ', Players);
-
       // Emit a welcome message to the client
       socket.emit('welcome', {
         message: `Welcome, ${newPlayer.nickname}!`
@@ -139,6 +137,14 @@ io.on('connection', (socket) => {
   //  }
   //  console.log('Disconnect');
   //});
+
+  socket.on("join_room", (data) => {
+    GameTetris.joinRoom(io, socket, data, Rooms, Players);
+    io.emit("room_joined", data);
+  });
+
+
+
 
 
   socket.on("create_user_room", async (data) => {
@@ -194,11 +200,6 @@ io.on('connection', (socket) => {
     else{
       io.to(socket.id).emit("room_exist");
     }
-  });
-
-  socket.on("join_room", (data) => {
-    GameTetris.joinRoom(io, socket, data, Rooms, Players);
-    io.emit("room_joined", data);
   });
 
   socket.on("leaveRoom", () => {
