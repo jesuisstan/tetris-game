@@ -28,7 +28,7 @@ const GameLayout = () => {
 
   useEffect(() => {
     if (player.nickname && player.room) {
-      socket.emit('join', { player });
+      socket.emit('join_room', { player });
     } else {
       navigate('/not-found');
     }

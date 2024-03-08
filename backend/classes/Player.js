@@ -2,7 +2,7 @@ import User from '../models/User.js';
 
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { createError } from '../error.js';
+import { createError } from '../utils.js';
 
 class Player extends User {
   constructor(userData) {

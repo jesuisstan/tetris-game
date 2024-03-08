@@ -2,7 +2,7 @@ import express from 'express';
 //import { getUserData } from '../controllers/user.js';
 import Player from "../classes/Player.js";
 
-import { verifyToken } from '../verifyToken.js';
+import { verifyToken } from '../utils.js';
 
 const router = express.Router();
 

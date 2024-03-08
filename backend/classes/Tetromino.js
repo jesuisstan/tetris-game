@@ -32,5 +32,4 @@ class Tetromino {
   }
 }
 
-//module.exports = Tetromino; //todo
 export default Tetromino;
