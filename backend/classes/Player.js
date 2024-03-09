@@ -7,8 +7,10 @@ import { createError } from '../utils.js';
 class Player extends User {
   constructor(userData) {
     super(userData);
-    //this.id = id;
-    //this.room = room;
+    this.socketId = '';
+    this.admin = false;
+    this.room = '';
+    this.gameOver = false;
   }
 
   static async signup(req, res, next) {
@@ -90,6 +92,22 @@ class Player extends User {
     } catch (err) {
       next(err);
     }
+  };
+
+  setAdminStatus = async (status) => {
+    this.admin = status;
+  };
+
+  setRoom = async (roomName) => {
+    this.room = roomName;
+  };
+
+  setGameOver = async (status) => {
+    this.gameOver = status;
+  };
+
+  setSocketId = async (newSocketId) => {
+    this.socketId = newSocketId;
   };
 }
 

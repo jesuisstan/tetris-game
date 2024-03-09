@@ -1,8 +1,7 @@
 class Game {
   constructor() {}
-  /*
-   ** Get Room Users List
-   */
+
+  // to send the room list to clients in the specified room:
   getClient = (io, room, players) => {
     return new Promise((resolve, reject) => {
       const player = [];
@@ -23,9 +22,8 @@ class Game {
       io.to(room).emit('roomPlayers', roomList);
     });
   };
-  /*
-   ** Get room users name list
-   */
+
+  // to get an array of player names:
   getroomUsers = (io, room, players) => {
     return new Promise((resolve, reject) => {
       const player = [];
@@ -46,9 +44,8 @@ class Game {
       resolve(roomList);
     });
   };
-  /*
-   ** Get room users name list
-   */
+
+  // to get an array of player objects:
   getroomUsersDetails = (io, room, players) => {
     return new Promise((resolve, reject) => {
       const player = [];
@@ -69,9 +66,8 @@ class Game {
       resolve(roomList);
     });
   };
-  /*
-   ** Get user from room
-   */
+
+  // to get a room's admin:
   getUser = (io, socketId, room, players) => {
     return new Promise((resolve, reject) => {
       const player = [];
@@ -143,10 +139,10 @@ class Game {
       });
     });
   };
+
   /*
    **  Tells the room that a player has left
    */
-
   leaveRoom = (io, socket, rooms, players) => {
     return new Promise((resolve, reject) => {
       const playerremoved = players.find(
@@ -256,19 +252,7 @@ class Game {
       io.to(room).emit('newTetriminos', Tetrimios);
     });
   };
-  /*
-   ** Send Message to Room
-   */
-  sendMessage = (io, data) => {
-    return new Promise((resolve, reject) => {
-      io.to(data.room).emit('chat', {
-        name: data.name,
-        message: data.message,
-        type: data.type
-      });
-      resolve(true);
-    });
-  };
+
   /*
    ** semd Stage state to room
    */
@@ -277,6 +261,7 @@ class Game {
       io.to(room).emit('getstages', { stage, username });
     });
   };
+
   /*
    ** Check Stages state and send it to the rooms
    */
@@ -285,6 +270,7 @@ class Game {
       io.to(room).emit('updateStages', { Stages });
     });
   };
+
   /*
    ** Change room mode solo/buttle
    */

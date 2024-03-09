@@ -20,17 +20,3 @@ export const verifyToken = (req, res, next) => {
     return next(createError(403, 'Token is not valid!'));
   }
 };
-
-// Function to check room capacity and reject if full
-export const checkRoomCapacity = (room) => {
-  const MAX_PLAYERS_PER_ROOM = 2;
-
-  const currentPlayers = roomCapacity.get(room) || 0;
-
-  if (currentPlayers >= MAX_PLAYERS_PER_ROOM) {
-    return false;
-  } else {
-    roomCapacity.set(room, currentPlayers + 1);
-    return true;
-  }
-};
