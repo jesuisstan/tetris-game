@@ -3,7 +3,9 @@ class PlayersList extends Array {
     super();
   }
 
-  // Add New Player
+  /* Method to add a new player to the list if the player's nickname doesn't already exist in the list. 
+      If a player with the same nickname already exists, log a message stating that the player is already in the list.
+      If not, add the new player to the list. */
   async addNewPlayer(newPlayer) {
     const player = this.find((p) => p.nickname === newPlayer.nickname);
 
@@ -15,26 +17,34 @@ class PlayersList extends Array {
     }
   }
 
-  // Delete Player
-  async erasePlayer(playerToRemove) {
+  // Method to erase a player from the list:
+  async erasePlayer(playerToErase) {
     this.splice(
-      this.findIndex((player) => player.socketId === playerToRemove.socketId),
+      this.findIndex((player) => player.socketId === playerToErase.socketId),
       1
     );
   }
 
-  // Update Player
-  async updatePlayer(socket, data) {
+  // Method to updates or add a player depending on whether a player with the given username already exists:
+  async updatePlayers(socket, data) {
     return new Promise((resolve, reject) => {
-      this.filter((player) => player.nickname !== data.nickname);
+      // Filter out existing player
+      const filteredPlayers = this.filter(
+        (player) => player.nickname !== data.nickname
+      );
 
-      this.push({
+      // Push updated player
+      filteredPlayers.push({
         nickname: data.nickname,
         socketId: socket.id,
         admin: false,
         room: '',
         gameOver: false
       });
+
+      // Assign filteredPlayers array back to this
+      this.length = 0;
+      this.push(...filteredPlayers);
 
       resolve(this);
     });

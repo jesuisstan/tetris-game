@@ -1,90 +1,102 @@
+import { MAX_PLAYERS_IN_ROOM } from '../index.js';
+
 class Game {
   constructor() {}
 
-  // to send the room list to clients in the specified room:
-  getClient = (io, room, players) => {
+  // Send a list of a room players to a client:
+  sendRoomPlayersList = (io, room, playersList) => {
     return new Promise((resolve, reject) => {
-      const player = [];
-      const roomList = [];
+      const socketIds = [];
+      const roomPlayersList = [];
       const clientsList = io.sockets.adapter.rooms.get(room);
+
       if (clientsList) {
         for (const clientId of clientsList) {
-          player.push(clientId);
+          socketIds.push(clientId);
         }
-        for (let i = 0; i < players.length; i++) {
-          for (let j = 0; j < player.length; j++) {
-            if (players[i].socketId === player[j]) {
-              roomList.push(players[i].name);
+
+        for (let i = 0; i < playersList.length; i++) {
+          for (let j = 0; j < socketIds.length; j++) {
+            if (playersList[i].socketId === socketIds[j]) {
+              roomPlayersList.push(playersList[i].nickname);
             }
           }
         }
       }
-      io.to(room).emit('roomPlayers', roomList);
+
+      io.to(room).emit('room_players', roomPlayersList); // todo was "roomPlayers"
     });
   };
 
-  // to get an array of player names:
-  getroomUsers = (io, room, players) => {
+  // Get an array of player objects:
+  getRoomPlayersDetails = (io, room, playersList) => {
     return new Promise((resolve, reject) => {
-      const player = [];
-      const roomList = [];
+      const socketIds = [];
+      const roomPlayersList = [];
       const clientsList = io.sockets.adapter.rooms.get(room);
+
       if (clientsList) {
         for (const clientId of clientsList) {
-          player.push(clientId);
+          socketIds.push(clientId);
         }
-        for (let i = 0; i < players.length; i++) {
-          for (let j = 0; j < player.length; j++) {
-            if (players[i].socketId === player[j]) {
-              roomList.push(players[i].name);
+        for (let i = 0; i < playersList.length; i++) {
+          for (let j = 0; j < socketIds.length; j++) {
+            if (playersList[i].socketId === socketIds[j]) {
+              roomPlayersList.push(playersList[i]);
             }
           }
         }
       }
-      resolve(roomList);
+
+      resolve(roomPlayersList);
     });
   };
 
-  // to get an array of player objects:
-  getroomUsersDetails = (io, room, players) => {
+  // Get an array of player names:
+  getRoomPlayersNicknames = (io, room, playersList) => {
     return new Promise((resolve, reject) => {
-      const player = [];
-      const roomList = [];
+      const socketIds = [];
+      const roomPlayersList = [];
       const clientsList = io.sockets.adapter.rooms.get(room);
+
       if (clientsList) {
         for (const clientId of clientsList) {
-          player.push(clientId);
+          socketIds.push(clientId);
         }
-        for (let i = 0; i < players.length; i++) {
-          for (let j = 0; j < player.length; j++) {
-            if (players[i].socketId === player[j]) {
-              roomList.push(players[i]);
+        for (let i = 0; i < playersList.length; i++) {
+          for (let j = 0; j < socketIds.length; j++) {
+            if (playersList[i].socketId === socketIds[j]) {
+              roomPlayersList.push(playersList[i].nickname);
             }
           }
         }
       }
-      resolve(roomList);
+
+      resolve(roomPlayersList);
     });
   };
 
-  // to get a room's admin:
-  getUser = (io, socketId, room, players) => {
+  // Get a room's admin:
+  getRoomAdmin = (io, socketId, room, playersList) => {
     return new Promise((resolve, reject) => {
-      const player = [];
-      let Admin;
+      const socketIds = [];
       const clientsList = io.sockets.adapter.rooms.get(room?.name);
+      let admin;
+
       if (clientsList) {
         for (const clientId of clientsList) {
-          player.push(clientId);
+          socketIds.push(clientId);
         }
-        for (let i = 0; i < player.length; i++) {
-          if (player[i] === socketId)
-            Admin = players.find((player) => player.socketId === socketId);
+        for (let i = 0; i < socketIds.length; i++) {
+          if (socketIds[i] === socketId)
+            admin = playersList.find((p) => p.socketId === socketId);
         }
-        resolve(Admin);
+
+        resolve(admin);
       }
     });
   };
+
   /*
    **  Tells the room that a player has joined
    */
@@ -95,44 +107,51 @@ class Game {
       // io.to(room).emit('playersJoined', message);
     });
   };
-  /*
-   ** Creates a new room
-   */
-  createRoom = (io, socket, room, players) => {
+
+  // Create a new room:
+  handleCreatingRoom = (io, socket, playersList, room) => {
     return new Promise(async (resolve, reject) => {
-      const player = players.filter((plyr) => plyr.socketId === socket.id);
-      player[0].admin = true;
-      player[0].room = room;
+      const players = playersList.filter((p) => p.socketId === socket.id);
+
+      players[0].setAdminStatus(true);
+      players[0].setRoom(room);
       socket.join(room);
+
       if (
-        player[0]?.name &&
+        players[0]?.nickname &&
         io.to(room).emit('chat', {
-          message: `${player[0]?.name} joined ${room}`,
+          // todo Chat ?
+          message: `${players[0]?.nickname} joined the room "${room}"`,
           type: 'joined'
         })
-      )
-        this.getClient(io, room, players);
+      ) {
+        this.sendRoomPlayersList(io, room, playersList);
+      }
     });
   };
-  /*
-   ** Join Room already created
-   */
-  joinRoom = (io, socket, room, rooms, players) => {
+
+  // Join a room:
+  handleJoiningRoom = (io, socket, room, playersList, roomsList) => {
     return new Promise((resolve, reject) => {
-      const room_data = rooms.find((rm) => rm.name === room);
-      this.getroomUsers(io, room, players).then((users) => {
-        if (users.length < 5) {
-          const player = players.filter((plyr) => plyr.socketId === socket.id);
-          player[0].room = room_data.name;
-          socket.join(room_data.name);
-          this.getClient(io, room_data.name, players);
-          io.to(room_data.name).emit('chat', {
-            message: `${player[0]?.name} joined ${room_data.name}`,
+      const roomData = roomsList.find((rm) => rm.name === room);
+
+      this.getRoomPlayersNicknames(io, room, playersList).then((users) => {
+        if (users.length < MAX_PLAYERS_IN_ROOM) {
+          const players = playersList.filter((p) => p.socketId === socket.id);
+
+          players[0].setRoom(roomData.name);
+          socket.join(roomData.name);
+
+          this.sendRoomPlayersList(io, roomData.name, playersList);
+
+          io.to(roomData.name).emit('chat', {
+            // todo Chat ?
+            message: `${players[0]?.nickname} joined the room "${roomData.name}"`,
             type: 'joined'
           });
-          room_data.players += 1;
-          io.emit('update_rooms', rooms);
-          io.to(room).emit('update_room_data', room_data);
+          roomData.players += 1;
+          io.emit('update_rooms', roomsList);
+          io.to(room).emit('update_room_data', roomData);
         } else {
           io.to(socket.id).emit('room_full');
         }
@@ -140,105 +159,117 @@ class Game {
     });
   };
 
-  /*
-   **  Tells the room that a player has left
-   */
-  leaveRoom = (io, socket, rooms, players) => {
+  // Notify a room that a player has left, change admin of a room:
+  handleLeavingRoom = (io, socket, playersList, roomsList) => {
     return new Promise((resolve, reject) => {
-      const playerremoved = players.find(
-        (player) => player.socketId === socket.id
-      );
-      const room = playerremoved?.room;
-      const Admin = playerremoved?.admin;
-      if (room) {
-        socket.leave(room);
-        io.to(playerremoved.socketId).emit('leaved_room');
-        io.to(room).emit('chat', {
-          message: `${playerremoved.name} Left the room`,
+      const playerToErase = playersList.find((p) => p.socketId === socket.id);
+      const roomToLeave = playerToErase?.room;
+      const isAdmin = playerToErase?.admin;
+
+      if (roomToLeave) {
+        socket.leave(roomToLeave);
+        io.to(playerToErase.socketId).emit('left_room'); // todo was 'leaved_room';
+        io.to(roomToLeave).emit('chat', {
+          // todo Chat ?
+          message: `${playerToErase.nickname} Left the room`,
           type: 'left'
         });
-        io.to(room).emit('clearStages', { username: playerremoved.name });
-        const player = players.filter((plyr) => plyr.socketId === socket.id);
-        const room_data = rooms.find((rm) => rm.name === room);
-        player[0].admin = false;
-        player[0].room = '';
-        player[0].gameOver = false;
-        const playersinRoom = players.filter((plyr) => plyr.room === room);
-        if (!Admin && playersinRoom.length >= 1 && room_data?.state) {
-          room_data.players -= 1;
-          if (playersinRoom.length === 1) {
-            const playerWin = players.find(
-              (p) => p.room === room_data.name && !p.gameOver
+        io.to(roomToLeave).emit('clearStages', {
+          nickname: playerToErase.nickname
+        });
+
+        const playersOnSocket = playersList.filter(
+          (p) => p.socketId === socket.id
+        );
+        const roomData = roomsList.find((rm) => rm.name === roomToLeave);
+
+        playersOnSocket[0].setAdminStatus(false);
+        playersOnSocket[0].setRoom('');
+        playersOnSocket[0].setGameOver(false);
+
+        const playersInRoom = playersList.filter((p) => p.room === roomToLeave);
+
+        if (!isAdmin && playersInRoom.length >= 1 && roomData?.state) {
+          roomData.players -= 1;
+
+          if (playersInRoom.length === 1) {
+            const playerWinner = playersList.find(
+              (p) => p.room === roomData.name && !p.gameOver
             );
-            io.to(playerWin.socketId).emit('Game_finish', { winer: playerWin });
-            io.to(room_data.name).emit('chat', {
-              message: `${playerWin?.name} WIN the game `,
+            io.to(playerWinner.socketId).emit('game_over', {
+              // todo was 'Game_finish';
+              winner: playerWinner
+            });
+            io.to(roomData.name).emit('chat', {
+              message: `${playerWinner?.nickname} WIN the game `,
               type: 'admin'
             });
-            room_data.state = false;
+
+            roomData.state = false;
           }
-          io.emit('update_rooms', rooms);
-          io.to(room).emit('update_room_data', room_data);
-        } else if (Admin && playersinRoom.length >= 1 && room_data?.state) {
-          room_data.players -= 1;
-          playersinRoom[0].admin = true;
-          if (playersinRoom.length === 1) {
-            const playerWin = players.find(
-              (p) => p.room === room_data.name && !p.gameOver
+
+          io.emit('update_rooms', roomsList);
+          io.to(roomToLeave).emit('update_room_data', roomData);
+        } else if (isAdmin && playersInRoom.length >= 1 && roomData?.state) {
+          roomData.players -= 1;
+          playersInRoom[0].setAdminStatus(true);
+
+          if (playersInRoom.length === 1) {
+            const playerWinner = playersList.find(
+              (p) => p.room === roomData.name && !p.gameOver
             );
-            io.to(playerWin.socketId).emit('Game_finish', { winer: playerWin });
-            io.to(room_data.name).emit('chat', {
-              message: `${playerWin?.name} WIN the game `,
+            io.to(playerWinner.socketId).emit('game_over', {
+              // todo was 'Game_finish';
+              winner: playerWinner
+            });
+            io.to(roomData.name).emit('chat', {
+              // todo Chat ?
+              message: `${playerWinner?.nickname} wins the game!`,
               type: 'admin'
             });
-            room_data.state = false;
+            roomData.state = false;
           }
-          io.to(room).emit('update_room_data', room_data);
-          io.emit('update_rooms', rooms);
-          io.to(room).emit('chat', {
-            message: `${playersinRoom[0].name} is the Admin now`,
+
+          io.to(roomToLeave).emit('update_room_data', roomData);
+          io.emit('update_rooms', roomsList);
+          io.to(roomToLeave).emit('chat', {
+            // todo Chat ?
+            message: `${playersInRoom[0].nickname} gets admin status`,
             type: 'admin'
           });
-          resolve({ status: true, playerremoved, rooms });
-        } else if (!Admin && playersinRoom.length >= 1 && !room_data.state) {
-          room_data.players -= 1;
-          io.emit('update_rooms', rooms);
-          io.to(room).emit('update_room_data', room_data);
-        } else if (Admin && playersinRoom.length >= 1 && !room_data.state) {
-          playersinRoom[0].admin = true;
-          room_data.players -= 1;
-          io.to(room).emit('update_room_data', room_data);
-          io.emit('update_rooms', rooms);
-          io.to(room).emit('chat', {
-            message: `${playersinRoom[0].name} is the Admin now`,
+
+          resolve({ status: true, playerToErase, roomsList });
+        } else if (!isAdmin && playersInRoom.length >= 1 && !roomData.state) {
+          roomData.players -= 1;
+          io.emit('update_rooms', roomsList);
+          io.to(roomToLeave).emit('update_room_data', roomData);
+        } else if (isAdmin && playersInRoom.length >= 1 && !roomData.state) {
+          playersInRoom[0].setAdminStatus(true);
+          roomData.players -= 1;
+
+          io.to(roomToLeave).emit('update_room_data', roomData);
+          io.emit('update_rooms', roomsList);
+          io.to(roomToLeave).emit('chat', {
+            message: `${playersInRoom[0].nickname} gets admin status`,
             type: 'admin'
           });
-          resolve({ status: true, playerremoved, rooms });
+          resolve({ status: true, playerToErase, roomsList });
         } else {
-          const newrooms = rooms.filter((rm) => rm.name !== room);
-          socket.emit('update_roomList', newrooms);
-          rooms = newrooms;
-          io.emit('update_rooms', rooms);
-          io.to(room).emit('update_room_data', []);
-          resolve({ status: true, playerremoved, rooms });
+          const newRoomsList = roomsList.filter(
+            (rm) => rm.name !== roomToLeave
+          );
+          socket.emit('update_roomList', newRoomsList);
+          roomsList = newRoomsList;
+          io.emit('update_rooms', roomsList);
+          io.to(roomToLeave).emit('update_room_data', []);
+          resolve({ status: true, playerToErase, roomsList });
         }
       } else {
-        resolve({ status: true, playerremoved, rooms });
+        resolve({ status: true, playerToErase, roomsList });
       }
     });
   };
-  /*
-   ** Delete Player from players list
-   */
-  deletePlayer = (socket, players) => {
-    return new Promise((resolve, reject) => {
-      const player = players.filter((plyr) => plyr.socketId !== socket.id);
-      players = player;
-    });
-  };
-  /*
-   ** Starts the game
-   */
+
   startGame = (io, room, Tetrimios) => {
     return new Promise((resolve, reject) => {
       if (!room.state) {
@@ -247,15 +278,13 @@ class Game {
       }
     });
   };
+
   newTetriminos = (io, room, Tetrimios) => {
     return new Promise((resolve, reject) => {
       io.to(room).emit('newTetriminos', Tetrimios);
     });
   };
 
-  /*
-   ** semd Stage state to room
-   */
   sendStage = (io, room, stage, username) => {
     return new Promise((resolve, reject) => {
       io.to(room).emit('getstages', { stage, username });
@@ -271,70 +300,77 @@ class Game {
     });
   };
 
-  /*
-   ** Change room mode solo/buttle
-   */
-  updateroomMode = (io, data, rooms) => {
+  toggleGameMode = (io, data, roomsList) => {
     return new Promise((resolve, reject) => {
-      const room = rooms.filter((room) => room.name === data.roomName);
+      const room = roomsList.filter((room) => room.name === data.roomName);
+
       if (room[0].players === 1) {
         room[0].mode = data.mode;
-        if (data.mode === 'batlle') room[0].maxplayers = 5;
-        else room[0].maxplayers = 1;
+        if (data.mode === 'competition')
+          room[0].maxPlayers = MAX_PLAYERS_IN_ROOM;
+        else room[0].maxPlayers = 1;
       }
+
       io.to(data.roomName).emit('update_room_data', room[0]);
-      io.emit('update_rooms', rooms);
+      io.emit('update_rooms', roomsList);
     });
   };
 
-  /*
-   ** Handle Game over state
-   */
-  GameOver = (io, data, rooms, players) => {
+  handleGameOver = (io, data, playersList, roomsList) => {
     return new Promise((resolve, reject) => {
-      const room = rooms.find((room) => room?.name === data?.room);
-      const player = players.find((player) => player?.name === data?.userName);
+      const room = roomsList.find((room) => room?.name === data?.room);
+      const player = playersList.find(
+        (player) => player?.nickname === data?.nickname
+      );
+
       if (room?.players === 1) {
         room.state = false;
-        io.emit('update_rooms', rooms);
+        io.emit('update_rooms', roomsList);
       }
       if (
-        room?.mode === 'batlle' &&
+        room?.mode === 'competition' &&
         player?.room === room?.name &&
         !player.gameOver
       ) {
         player.gameOver = true;
         io.to(room.name).emit('chat', {
-          message: `${player?.name} lose`,
+          message: `${player?.nickname} lose`,
           type: 'joined'
         });
-        this.getroomUsersDetails(io, room.name, players).then((res) => {
-          const playersLose = players.filter(
+
+        this.getRoomPlayersDetails(io, room.name, playersList).then((res) => {
+          const losers = playersList.filter(
             (p) => p.room === room.name && p.gameOver
           );
-          if (res.length === playersLose.length) {
+
+          if (res.length === losers.length) {
             room.state = false;
-            playersLose.forEach((element) => {
+            losers.forEach((element) => {
               element.gameOver = false;
             });
-            io.emit('update_rooms', rooms);
+            io.emit('update_rooms', roomsList);
           }
           if (
-            res.length <= 5 &&
+            res.length <= MAX_PLAYERS_IN_ROOM &&
             res.length >= 2 &&
-            res.length - 1 === playersLose.length
+            res.length - 1 === losers.length
           ) {
-            const playerWin = players.find(
+            const playerWinner = playersList.find(
               (p) => p.room === room.name && !p.gameOver
             );
-            io.to(playerWin.socketId).emit('Game_finish', { winer: playerWin });
+
+            io.to(playerWinner.socketId).emit('game_over', {
+              // todo was 'Game_finish';
+              winner: playerWinner
+            });
             io.to(room.name).emit('chat', {
-              message: `${playerWin?.name} WIN the game `,
+              message: `${playerWinner?.nickname} wins the game!`,
               type: 'admin'
             });
+
             room.state = false;
-            io.emit('update_rooms', rooms);
-            playersLose.forEach((element) => {
+            io.emit('update_rooms', roomsList);
+            losers.forEach((element) => {
               element.gameOver = false;
             });
           }
