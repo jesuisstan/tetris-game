@@ -75,7 +75,7 @@ const io = new Server(server, {
     origin: `${process.env.REACT_APP_HOST}:${process.env.REACT_APP_FRONTEND_PORT}`,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
-  }
+  },
   //path: '/socket'
 });
 
@@ -96,9 +96,9 @@ io.on('connection', async (socket) => {
   socket.on('user_logged_in', async (data) => {
     try {
       // Create a new Player instance with the received data
-      const newPlayer = new Player(data); // todo data should contain socketId
+      const newPlayer = new Player(data, socket.id); // todo data should contain socketId
       playersList.addNewPlayer(newPlayer);
-
+console.log('playersList:', playersList) // todo delete
       // Emit a welcome message to the client
       socket.emit('welcome', {
         message: `Welcome, ${newPlayer.nickname}!`
@@ -200,10 +200,10 @@ io.on('connection', async (socket) => {
         ...roomsList,
         {
           name: data,
-          state: false,
           mode: 'solo',
           maxPlayers: 1,
-          playersList: 1
+          playersList: 1,
+          state: false
         }
       ];
       GameTetris.handleCreatingRoom(io, socket, data, playersList);

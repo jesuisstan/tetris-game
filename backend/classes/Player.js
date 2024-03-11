@@ -5,9 +5,9 @@ import jwt from 'jsonwebtoken';
 import { createError } from '../utils.js';
 
 class Player extends User {
-  constructor(userData) {
+  constructor(userData, socketId) {
     super(userData);
-    this.socketId = '';
+    this.socketId = socketId;
     this.admin = false;
     this.room = '';
     this.gameOver = false;

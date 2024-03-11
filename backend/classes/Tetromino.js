@@ -4,6 +4,7 @@ class Tetromino {
   // method to generate a random tetromino:
   createRandomTetromino() {
     let randomTetrimino = Math.floor(Math.random() * 7);
+
     switch (randomTetrimino) {
       case 0:
         return 'I';
@@ -25,9 +26,11 @@ class Tetromino {
   // method to get an array of 20 random tetrominoes:
   getTetrominoes() {
     let tetrominoes = [];
+
     for (let i = 0; i < 20; i++) {
       tetrominoes.push(this.createRandomTetromino());
     }
+
     return tetrominoes;
   }
 }
