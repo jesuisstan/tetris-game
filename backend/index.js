@@ -12,6 +12,8 @@ import Game from './classes/Game.js';
 import Tetromino from './classes/Tetromino.js';
 import PlayersList from './classes/PlayersList.js';
 
+dotenv.config();
+
 export const MAX_PLAYERS_IN_ROOM =
   Number(process.env.REACT_APP_MAX_PLAYERS_IN_ROOM) || 4;
 
@@ -21,8 +23,6 @@ let playersList = new PlayersList();
 
 const app = express();
 app.use(express.json());
-
-dotenv.config();
 
 const connectToDatabase = () => {
   mongoose
@@ -75,7 +75,7 @@ const io = new Server(server, {
     origin: `${process.env.REACT_APP_HOST}:${process.env.REACT_APP_FRONTEND_PORT}`,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
-  },
+  }
   //path: '/socket'
 });
 
@@ -87,7 +87,10 @@ io.on('connection', async (socket) => {
   try {
     // Initialize an empty send buffer for each socket connection:
     socket.sendBuffer = [];
-    console.log('A new client connected: ', socket.handshake.headers.origin);
+    console.log(
+      'A new client connected from:',
+      socket.handshake.headers.referer
+    );
   } catch (error) {
     // Catch and log any errors that might occur during initialization:
     console.error(error.message);
@@ -98,7 +101,7 @@ io.on('connection', async (socket) => {
       // Create a new Player instance with the received data
       const newPlayer = new Player(data, socket.id); // todo data should contain socketId
       playersList.addNewPlayer(newPlayer);
-console.log('playersList:', playersList) // todo delete
+      console.log('playersList:', playersList); // todo delete
       // Emit a welcome message to the client
       socket.emit('welcome', {
         message: `Welcome, ${newPlayer.nickname}!`
@@ -171,7 +174,8 @@ console.log('playersList:', playersList) // todo delete
             }
           ];
           GameTetris.handleCreatingRoom(io, socket, playersList, data.room);
-          io.emit('update_rooms', roomsList);
+          console.log('roomsList', roomsList); // todo delete
+          io.emit('update_rooms', { roomsList });
         } else if (
           rm.mode === 'competition' &&
           rm.state === false &&
@@ -194,22 +198,24 @@ console.log('playersList:', playersList) // todo delete
   });
 
   socket.on('create_room', async (data) => {
-    const rm = roomsList.find((rom) => rom.name === data);
+    const rm = roomsList.find((rom) => rom.name === data.room);
     if (rm === undefined) {
       roomsList = [
         ...roomsList,
         {
-          name: data,
-          mode: 'solo',
-          maxPlayers: 1,
+          name: data.room,
+          mode: data.gameMode,
+          maxPlayers: data.gameMode === 'solo' ? 1 : MAX_PLAYERS_IN_ROOM,
           playersList: 1,
           state: false
         }
       ];
-      GameTetris.handleCreatingRoom(io, socket, data, playersList);
-      io.emit('update_rooms', roomsList);
+      GameTetris.handleCreatingRoom(io, socket, playersList, data.room);
+      console.log('roomsList', roomsList); // todo delete
+
+      io.emit('update_rooms', { roomsList });
     } else {
-      io.to(socket.id).emit('room_exist');
+      io.to(socket.id).emit('room_already_exists');
     }
   });
 

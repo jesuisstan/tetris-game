@@ -1,7 +1,5 @@
 import { useEffect } from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { setUser } from './store/user-slice';
 import Home from './components/Home.page';
 import NotFound from './components/NotFound.page';
 import Lobby from './components/Lobby/Lobby.page';
@@ -10,7 +8,15 @@ import PleaseLogin from './components/Login/PleaseLogin';
 import GameLayout from './components/Game/GameLayout';
 import * as utils from './utils/auth-handlers';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from './store/user-slice';
+
 import './styles/index.css';
+
+import io from 'socket.io-client';
+
+const baseUrl = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_FRONTEND_PORT}`;
+const socket = io.connect(baseUrl); // todo
 
 const App = () => {
   const dispatch = useDispatch();
@@ -34,14 +40,16 @@ const App = () => {
         <Routes>
           <Route path="/" element={<MainLayout />}>
             <Route index={true} element={<Home />} />
+
             <Route path="login" element={<PleaseLogin />} />
 
             <Route path="*" element={<NotFound />} />
 
             <Route
               path="lobby"
-              element={user.nickname ? <Lobby /> : <PleaseLogin />}
+              element={user.nickname ? <Lobby socket={socket}/> : <PleaseLogin socket={socket}/>}
             />
+
             <Route path="/tetris/:room?" element={<GameLayout />} />
           </Route>
         </Routes>

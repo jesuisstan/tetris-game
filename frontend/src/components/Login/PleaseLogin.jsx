@@ -11,15 +11,10 @@ import { useDispatch } from 'react-redux';
 import { setUser } from '../../store/user-slice';
 import TetrisLoader from '../UI/TetrisLoader';
 
-import io from 'socket.io-client';
-
 import * as MUI from '../../styles/MUIstyles';
 import styles from '../../styles/login.module.css';
 
-const baseUrl = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_FRONTEND_PORT}`;
-const socket = io.connect(baseUrl);
-
-const PleaseLogin = () => {
+const PleaseLogin = ({socket}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);

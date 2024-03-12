@@ -98,7 +98,7 @@ const JoinRoomBlock = () => {
         gap: '21px'
       }}
     >
-      <h1>Join a room</h1>
+      <h1>Join room</h1>
       <Paper sx={{ width: '100%' }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">

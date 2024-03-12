@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import io from 'socket.io-client';
+//import io from 'socket.io-client';
 import { useDispatch, useSelector } from 'react-redux';
 import Tetris from './Tetris';
 import { useGameOver } from '../../hooks/useGameOver';
@@ -9,8 +9,8 @@ import errorAlert from '../../utils/error-alert';
 
 import * as MUI from '../../styles/MUIstyles';
 
-const baseUrl = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_FRONTEND_PORT}`;
-const socket = io.connect(baseUrl);
+//const baseUrl = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_FRONTEND_PORT}`;
+//const socket = io.connect(baseUrl);
 
 const GameLayout = () => {
   const navigate = useNavigate();
@@ -26,24 +26,24 @@ const GameLayout = () => {
     player.role = user.nickname === matches[1] ? 'host' : 'guest';
   }
 
-  useEffect(() => {
-    if (player.nickname && player.room) {
-      socket.emit('join_room', { player });
-    } else {
-      navigate('/not-found');
-    }
-  }, []);
+  //useEffect(() => {
+  //  if (player.nickname && player.room) {
+  //    socket.emit('join_room', { player });
+  //  } else {
+  //    navigate('/not-found');
+  //  }
+  //}, []);
 
-  useEffect(() => {
-    socket.on('message', ({ data }) => {
-      console.log('data from server:', data);
-    });
+  //useEffect(() => {
+  //  socket.on('message', ({ data }) => {
+  //    console.log('data from server:', data);
+  //  });
 
-    socket.on('roomFull', ({ message }) => {
-      errorAlert(message);
-      navigate('/lobby');
-    });
-  }, []);
+  //  socket.on('roomFull', ({ message }) => {
+  //    errorAlert(message);
+  //    navigate('/lobby');
+  //  });
+  //}, []);
 
   const [gameOver, setGameOver, resetGameOver] = useGameOver();
   const start = () => resetGameOver();

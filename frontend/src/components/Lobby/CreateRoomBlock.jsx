@@ -1,18 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import LoadingButton from '@mui/lab/LoadingButton';
 import FormInput from '../../components/UI/FormInput';
 import Stack from '@mui/material/Stack';
+import RadioButtonsGroup from '../UI/RadioButtonsGroup';
 
 import * as MUI from '../../styles/MUIstyles';
 import styles from '../../styles/lobby-page.module.css';
 
-const CreateRoomBlock = () => {
+const CreateRoomBlock = ({ socket }) => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
   const [room, setRoom] = useState('');
+  const [gameMode, setGameMode] = useState('solo');
 
   const onChange = (event) => {
     const { value } = event.target;
@@ -24,8 +26,25 @@ const CreateRoomBlock = () => {
     event.preventDefault();
     setLoading(true);
     const roomUri = `/tetris/${room}[${user.nickname}]`;
+
+    //socket.emit('create_user_room', { ...user, room: room }); // todo
+
+    socket.emit('create_room', { room, gameMode }); // todo
+
     navigate(roomUri);
   };
+
+  // listen to mesages from server:
+  useEffect(() => {
+    socket.on('update_rooms', (data) => {
+      const updatedRoomsList = data.roomsList;
+      console.log('updated RoomsList', updatedRoomsList);
+    });
+
+    socket.on('room_already_exists', () => {
+      console.log('room_already_exists!!!');
+    });
+  }, []);
 
   return (
     <div
@@ -36,7 +55,7 @@ const CreateRoomBlock = () => {
         gap: '21px'
       }}
     >
-      <h1>Create a room</h1>
+      <h1>Create room</h1>
       <Stack spacing={2}>
         <div
           style={{
@@ -63,6 +82,8 @@ const CreateRoomBlock = () => {
               value={room}
               onChange={onChange}
             />
+
+            <RadioButtonsGroup value={gameMode} setValue={setGameMode} />
 
             <LoadingButton
               type="submit"

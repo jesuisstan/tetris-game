@@ -112,9 +112,15 @@ class Game {
   handleCreatingRoom = (io, socket, playersList, room) => {
     return new Promise(async (resolve, reject) => {
       const players = playersList.filter((p) => p.socketId === socket.id);
+console.log('playersList from handleCreatingRoom', playersList) // todo
+console.log('player[0]', players[0]) // todo
 
-      players[0].setAdminStatus(true);
-      players[0].setRoom(room);
+      //players[0].setAdminStatus(true);
+      //players[0].setRoom(room);
+
+      players[0].admin = true;
+      players[0].room = room;
+
       socket.join(room);
 
       if (
