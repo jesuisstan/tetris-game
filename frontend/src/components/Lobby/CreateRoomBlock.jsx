@@ -73,9 +73,9 @@ const CreateRoomBlock = ({ socket }) => {
                 name: 'room',
                 type: 'text',
                 //placeholder: 'room name',
-                errorMessage: 'Max 20 characters. Allowed: a-Z 0-9',
+                errorMessage: 'Max 10 characters. Allowed: a-Z 0-9',
                 label: 'Room name',
-                pattern: '^[A-Za-z0-9]{1,20}$',
+                pattern: '^[A-Za-z0-9]{1,10}$',
                 required: true,
                 autoComplete: 'off'
               }}

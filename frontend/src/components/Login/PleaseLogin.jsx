@@ -14,7 +14,7 @@ import TetrisLoader from '../UI/TetrisLoader';
 import * as MUI from '../../styles/MUIstyles';
 import styles from '../../styles/login.module.css';
 
-const PleaseLogin = ({socket}) => {
+const PleaseLogin = ({ socket }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -90,7 +90,9 @@ const PleaseLogin = ({socket}) => {
       }}
     >
       {loading ? (
-        <TetrisLoader />
+        <div className={styles.centered}>
+          <TetrisLoader />
+        </div>
       ) : (
         <div
           style={{

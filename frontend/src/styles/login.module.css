@@ -4,3 +4,11 @@
   gap: 21px;
   margin: 21px 21px 0;
 }
+
+.centered {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 82.2vh;
+}

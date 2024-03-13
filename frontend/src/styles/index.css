@@ -38,7 +38,7 @@ a {
 }
 
 a:hover {
-  color: var(--TETRIS_GREEN);
+  color: var(--TETRIS_PINK);
 }
 
 nav {
@@ -66,6 +66,6 @@ h2 {
 }
 
 .active {
-  color: var(--TETRIS_PINK);
+  color: var(--TETRIS_GREEN);
   text-decoration: none;
 }

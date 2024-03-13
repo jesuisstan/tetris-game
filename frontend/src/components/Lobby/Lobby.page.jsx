@@ -10,9 +10,9 @@ const Lobby = ({ socket }) => {
       <h1>Game lobby</h1>
       <div className={styles.wrapper}>
         <div>
-          <h2 className={styles.leftHeader}>Join room</h2>
+          <h2 className={styles.leftHeader}>Create room</h2>
           <div className={styles.left}>
-            <JoinRoomBlock socket={socket}/>
+            <CreateRoomBlock socket={socket} />
           </div>
         </div>
 
@@ -21,9 +21,9 @@ const Lobby = ({ socket }) => {
         </div>
 
         <div>
-          <h2 className={styles.rightHeader}>Create room</h2>
+          <h2 className={styles.rightHeader}>Join room</h2>
           <div className={styles.right}>
-            <CreateRoomBlock socket={socket} />
+            <JoinRoomBlock socket={socket} />
           </div>
         </div>
       </div>
