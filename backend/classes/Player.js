@@ -15,8 +15,8 @@ class Player extends User {
 
   static async signup(req, res, next) {
     try {
-      const existingUserByEmail = await User.findOne({ email: req.body.email });
-      const existingUserByNickname = await User.findOne({
+      const existingUserByEmail = await Player.findOne({ email: req.body.email });
+      const existingUserByNickname = await Player.findOne({
         nickname: req.body.nickname
       });
 
@@ -42,7 +42,7 @@ class Player extends User {
 
   static async signin(req, res, next) {
     try {
-      const user = await User.findOne({ email: req.body.email });
+      const user = await Player.findOne({ email: req.body.email });
 
       if (!user) return next(createError(451, 'User not found!'));
 
@@ -82,7 +82,7 @@ class Player extends User {
       const userId = req.userId;
 
       // Fetch the user data from the database using the user ID
-      const user = await User.findById(userId).select('-password');
+      const user = await Player.findById(userId).select('-password');
 
       if (!user) {
         return res.status(404).json({ message: 'User not found!' });

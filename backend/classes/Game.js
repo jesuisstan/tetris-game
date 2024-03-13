@@ -97,6 +97,13 @@ class Game {
     });
   };
 
+  sendMessage = (io, data) => {
+		return new Promise((resolve, reject) => {
+			io.to(data.room).emit("chat", { name: data.name, message: data.message, type: data.type });
+			resolve(true);
+		});
+	};
+  
   /*
    **  Tells the room that a player has joined
    */
@@ -112,14 +119,9 @@ class Game {
   handleCreatingRoom = (io, socket, playersList, room) => {
     return new Promise(async (resolve, reject) => {
       const players = playersList.filter((p) => p.socketId === socket.id);
-console.log('playersList from handleCreatingRoom', playersList) // todo
-console.log('player[0]', players[0]) // todo
 
-      //players[0].setAdminStatus(true);
-      //players[0].setRoom(room);
-
-      players[0].admin = true;
-      players[0].room = room;
+      players[0].setAdminStatus(true);
+      players[0].setRoom(room);
 
       socket.join(room);
 

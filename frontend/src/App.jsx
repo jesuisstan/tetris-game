@@ -47,7 +47,13 @@ const App = () => {
 
             <Route
               path="lobby"
-              element={user.nickname ? <Lobby socket={socket}/> : <PleaseLogin socket={socket}/>}
+              element={
+                user.nickname ? (
+                  <Lobby socket={socket} />
+                ) : (
+                  <PleaseLogin socket={socket} />
+                )
+              }
             />
 
             <Route path="/tetris/:room?" element={<GameLayout />} />

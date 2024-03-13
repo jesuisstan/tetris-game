@@ -85,6 +85,10 @@
     justify-content: center;
     margin-bottom: 21px;
   }
+  .left {
+    justify-content: center;
+    margin-bottom: 21px;
+  }
   .deviderTetris {
     display: none;
   }
