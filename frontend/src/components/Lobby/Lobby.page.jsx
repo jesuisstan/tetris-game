@@ -1,23 +1,31 @@
 import CreateRoomBlock from './CreateRoomBlock';
 import JoinRoomBlock from './JoinRoomBlock';
+import DeviderTetris from '../UI/DeviderTetris';
 
-import styles from '../../styles/lobby-page.module.css';
+import styles from '../../styles/lobby.module.css';
 
 const Lobby = ({ socket }) => {
   return (
-    <div className={styles.mainWrapper}>
-      {/*<CreateRoomBlock socket={socket} />
-      <div style={{ color: 'var(--TETRIS_GREEN)' }}>----- OR -----</div>
-      <JoinRoomBlock />*/}
+    <div className={styles.lobbyCard}>
+      <h1>Game lobby</h1>
+      <div className={styles.wrapper}>
+        <div>
+          <h2 className={styles.leftHeader}>Join room</h2>
+          <div className={styles.left}>
+            <JoinRoomBlock socket={socket}/>
+          </div>
+        </div>
 
-      <div className={styles.sideBlock}>
-        <CreateRoomBlock socket={socket} />
-      </div>
-      {/*<div className={styles.middleBlock}>
-        <div style={{ color: 'var(--TETRIS_GREEN)' }}>--- OR ---</div>
-      </div>*/}
-      <div className={styles.sideBlock}>
-        <JoinRoomBlock />
+        <div className={styles.deviderTetris}>
+          <DeviderTetris />
+        </div>
+
+        <div>
+          <h2 className={styles.rightHeader}>Create room</h2>
+          <div className={styles.right}>
+            <CreateRoomBlock socket={socket} />
+          </div>
+        </div>
       </div>
     </div>
   );

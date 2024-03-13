@@ -1,0 +1,91 @@
+.lobbyCard {
+  margin-top: 21px;
+  width: 100%;
+  height: 100%;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.wrapper {
+  margin-top: 21px;
+  align-self: center;
+  display: flex;
+  flex-direction: row;
+  transition: transform 0.3s ease-out;
+  gap: 100px;
+}
+
+.left {
+  display: flex;
+  flex: 1;
+  align-items: top;
+  justify-content: flex-end;
+  width: 500px;
+}
+
+.leftHeader {
+  text-align: right;
+  margin-bottom: 42px;
+}
+
+.right {
+  display: flex;
+  flex: 1;
+  align-items: top;
+  justify-content: flex-start;
+  width: 500px;
+}
+
+.rightHeader {
+  text-align: left;
+  margin-bottom: 42px;
+}
+
+.line {
+  width: 1px;
+  height: 75%;
+  background-color: whitesmoke;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: -1;
+}
+
+.formWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  text-align: left;
+  gap: 21px;
+}
+
+.deviderTetris {
+  display: flex;
+}
+
+@media (max-width: 1024px) {
+  .wrapper {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 42px;
+  }
+  .rightHeader,
+  .leftHeader {
+    text-align: center;
+    margin-bottom: 21px;
+  }
+  .right {
+    justify-content: center;
+    margin-bottom: 21px;
+  }
+  .deviderTetris {
+    display: none;
+  }
+}

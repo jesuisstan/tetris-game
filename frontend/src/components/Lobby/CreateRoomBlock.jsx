@@ -5,9 +5,10 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import FormInput from '../../components/UI/FormInput';
 import Stack from '@mui/material/Stack';
 import RadioButtonsGroup from '../UI/RadioButtonsGroup';
+import errorAlert from '../../utils/error-alert';
 
 import * as MUI from '../../styles/MUIstyles';
-import styles from '../../styles/lobby-page.module.css';
+import styles from '../../styles/lobby.module.css';
 
 const CreateRoomBlock = ({ socket }) => {
   const navigate = useNavigate();
@@ -30,19 +31,19 @@ const CreateRoomBlock = ({ socket }) => {
     //socket.emit('create_user_room', { ...user, room: room }); // todo
 
     socket.emit('create_room', { room, gameMode }); // todo
-
-    navigate(roomUri);
+    setLoading(false);
+    //navigate(roomUri);
   };
 
   // listen to mesages from server:
   useEffect(() => {
-    socket.on('update_rooms', (data) => {
-      const updatedRoomsList = data.roomsList;
-      console.log('updated RoomsList', updatedRoomsList);
-    });
+    //socket.on('update_rooms', (data) => {
+    //  const updatedRoomsList = data.roomsList;
+    //  console.log('updated RoomsList', updatedRoomsList);
+    //});
 
     socket.on('room_already_exists', () => {
-      console.log('room_already_exists!!!');
+      errorAlert('Room with such a name already exists');
     });
   }, []);
 
@@ -55,7 +56,6 @@ const CreateRoomBlock = ({ socket }) => {
         gap: '21px'
       }}
     >
-      <h1>Create room</h1>
       <Stack spacing={2}>
         <div
           style={{

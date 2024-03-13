@@ -1,9 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LoadingButton from '@mui/lab/LoadingButton';
-import FormInput from '../../components/UI/FormInput';
-import Stack from '@mui/material/Stack';
-
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -14,16 +10,12 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 
 import * as MUI from '../../styles/MUIstyles';
-import styles from '../../styles/lobby-page.module.css';
+import styles from '../../styles/lobby.module.css';
 
-const JoinRoomBlock = () => {
+const JoinRoomBlock = ({ socket }) => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [values, setValues] = useState({
-    nickname: '',
-    room: ''
-  });
-
+  //const [roomsList, setRoomsList] = useState([]);
+  let roomsList = [];
   //const onChange = (event) => {
   //  const { name, value } = event.target;
   //  let modifiedValue = value.replace(/\s/g, '');
@@ -38,45 +30,28 @@ const JoinRoomBlock = () => {
   //};
 
   const columns = [
-    { id: 'roomName', label: 'Room name', minWidth: 170 },
+    { id: 'roomName', label: 'Room name', minWidth: 150 },
     {
-      id: 'owner',
-      label: 'Owner',
-      minWidth: 170,
+      id: 'mode',
+      label: 'Game mode',
+      minWidth: 150,
       align: 'right',
       format: (value) => value.toLocaleString('en-US')
     },
     {
-      id: 'action',
-      label: 'Action',
-      minWidth: 170,
+      id: 'players',
+      label: 'Players',
+      minWidth: 150,
       align: 'right',
       format: (value) => value.toLocaleString('en-US')
     }
   ];
 
-  function createData(roomName, owner, action) {
-    return { roomName, owner, action };
+  function createData(roomName, mode, players) {
+    return { roomName, mode, players };
   }
 
-  const rows = [
-    createData('India', 'IN', 1324171354),
-    createData('China', 'CN', 1403500365),
-    createData('Italy', 'IT', 60483973),
-    createData('United States', 'US', 327167434),
-    createData('Canada', 'CA', 37602103),
-    createData('Australia', 'AU', 25475400),
-    createData('Germany', 'DE', 83019200),
-    createData('Ireland', 'IE', 4857000),
-    createData('Mexico', 'MX', 126577691),
-    createData('Japan', 'JP', 126317000),
-    createData('France', 'FR', 67022000),
-    createData('United Kingdom', 'GB', 67545757),
-    createData('Russia', 'RU', 146793744),
-    createData('Nigeria', 'NG', 200962417),
-    createData('Brazil', 'BR', 210147125)
-  ];
-
+  const [rows, setRows] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -89,6 +64,20 @@ const JoinRoomBlock = () => {
     setPage(0);
   };
 
+  useEffect(() => {
+    socket.on('update_rooms', (data) => {
+      setRows(
+        data.roomsList.map((item) =>
+          createData(item.name, item.mode, item.playersList)
+        )
+      );
+
+      console.log('data.roomsList', data.roomsList);
+
+      console.log('updated RoomsList', roomsList);
+    });
+  }, [socket]);
+
   return (
     <div
       style={{
@@ -98,7 +87,6 @@ const JoinRoomBlock = () => {
         gap: '21px'
       }}
     >
-      <h1>Join room</h1>
       <Paper sx={{ width: '100%' }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
@@ -132,7 +120,11 @@ const JoinRoomBlock = () => {
                       {columns.map((column) => {
                         const value = row[column.id];
                         return (
-                          <TableCell key={column.id} align={column.align}>
+                          <TableCell
+                            key={column.id}
+                            align={column.align}
+                            onClick={() => console.log('clicked row')}
+                          >
                             {column.format && typeof value === 'number'
                               ? column.format(value)
                               : value}
