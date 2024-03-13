@@ -47,9 +47,9 @@ const JoinRoomBlock = ({ socket }) => {
     }
   ];
 
-  function createData(roomName, mode, players) {
+  const createData = (roomName, mode, players) => {
     return { roomName, mode, players };
-  }
+  };
 
   const [rows, setRows] = useState([]);
   const [page, setPage] = useState(0);
@@ -64,19 +64,22 @@ const JoinRoomBlock = ({ socket }) => {
     setPage(0);
   };
 
+  console.log('updated RoomsList', roomsList);
   useEffect(() => {
     socket.on('update_rooms', (data) => {
       setRows(
         data.roomsList.map((item) =>
-          createData(item.name, item.mode, item.playersList)
+          createData(item.name, item.mode, item.players)
         )
       );
 
       console.log('data.roomsList', data.roomsList);
-
-      console.log('updated RoomsList', roomsList);
     });
   }, [socket]);
+
+  const joinRoom = (roomName) => {
+    socket.emit('join_room', { roomName }); // todo
+  };
 
   return (
     <div
@@ -123,7 +126,7 @@ const JoinRoomBlock = ({ socket }) => {
                           <TableCell
                             key={column.id}
                             align={column.align}
-                            onClick={() => console.log('clicked row')}
+                            onClick={() => joinRoom(row.roomName)}
                           >
                             {column.format && typeof value === 'number'
                               ? column.format(value)

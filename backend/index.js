@@ -206,7 +206,7 @@ io.on('connection', async (socket) => {
           name: data.room,
           mode: data.gameMode,
           maxPlayers: data.gameMode === 'solo' ? 1 : MAX_PLAYERS_IN_ROOM,
-          playersList: 1,
+          players: 1,
           state: false
         }
       ];
@@ -220,7 +220,13 @@ io.on('connection', async (socket) => {
   });
 
   socket.on('join_room', (data) => {
-    GameTetris.handleJoiningRoom(io, socket, data, roomsList, playersList);
+    GameTetris.handleJoiningRoom(
+      io,
+      socket,
+      data.roomName,
+      playersList,
+      roomsList
+    );
     io.emit('room_joined', data);
   });
 

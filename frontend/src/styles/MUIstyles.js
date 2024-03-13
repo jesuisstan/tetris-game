@@ -51,7 +51,7 @@ export const LoadButton = {
     backgroundColor: 'var(--TETRIS_PINK)'
   },
   '& .MuiCircularProgress-circle': {
-    color: 'var(--TETRIS_BLACK)'
+    color: 'var(--TETRIS_PINK)'
   }
 };
 

@@ -23,7 +23,7 @@ class Game {
           }
         }
       }
-
+      console.log('roomPlayersList', roomPlayersList); // todo delete
       io.to(room).emit('room_players', roomPlayersList); // todo was "roomPlayers"
     });
   };
@@ -98,12 +98,16 @@ class Game {
   };
 
   sendMessage = (io, data) => {
-		return new Promise((resolve, reject) => {
-			io.to(data.room).emit("chat", { name: data.name, message: data.message, type: data.type });
-			resolve(true);
-		});
-	};
-  
+    return new Promise((resolve, reject) => {
+      io.to(data.room).emit('chat', {
+        name: data.name,
+        message: data.message,
+        type: data.type
+      });
+      resolve(true);
+    });
+  };
+
   /*
    **  Tells the room that a player has joined
    */
@@ -142,11 +146,12 @@ class Game {
   handleJoiningRoom = (io, socket, room, playersList, roomsList) => {
     return new Promise((resolve, reject) => {
       const roomData = roomsList.find((rm) => rm.name === room);
+      console.log('-----------------room---------------', room);
 
       this.getRoomPlayersNicknames(io, room, playersList).then((users) => {
         if (users.length < MAX_PLAYERS_IN_ROOM) {
           const players = playersList.filter((p) => p.socketId === socket.id);
-
+          console.log('!!!!!!!!!!!!', roomData);
           players[0].setRoom(roomData.name);
           socket.join(roomData.name);
 
@@ -157,9 +162,12 @@ class Game {
             message: `${players[0]?.nickname} joined the room "${roomData.name}"`,
             type: 'joined'
           });
+
           roomData.players += 1;
+
           io.emit('update_rooms', roomsList);
           io.to(room).emit('update_room_data', roomData);
+          console.log('NEW RRRRR data', roomsList);
         } else {
           io.to(socket.id).emit('room_full');
         }
@@ -209,7 +217,7 @@ class Game {
               winner: playerWinner
             });
             io.to(roomData.name).emit('chat', {
-              message: `${playerWinner?.nickname} WIN the game `,
+              message: `${playerWinner?.nickname} wins the game!`,
               type: 'admin'
             });
 
@@ -220,6 +228,7 @@ class Game {
           io.to(roomToLeave).emit('update_room_data', roomData);
         } else if (isAdmin && playersInRoom.length >= 1 && roomData?.state) {
           roomData.players -= 1;
+
           playersInRoom[0].setAdminStatus(true);
 
           if (playersInRoom.length === 1) {
@@ -242,7 +251,7 @@ class Game {
           io.emit('update_rooms', roomsList);
           io.to(roomToLeave).emit('chat', {
             // todo Chat ?
-            message: `${playersInRoom[0].nickname} gets admin status`,
+            message: `${playersInRoom[0].nickname} gets admin status.`,
             type: 'admin'
           });
 
@@ -258,7 +267,7 @@ class Game {
           io.to(roomToLeave).emit('update_room_data', roomData);
           io.emit('update_rooms', roomsList);
           io.to(roomToLeave).emit('chat', {
-            message: `${playersInRoom[0].nickname} gets admin status`,
+            message: `${playersInRoom[0].nickname} gets admin status.`,
             type: 'admin'
           });
           resolve({ status: true, playerToErase, roomsList });
