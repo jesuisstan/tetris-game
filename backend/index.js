@@ -1,24 +1,25 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import userRoutes from './routes/usersRoute.js';
-import authRoutes from './routes/authRoute.js';
+import userRoutes from './routes/users-route.js';
+import authRoutes from './routes/auth-route.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import http from 'http';
-import { Server } from 'socket.io';
-import Player from './classes/Player.js';
-import PlayersList from './classes/PlayersList.js';
-import Game from './classes/Game.js';
+import PlayersList from './models/PlayersList.js';
+import RoomsList from './models/RoomsList.js';
+import Game from './models/Game.js';
+import initializeSocket from './socket-manager.js';
 
 dotenv.config();
 
 export const MAX_PLAYERS_IN_ROOM =
   Number(process.env.REACT_APP_MAX_PLAYERS_IN_ROOM) || 4;
 
-let roomsList = [];
-let GameTetris = new Game();
-let playersList = new PlayersList();
+// Declare and export basic game vars:
+export let roomsList = new RoomsList();
+export let gameTetris = new Game();
+export let playersList = new PlayersList();
 
 const app = express();
 app.use(express.json());
@@ -65,207 +66,12 @@ app.use((err, req, res, next) => {
   });
 });
 
-// adjust socket logic:
+// Set up socket connection
 const server = http.createServer(app);
-
-const io = new Server(server, {
-  cors: {
-    //origin: "*",
-    origin: `${process.env.REACT_APP_HOST}:${process.env.REACT_APP_FRONTEND_PORT}`,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true
-  }
-  //path: '/socket'
-});
+initializeSocket(server);
 
 app.get('/rooms', (req, res) => {
   res.send(roomsList);
-});
-
-io.on('connection', async (socket) => {
-  try {
-    // Initialize an empty send buffer for each socket connection:
-    socket.sendBuffer = [];
-    console.log(
-      'A new client connected. Socket id:',
-      socket.id,
-      'Players list:',
-      playersList
-    );
-  } catch (error) {
-    // Catch and log any errors that might occur during initialization:
-    console.error(error.message);
-  }
-
-  socket.on('player_arrived', async (nickname) => {
-    try {
-      // Create a new Player instance with the received data
-      const newPlayer = new Player(nickname, socket.id); // todo data should contain socketId
-      playersList.addNewPlayer(newPlayer);
-      console.log('user_logged_in: playersList:', playersList); // todo delete
-      // Emit a welcome message to the client
-      socket.emit('welcome', {
-        message: `Welcome, ${newPlayer.nickname}!`
-      });
-    } catch (error) {
-      console.error('Error creating new player:', error);
-      socket.emit('welcome_error');
-    }
-  });
-
-  socket.on('disconnect', () => {
-    GameTetris.handleLeavingRoom(io, socket, playersList, roomsList).then(
-      (res) => {
-        if (res.status) {
-          roomsList = res.roomsList;
-          playersList.erasePlayer(res.playerToErase);
-          console.log('NEW LIST', playersList); // todo delete
-
-          console.log(
-            `${res.playerToErase?.nickname} (socket ${res.playerToErase?.socketId}) disconnected`
-          );
-        }
-      }
-    );
-  });
-
-  socket.on('create_user_room', async (data) => {
-    const existingPlayer = playersList.find(
-      (p) => p.nickname === data.nickname
-    );
-    const currentSocketPlayer = playersList.find(
-      (p) => p.nickname === data.nickname && p.socketId === socket.id
-    );
-
-    if (currentSocketPlayer === undefined && existingPlayer?.nickname) {
-      io.to(socket.id).emit('cannot_add_user', { res: true });
-    }
-
-    if (currentSocketPlayer === undefined && !existingPlayer?.nickname)
-      playersList.updatePlayers(socket, data).then((res) => {
-        //playersList = res; // todo no need?
-        const rm = roomsList.find((room) => room.name === data.room);
-        if (rm === undefined) {
-          roomsList = [
-            ...roomsList,
-            {
-              name: data.room,
-              mode: 'solo',
-              maxPlayers: 1,
-              players: 1,
-              state: false
-            }
-          ];
-          GameTetris.handleCreatingRoom(io, socket, playersList, data.room);
-          console.log('roomsList', roomsList); // todo delete
-          io.emit('update_rooms', { roomsList });
-        } else if (
-          rm.mode === 'competition' &&
-          rm.state === false &&
-          rm.players < MAX_PLAYERS_IN_ROOM
-        ) {
-          GameTetris.handleJoiningRoom(
-            io,
-            socket,
-            rm.name,
-            playersList,
-            roomsList
-          );
-        } else {
-          io.to(socket.id).emit('join_denied'); // todo was "joined_denided"
-        }
-      });
-    else {
-      io.to(socket.id).emit('disconnected');
-    }
-  });
-
-  socket.on('create_room', async (data) => {
-    const rm = roomsList.find((rom) => rom.name === data.room);
-    if (rm === undefined) {
-      roomsList = [
-        ...roomsList,
-        {
-          name: data.room,
-          mode: data.gameMode,
-          maxPlayers: data.gameMode === 'solo' ? 1 : MAX_PLAYERS_IN_ROOM,
-          players: 1,
-          state: false
-        }
-      ];
-
-      GameTetris.handleCreatingRoom(io, socket, playersList, data.room);
-
-      io.emit('update_rooms', { roomsList });
-    } else {
-      io.to(socket.id).emit('room_already_exists');
-    }
-  });
-
-  socket.on('join_room', (data) => {
-    GameTetris.handleJoiningRoom(
-      io,
-      socket,
-      data.roomName,
-      playersList,
-      roomsList
-    );
-    io.emit('room_joined', data);
-  });
-
-  socket.on('leave_room', () => {
-    // todo was 'leaveRoom'
-    GameTetris.handleLeavingRoom(io, socket, playersList, roomsList).then(
-      (res) => {
-        if (res.status) roomsList = res.roomsList;
-      }
-    );
-  });
-
-  socket.on('startgame', async (data) => {
-    const room = roomsList.find((room) => room.name === data.room);
-    GameTetris.getRoomAdmin(io, socket.id, room, playersList).then(
-      async (user) => {
-        if (user.admin) {
-          const tetriminos = await Tetromino.getTetriminos();
-          GameTetris.startGame(io, room, tetriminos);
-          io.emit('update_rooms', roomsList);
-        } else {
-          io.to(socket.id).emit('wait_admin');
-        }
-      }
-    );
-    io.emit('game_started');
-  });
-
-  socket.on('newTetriminos', async (data) => {
-    const tetriminos = await Tetromino.getTetriminos();
-    GameTetris.newTetriminos(io, data.room, tetriminos);
-  });
-
-  socket.on('Stage', (data) => {
-    const player = playersList.find((p) => p.nickname === data.nickname);
-    if (player && player.room === data.roomName)
-      GameTetris.sendStage(io, data.roomName, data.stage, data.nickname);
-  });
-
-  socket.on('checkStages', async (data) => {
-    GameTetris.checkStages(io, data.Stages, data.stage, data.room);
-  });
-
-  socket.on('toggle_game_mode', async (data) => {
-    // todo was "updateroomMode"
-    GameTetris.toggleGameMode(io, data, roomsList);
-  });
-
-  socket.on('game_over', async (data) => {
-    // todo was "Game_over"
-    GameTetris.handleGameOver(io, data, playersList, roomsList);
-  });
-
-  socket.on('add_penalty', async (data) => {
-    GameTetris.addPenalty(socket, data.room);
-  });
 });
 
 server.listen(process.env.SERVER_PORT, () => {
