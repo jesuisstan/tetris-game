@@ -118,9 +118,8 @@ const Menu = () => {
           >
             {user.nickname && (
               <div>
-                <MenuItem>
-                  {user.firstName} {user.lastName}
-                </MenuItem>
+                <MenuItem>{user.firstName}</MenuItem>
+                <MenuItem>{user.lastName}</MenuItem>
                 <MenuItem>{user.email}</MenuItem>
                 <Divider />
               </div>

@@ -122,10 +122,11 @@ class Game {
   // Create a new room:
   handleCreatingRoom = (io, socket, playersList, room) => {
     return new Promise(async (resolve, reject) => {
+      console.log('playersList from CREATE', playersList); // todo delete
       const players = playersList.filter((p) => p.socketId === socket.id);
 
-      players[0].setAdminStatus(true);
-      players[0].setRoom(room);
+      players[0]?.setAdminStatus(true);
+      players[0]?.setRoom(room);
 
       socket.join(room);
 

@@ -39,7 +39,7 @@ const PleaseLogin = ({ socket }) => {
         withCredentials: true
       });
       dispatch(setUser(response.data)); // Dispatch setUser action with the fetched user data
-      socket.emit('user_logged_in', response.data);
+      socket?.emit('user_logged_in', response.data); // todo socket
       navigate('/lobby');
     } catch (error) {
       const statusCode = error.response?.status;
@@ -71,12 +71,12 @@ const PleaseLogin = ({ socket }) => {
     });
   };
 
-  // listen to mesages from server:
-  useEffect(() => {
-    socket.on('welcome', ({ message }) => {
-      console.log('message from server:', message);
-    });
-  }, []);
+  //// listen to mesages from server:
+  //useEffect(() => {
+  //  socket.on('welcome', ({ message }) => {
+  //    console.log('message from server:', message);
+  //  });
+  //}, []);
 
   return (
     <div

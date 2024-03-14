@@ -22,17 +22,28 @@ const App = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
 
+  console.log('socket', socket.id); // todo delete
+
   //fetch user data from database
   useEffect(() => {
     const fetchUserData = async () => {
       if (!user._id) {
         const userData = await utils.getUserData();
         dispatch(setUser(userData));
+      } else {
+        socket?.emit('player_arrived', user?.nickname); // todo socket
       }
     };
 
     fetchUserData();
   }, [dispatch, user._id]);
+
+  // listen to mesages from server:
+  useEffect(() => {
+    socket.on('welcome', ({ message }) => {
+      console.log('message from server:', message);
+    });
+  }, []);
 
   return (
     <HashRouter>

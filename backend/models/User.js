@@ -21,22 +21,6 @@ const UserSchema = new mongoose.Schema({
   },
   password: {
     type: String
-  },
-  socketId: {
-    type: String,
-    default: ''
-  },
-  admin: {
-    type: Boolean,
-    default: false
-  },
-  room: {
-    type: String,
-    default: ''
-  },
-  gameOver: {
-    type: Boolean,
-    default: false
   }
 });
 

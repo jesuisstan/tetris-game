@@ -8,9 +8,8 @@ import cors from 'cors';
 import http from 'http';
 import { Server } from 'socket.io';
 import Player from './classes/Player.js';
-import Game from './classes/Game.js';
-import Tetromino from './classes/Tetromino.js';
 import PlayersList from './classes/PlayersList.js';
+import Game from './classes/Game.js';
 
 dotenv.config();
 
@@ -88,20 +87,22 @@ io.on('connection', async (socket) => {
     // Initialize an empty send buffer for each socket connection:
     socket.sendBuffer = [];
     console.log(
-      'A new client connected from:',
-      socket.handshake.headers.referer
+      'A new client connected. Socket id:',
+      socket.id,
+      'Players list:',
+      playersList
     );
   } catch (error) {
     // Catch and log any errors that might occur during initialization:
     console.error(error.message);
   }
 
-  socket.on('user_logged_in', async (data) => {
+  socket.on('player_arrived', async (nickname) => {
     try {
       // Create a new Player instance with the received data
-      const newPlayer = new Player(data, socket.id); // todo data should contain socketId
+      const newPlayer = new Player(nickname, socket.id); // todo data should contain socketId
       playersList.addNewPlayer(newPlayer);
-      console.log('playersList:', playersList); // todo delete
+      console.log('user_logged_in: playersList:', playersList); // todo delete
       // Emit a welcome message to the client
       socket.emit('welcome', {
         message: `Welcome, ${newPlayer.nickname}!`
@@ -112,35 +113,17 @@ io.on('connection', async (socket) => {
     }
   });
 
-  //socket.on('join_room', ({ player }) => {
-  //  const roomIsFull = !checkRoomCapacity(player.room);
-
-  //  if (roomIsFull) {
-  //    // Room is full, reject the player
-  //    socket.emit('roomFull', {
-  //      message: 'The room is full. Please try another room.'
-  //    });
-  //    //socket.disconnect(); // todo
-  //  } else {
-  //    // Room is not full, let the player join
-  //    socket.join(player.room);
-
-  //    socket.emit('message', {
-  //      data: {
-  //        player: { nickname: player.nickname, role: player.role },
-  //        message: `Hey from Server (room: ${player.room})`
-  //      }
-  //    });
-  //  }
-  //});
-
   socket.on('disconnect', () => {
     GameTetris.handleLeavingRoom(io, socket, playersList, roomsList).then(
       (res) => {
         if (res.status) {
           roomsList = res.roomsList;
           playersList.erasePlayer(res.playerToErase);
-          console.log(`${res.playerToErase} disconnected`);
+          console.log('NEW LIST', playersList); // todo delete
+
+          console.log(
+            `${res.playerToErase?.nickname} (socket ${res.playerToErase?.socketId}) disconnected`
+          );
         }
       }
     );
@@ -210,8 +193,8 @@ io.on('connection', async (socket) => {
           state: false
         }
       ];
+
       GameTetris.handleCreatingRoom(io, socket, playersList, data.room);
-      console.log('roomsList', roomsList); // todo delete
 
       io.emit('update_rooms', { roomsList });
     } else {

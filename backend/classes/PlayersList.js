@@ -19,10 +19,14 @@ class PlayersList extends Array {
 
   // Method to erase a player from the list:
   async erasePlayer(playerToErase) {
-    this.splice(
-      this.findIndex((player) => player.socketId === playerToErase.socketId),
-      1
+    const index = this.findIndex(
+      (player) => player.socketId === playerToErase?.socketId
     );
+    if (index !== -1) {
+      this.splice(index, 1);
+    } else {
+      console.error('Player to erase is not found or undefined.');
+    }
   }
 
   // Method to updates or add a player depending on whether a player with the given username already exists:
