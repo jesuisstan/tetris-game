@@ -1,10 +1,13 @@
 import CreateRoomBlock from './CreateRoomBlock';
 import JoinRoomBlock from './JoinRoomBlock';
 import DeviderTetris from '../UI/DeviderTetris';
+import { useSelector } from 'react-redux';
 
 import styles from '../../styles/lobby.module.css';
 
-const Lobby = ({ socket }) => {
+const Lobby = () => {
+  const socket = useSelector((state) => state.socket.socket);
+
   return (
     <div className={styles.lobbyCard}>
       <h1>Game lobby</h1>

@@ -10,13 +10,17 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../store/user-slice';
 import TetrisLoader from '../UI/TetrisLoader';
+import { useSelector } from 'react-redux';
 
 import * as MUI from '../../styles/MUIstyles';
 import styles from '../../styles/login.module.css';
 
-const PleaseLogin = ({ socket }) => {
+const PleaseLogin = () => {
+  const socket = useSelector((state) => state.socket.socket);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const [loading, setLoading] = useState(true);
   const [signUpOpen, setSignUpOpen] = useState(false);
   const [loadingLogin, setLoadingLogin] = useState(false);

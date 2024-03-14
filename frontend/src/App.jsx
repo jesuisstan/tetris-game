@@ -10,10 +10,10 @@ import * as utils from './utils/auth-handlers';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from './store/user-slice';
+import { setSocket } from './store/socket-slice';
+import io from 'socket.io-client';
 
 import './styles/index.css';
-
-import io from 'socket.io-client';
 
 const baseUrl = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_FRONTEND_PORT}`;
 const socket = io.connect(baseUrl); // todo
@@ -38,6 +38,13 @@ const App = () => {
     fetchUserData();
   }, [dispatch, user._id]);
 
+  useEffect(() => {
+    dispatch(setSocket(socket));
+    return () => {
+      socket.disconnect();
+    };
+  }, [dispatch]);
+
   // listen to mesages from server:
   useEffect(() => {
     socket.on('welcome', ({ message }) => {
@@ -60,9 +67,9 @@ const App = () => {
               path="lobby"
               element={
                 user.nickname ? (
-                  <Lobby socket={socket} />
+                  <Lobby />
                 ) : (
-                  <PleaseLogin socket={socket} />
+                  <PleaseLogin />
                 )
               }
             />
