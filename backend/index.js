@@ -9,7 +9,7 @@ import http from 'http';
 import PlayersList from './models/PlayersList.js';
 import RoomsList from './models/RoomsList.js';
 import Game from './models/Game.js';
-import initializeSocket from './socket-manager.js';
+import manageSocket from './socket-manager.js';
 
 dotenv.config();
 
@@ -68,7 +68,7 @@ app.use((err, req, res, next) => {
 
 // Set up socket connection
 const server = http.createServer(app);
-initializeSocket(server);
+manageSocket(server);
 
 app.get('/rooms', (req, res) => {
   res.send(roomsList);

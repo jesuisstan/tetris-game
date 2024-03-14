@@ -7,7 +7,7 @@ import {
   playersList
 } from './index.js';
 
-const initializeSocket = (server) => {
+const manageSocket = (server) => {
   const io = new Server(server, {
     cors: {
       origin: `${process.env.REACT_APP_HOST}:${process.env.REACT_APP_FRONTEND_PORT}`,
@@ -206,4 +206,4 @@ const initializeSocket = (server) => {
   return io;
 };
 
-export default initializeSocket;
+export default manageSocket;

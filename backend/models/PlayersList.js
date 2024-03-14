@@ -3,15 +3,19 @@ class PlayersList extends Array {
     super();
   }
 
-  /* Method to add a new player to the list if the player's nickname doesn't already exist in the list. 
-      If a player with the same nickname already exists, log a message stating that the player is already in the list.
+  /* Method to add a new player to the list if the player's nickname and socketId combination doesn't already exist in the list. 
+      If a player with the same nickname and socketId already exists, log a message stating that the player is already in the list.
       If not, add the new player to the list. */
   async addNewPlayer(newPlayer) {
-    const player = this.find((p) => p.nickname === newPlayer.nickname);
+    const existingPlayer = this.find(
+      (p) =>
+        p.nickname === newPlayer.nickname && p.socketId === newPlayer.socketId
+    );
 
-    if (player && player.nickname) {
-      console.log(`Player "${player.nickname}" is already in the list.`);
-      return;
+    if (existingPlayer) {
+      console.log(
+        `Player "${existingPlayer.nickname}" with socketId "${existingPlayer.socketId}" is already in the list.`
+      );
     } else {
       this.push(newPlayer);
     }
