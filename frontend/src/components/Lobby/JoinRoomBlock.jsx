@@ -8,15 +8,25 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { initializeSocket, closeSocket, emitEvent, listenEvent } from '../../socket/socketMiddleware';
+import {
+  emitEvent,
+  getSocket,
+  listenEvent
+} from '../../socket/socketMiddleware';
 
 import * as MUI from '../../styles/MUIstyles';
 import styles from '../../styles/lobby.module.css';
 
 const JoinRoomBlock = () => {
   const navigate = useNavigate();
-  //const [roomsList, setRoomsList] = useState([]);
-  let roomsList = [];
+  //const roomsList = useSelector((state) => state.roomsList);
+  //const savedRoomsState = JSON.parse(localStorage.getItem('roomsList'));
+  const [roomsList, setRoomsList] = useState([]);
+
+  const [soc, setSoc] = useState(getSocket());
+
+  //let roomsList = [];
+  console.log('getSocket: ', soc);
   //const onChange = (event) => {
   //  const { name, value } = event.target;
   //  let modifiedValue = value.replace(/\s/g, '');
@@ -52,7 +62,6 @@ const JoinRoomBlock = () => {
     return { roomName, mode, players };
   };
 
-  const [rows, setRows] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -65,36 +74,35 @@ const JoinRoomBlock = () => {
     setPage(0);
   };
 
-  console.log('updated RoomsList', roomsList);
-  //useEffect(() => {
-  //  socket.on('update_rooms', (data) => {
-  //    setRows(
-  //      data.roomsList.map((item) =>
-  //        createData(item.name, item.mode, item.players)
-  //      )
-  //    );
-
-  //    console.log('data.roomsList', data.roomsList);
-  //  });
-  //}, [socket]);
-
-  //const joinRoom = (roomName) => {
-  //  socket.emit('join_room', { roomName }); // todo
-  //};
+  useEffect(() => {
+    emitEvent('get_rooms_list', null);
+    console.log('soc off GET');
+  }, [soc]);
 
   useEffect(() => {
-    listenEvent('update_rooms', (data) => { // Listening for update_rooms event
-      setRows(
-        data.roomsList.map((item) =>
+    listenEvent('update_rooms', (data) => {
+      // Listening for update_rooms event
+
+      const roomsData =
+        data?.roomsList?.map((item) =>
           createData(item.name, item.mode, item.players)
-        )
-      );
+        ) || roomsList;
+
+      console.log('roomsData----------', roomsData);
+      console.log('soc off SEEEEEEEEt');
+
+      //dispatch(setRoomsList(roomsData));
+      //localStorage.setItem('roomsList', JSON.stringify(roomsData));
+      //setRows(roomsData);
+      setRoomsList(roomsData);
     });
-  }, []);
+  }, [soc]);
 
   const joinRoom = (roomName) => {
     emitEvent('join_room', { roomName }); // Emitting join_room event
   };
+  //console.log('rows JOIN', rows);
+  console.log('roomsList JOIN', roomsList);
 
   return (
     <div
@@ -125,8 +133,8 @@ const JoinRoomBlock = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              {roomsList
+                ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => {
                   return (
                     <TableRow
@@ -158,7 +166,7 @@ const JoinRoomBlock = () => {
         <TablePagination
           rowsPerPageOptions={[5, 10, 15]}
           component="div"
-          count={rows.length}
+          count={roomsList?.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

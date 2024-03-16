@@ -1,7 +1,6 @@
 import CreateRoomBlock from './CreateRoomBlock';
 import JoinRoomBlock from './JoinRoomBlock';
 import DeviderTetris from '../UI/DeviderTetris';
-import { useSelector } from 'react-redux';
 
 import styles from '../../styles/lobby.module.css';
 

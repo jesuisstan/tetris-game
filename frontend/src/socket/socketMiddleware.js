@@ -35,3 +35,14 @@ export const listenEvent = (eventName, callback) => {
     console.error('Socket not initialized.');
   }
 };
+
+export const getRoomsList = () => {
+  return new Promise((resolve, reject) => {
+    emitEvent('get_rooms_list', null); // Emitting get_rooms_list event
+
+    listenEvent('update_rooms', (data) => {
+      // Listening for update_rooms event
+      resolve(data.roomsList);
+    });
+  });
+};

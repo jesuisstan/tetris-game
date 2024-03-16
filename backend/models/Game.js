@@ -119,10 +119,17 @@ class Game {
     });
   };
 
+  // Send roomsList to client:
+  sendRoomsList = (io, roomsList) => {
+    return new Promise((resolve, reject) => {
+      io.emit('update_rooms', roomsList);
+      resolve(true);
+    });
+  };
+
   // Create a new room:
   handleCreatingRoom = (io, socket, playersList, room) => {
     return new Promise(async (resolve, reject) => {
-      console.log('playersList from CREATE', playersList); // todo delete
       const players = playersList.filter((p) => p.socketId === socket.id);
 
       players[0]?.setAdminStatus(true);
@@ -152,7 +159,7 @@ class Game {
       this.getRoomPlayersNicknames(io, room, playersList).then((users) => {
         if (users.length < MAX_PLAYERS_IN_ROOM) {
           const players = playersList.filter((p) => p.socketId === socket.id);
-          console.log('!!!!!!!!!!!!', roomData);
+
           players[0].setRoom(roomData.name);
           socket.join(roomData.name);
 
@@ -168,7 +175,6 @@ class Game {
 
           io.emit('update_rooms', roomsList);
           io.to(room).emit('update_room_data', roomData);
-          console.log('NEW RRRRR data', roomsList);
         } else {
           io.to(socket.id).emit('room_full');
         }
@@ -178,6 +184,7 @@ class Game {
 
   // Notify a room that a player has left, change admin of a room:
   handleLeavingRoom = (io, socket, playersList, roomsList) => {
+    console.log('ROOMS at handleLeavingRoom 1', roomsList); // todo delete
     return new Promise((resolve, reject) => {
       const playerToErase = playersList.find((p) => p.socketId === socket.id);
       const roomToLeave = playerToErase?.room;
@@ -276,8 +283,11 @@ class Game {
           const newRoomsList = roomsList.filter(
             (rm) => rm.name !== roomToLeave
           );
+
+          console.log('NEWWWWWWWW ROOMS at handleLeavingRoom', newRoomsList); // todo delete
+
           socket.emit('update_roomList', newRoomsList);
-          roomsList = newRoomsList;
+          roomsList.updateRooms(newRoomsList);
           io.emit('update_rooms', roomsList);
           io.to(roomToLeave).emit('update_room_data', []);
           resolve({ status: true, playerToErase, roomsList });
