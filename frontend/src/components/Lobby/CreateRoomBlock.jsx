@@ -7,10 +7,12 @@ import Stack from '@mui/material/Stack';
 import RadioButtonsGroup from '../UI/RadioButtonsGroup';
 import errorAlert from '../../utils/error-alert';
 
+import { initializeSocket, closeSocket, emitEvent, listenEvent } from '../../socket/socketMiddleware';
+
 import * as MUI from '../../styles/MUIstyles';
 import styles from '../../styles/lobby.module.css';
 
-const CreateRoomBlock = ({ socket }) => {
+const CreateRoomBlock = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
@@ -23,26 +25,44 @@ const CreateRoomBlock = ({ socket }) => {
     setRoom(modifiedValue);
   };
 
+  //const createRoom = (event) => {
+  //  event.preventDefault();
+  //  setLoading(true);
+  //  const roomUri = `/tetris/${room}[${user.nickname}]`;
+
+  //  //socket.emit('create_user_room', { ...user, room: room }); // todo
+
+  //  socket.emit('create_room', { room, gameMode }); // todo
+  //  setLoading(false);
+  //  //navigate(roomUri);
+  //};
+
+  //// listen to mesages from server:
+  //useEffect(() => {
+  //  //socket.on('update_rooms', (data) => {
+  //  //  const updatedRoomsList = data.roomsList;
+  //  //  console.log('updated RoomsList', updatedRoomsList);
+  //  //});
+
+  //  socket.on('room_already_exists', () => {
+  //    errorAlert('Room with such a name already exists');
+  //  });
+  //}, []);
+
+
   const createRoom = (event) => {
     event.preventDefault();
     setLoading(true);
     const roomUri = `/tetris/${room}[${user.nickname}]`;
 
-    //socket.emit('create_user_room', { ...user, room: room }); // todo
+    emitEvent('create_room', { room, gameMode }); // Emitting create_room event
 
-    socket.emit('create_room', { room, gameMode }); // todo
     setLoading(false);
     //navigate(roomUri);
   };
 
-  // listen to mesages from server:
   useEffect(() => {
-    //socket.on('update_rooms', (data) => {
-    //  const updatedRoomsList = data.roomsList;
-    //  console.log('updated RoomsList', updatedRoomsList);
-    //});
-
-    socket.on('room_already_exists', () => {
+    listenEvent('room_already_exists', () => {
       errorAlert('Room with such a name already exists');
     });
   }, []);

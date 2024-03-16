@@ -10,19 +10,30 @@ import * as utils from './utils/auth-handlers';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from './store/user-slice';
+
+//import io from 'socket.io-client';
+
+import { initializeSocket, closeSocket, emitEvent, listenEvent } from './socket/socketMiddleware';
 import { setSocket } from './store/socket-slice';
-import io from 'socket.io-client';
+import { getSocket } from './socket/socketMiddleware';
 
 import './styles/index.css';
 
 const baseUrl = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_FRONTEND_PORT}`;
-const socket = io.connect(baseUrl); // todo
+//const socket = io.connect(baseUrl); // todo
 
 const App = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
 
-  console.log('socket', socket.id); // todo delete
+  console.log('socket',  getSocket()?.id); // todo delete
+
+  useEffect(() => {
+    initializeSocket(baseUrl, dispatch);
+    return () => {
+      closeSocket();
+    };
+  }, [dispatch]);
 
   //fetch user data from database
   useEffect(() => {
@@ -31,23 +42,30 @@ const App = () => {
         const userData = await utils.getUserData();
         dispatch(setUser(userData));
       } else {
-        socket?.emit('player_arrived', user?.nickname); // todo socket
+        //socket?.emit('player_arrived', user?.nickname); // todo socket
+        emitEvent('player_arrived', user?.nickname);
       }
     };
 
     fetchUserData();
   }, [dispatch, user._id]);
 
-  useEffect(() => {
-    dispatch(setSocket(socket));
-    return () => {
-      socket.disconnect();
-    };
-  }, [dispatch]);
+  //useEffect(() => {
+  //  dispatch(setSocket(socket));
+  //  return () => {
+  //    socket.disconnect();
+  //  };
+  //}, [dispatch]);
 
-  // listen to mesages from server:
+  //// listen to mesages from server:
+  //useEffect(() => {
+  //  socket.on('welcome', ({ message }) => {
+  //    console.log('message from server:', message);
+  //  });
+  //}, []);
+
   useEffect(() => {
-    socket.on('welcome', ({ message }) => {
+    listenEvent('welcome', ({ message }) => {
       console.log('message from server:', message);
     });
   }, []);

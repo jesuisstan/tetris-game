@@ -6,8 +6,6 @@ import { useSelector } from 'react-redux';
 import styles from '../../styles/lobby.module.css';
 
 const Lobby = () => {
-  const socket = useSelector((state) => state.socket.socket);
-
   return (
     <div className={styles.lobbyCard}>
       <h1>Game lobby</h1>
@@ -15,7 +13,7 @@ const Lobby = () => {
         <div>
           <h2 className={styles.leftHeader}>Create room</h2>
           <div className={styles.left}>
-            <CreateRoomBlock socket={socket} />
+            <CreateRoomBlock />
           </div>
         </div>
 
@@ -26,7 +24,7 @@ const Lobby = () => {
         <div>
           <h2 className={styles.rightHeader}>Join room</h2>
           <div className={styles.right}>
-            <JoinRoomBlock socket={socket} />
+            <JoinRoomBlock />
           </div>
         </div>
       </div>

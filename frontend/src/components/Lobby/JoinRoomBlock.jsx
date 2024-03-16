@@ -8,11 +8,12 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import { initializeSocket, closeSocket, emitEvent, listenEvent } from '../../socket/socketMiddleware';
 
 import * as MUI from '../../styles/MUIstyles';
 import styles from '../../styles/lobby.module.css';
 
-const JoinRoomBlock = ({ socket }) => {
+const JoinRoomBlock = () => {
   const navigate = useNavigate();
   //const [roomsList, setRoomsList] = useState([]);
   let roomsList = [];
@@ -65,20 +66,34 @@ const JoinRoomBlock = ({ socket }) => {
   };
 
   console.log('updated RoomsList', roomsList);
+  //useEffect(() => {
+  //  socket.on('update_rooms', (data) => {
+  //    setRows(
+  //      data.roomsList.map((item) =>
+  //        createData(item.name, item.mode, item.players)
+  //      )
+  //    );
+
+  //    console.log('data.roomsList', data.roomsList);
+  //  });
+  //}, [socket]);
+
+  //const joinRoom = (roomName) => {
+  //  socket.emit('join_room', { roomName }); // todo
+  //};
+
   useEffect(() => {
-    socket.on('update_rooms', (data) => {
+    listenEvent('update_rooms', (data) => { // Listening for update_rooms event
       setRows(
         data.roomsList.map((item) =>
           createData(item.name, item.mode, item.players)
         )
       );
-
-      console.log('data.roomsList', data.roomsList);
     });
-  }, [socket]);
+  }, []);
 
   const joinRoom = (roomName) => {
-    socket.emit('join_room', { roomName }); // todo
+    emitEvent('join_room', { roomName }); // Emitting join_room event
   };
 
   return (

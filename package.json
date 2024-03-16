@@ -5,7 +5,8 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.7",
     "concurrently": "^6.0.0",
-    "cross-env": "^7.0.3"
+    "cross-env": "^7.0.3",
+    "rimraf": "^5.0.5"
   },
   "scripts": {
     "copy-env:backend": "node -e \"require('fs').copyFileSync('.env', 'backend/.env')\"",
@@ -13,8 +14,9 @@
     "start:backend": "npm run copy-env:backend && cd backend && npm install && npm start",
     "start:frontend": "npm run copy-env:frontend && cd frontend && npm install && npm start",
     "start": "concurrently -n 'backend,frontend' -c 'blue,magenta' \"npm run start:backend\" \"npm run start:frontend\"",
-    "clean:backend": "rm -rf ./backend/node_modules && rm -f ./backend/package-lock.json && rm -f ./backend/.env",
-    "clean:frontend": "rm -rf ./frontend/node_modules && rm -f ./frontend/package-lock.json && rm -f ./frontend/.env",
-    "clean:all": "rm -rf node_modules && rm -f package-lock.json && npm run clean:backend && npm run clean:frontend"
+    "clean:backend": "rimraf ./backend/node_modules && rimraf ./backend/package-lock.json && rimraf ./backend/.env",
+    "clean:frontend": "rimraf ./frontend/node_modules && rimraf ./frontend/package-lock.json && rimraf ./frontend/.env",
+    "clean:all": "rimraf node_modules && rimraf package-lock.json && npm run clean:backend && npm run clean:frontend",
+    "postinstall": "npm install -g rimraf"
   }
 }

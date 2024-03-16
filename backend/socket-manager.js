@@ -82,7 +82,6 @@ const manageSocket = (server) => {
 
       if (currentSocketPlayer === undefined && !existingPlayer?.nickname)
         playersList.updatePlayers(socket, data).then((res) => {
-          //playersList = res; // todo no need?
           const rm = roomsList.find((room) => room.name === data.room);
           if (rm === undefined) {
             roomsList.addRoom({
@@ -128,7 +127,7 @@ const manageSocket = (server) => {
         });
 
         gameTetris.handleCreatingRoom(io, socket, playersList, data.room);
-
+        console.log('roomsList', roomsList); // todo delete
         io.emit('update_rooms', { roomsList });
       } else {
         io.to(socket.id).emit('room_already_exists');
