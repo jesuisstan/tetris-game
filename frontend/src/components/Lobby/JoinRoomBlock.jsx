@@ -8,6 +8,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import TetrisLoader from '../UI/TetrisLoader';
+
 import {
   emitEvent,
   getSocket,
@@ -21,7 +23,7 @@ const JoinRoomBlock = () => {
   const navigate = useNavigate();
   //const roomsList = useSelector((state) => state.roomsList);
   //const savedRoomsState = JSON.parse(localStorage.getItem('roomsList'));
-  const [roomsList, setRoomsList] = useState([]);
+  const [roomsList, setRoomsList] = useState(null);
 
   const [soc, setSoc] = useState(getSocket());
 
@@ -86,7 +88,7 @@ const JoinRoomBlock = () => {
       const roomsData =
         data?.roomsList?.map((item) =>
           createData(item.name, item.mode, item.players)
-        ) || roomsList;
+        );
 
       console.log('roomsData----------', roomsData);
       console.log('soc off SEEEEEEEEt');
@@ -113,69 +115,76 @@ const JoinRoomBlock = () => {
         gap: '21px'
       }}
     >
-      <Paper sx={{ width: '100%' }}>
-        <TableContainer sx={{ maxHeight: 440 }}>
-          <Table stickyHeader aria-label="sticky table">
-            <TableHead>
-              <TableRow>
-                {columns.map((column) => (
-                  <TableCell
-                    key={column.id}
-                    align={column.align}
-                    style={{
-                      minWidth: column.minWidth,
-                      backgroundColor: 'var(--TETRIS_WHITE)'
-                    }}
-                  >
-                    {column.label}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {roomsList
-                ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => {
-                  return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      tabIndex={-1}
-                      key={row.roomName}
+      {!roomsList ? (
+        <>
+          <p style={{ color: 'var(--TETRIS_WHITE)' }}>Room list is </p>
+          <TetrisLoader />
+        </>
+      ) : (
+        <Paper sx={{ width: '100%' }}>
+          <TableContainer sx={{ maxHeight: 440 }}>
+            <Table stickyHeader aria-label="sticky table">
+              <TableHead>
+                <TableRow>
+                  {columns.map((column) => (
+                    <TableCell
+                      key={column.id}
+                      align={column.align}
+                      style={{
+                        minWidth: column.minWidth,
+                        backgroundColor: 'var(--TETRIS_WHITE)'
+                      }}
                     >
-                      {columns.map((column) => {
-                        const value = row[column.id];
-                        return (
-                          <TableCell
-                            key={column.id}
-                            align={column.align}
-                            onClick={() => joinRoom(row.roomName)}
-                          >
-                            {column.format && typeof value === 'number'
-                              ? column.format(value)
-                              : value}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 15]}
-          component="div"
-          count={roomsList?.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          style={{
-            backgroundColor: 'var(--TETRIS_WHITE)'
-          }}
-        />
-      </Paper>
+                      {column.label}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {roomsList
+                  ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row) => {
+                    return (
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        tabIndex={-1}
+                        key={row.roomName}
+                      >
+                        {columns.map((column) => {
+                          const value = row[column.id];
+                          return (
+                            <TableCell
+                              key={column.id}
+                              align={column.align}
+                              onClick={() => joinRoom(row.roomName)}
+                            >
+                              {column.format && typeof value === 'number'
+                                ? column.format(value)
+                                : value}
+                            </TableCell>
+                          );
+                        })}
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 15]}
+            component="div"
+            count={roomsList?.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            style={{
+              backgroundColor: 'var(--TETRIS_WHITE)'
+            }}
+          />
+        </Paper>
+      )}
     </div>
   );
 };

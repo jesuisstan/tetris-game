@@ -16,8 +16,8 @@ const manageSocket = (server) => {
     },
     //path: '/socket',
     // improve the stability and reliability of your WebSocket connections by fine-tuning the heartbeat mechanism:
-    pingTimeout: 60000, // Set the ping timeout to 60 seconds
-    pingInterval: 5000 // Set the ping interval to 5 seconds
+    pingTimeout: 4000, // Set the ping timeout to 4 seconds
+    pingInterval: 2000 // Set the ping interval to 2 seconds
   });
 
   io.on('connection', async (socket) => {
@@ -41,7 +41,7 @@ const manageSocket = (server) => {
         // Create a new Player instance with the received data
         const newPlayer = new Player(nickname, socket.id);
         playersList.addNewPlayer(newPlayer);
-        console.log('user_logged_in: playersList:', playersList); // todo delete
+
         // Emit a welcome message to the client
         socket.emit('welcome', {
           message: `Welcome, ${newPlayer.nickname}!`
@@ -63,7 +63,7 @@ const manageSocket = (server) => {
             console.log(
               `${res.playerToErase?.nickname} (socket ${res.playerToErase?.socketId}) disconnected`
             );
-            console.log('NEW LIST ---------------------', playersList); // todo delete
+            console.log('NEW ROOOOOOOOOMS ---------------------', roomsList); // todo delete
           }
         });
     });
@@ -94,10 +94,10 @@ const manageSocket = (server) => {
               mode: 'solo',
               maxPlayers: 1,
               players: 1,
-              state: false
+              state: false,
+              owner: socket.id
             });
             gameTetris.handleCreatingRoom(io, socket, playersList, data.room);
-            console.log('roomsList', roomsList); // todo delete
             io.emit('update_rooms', { roomsList });
           } else if (
             rm.mode === 'competition' &&
@@ -128,11 +128,11 @@ const manageSocket = (server) => {
           mode: data.gameMode,
           maxPlayers: data.gameMode === 'solo' ? 1 : MAX_PLAYERS_IN_ROOM,
           players: 1,
-          state: false
+          state: false,
+          owner: socket.id
         });
 
         gameTetris.handleCreatingRoom(io, socket, playersList, data.room);
-        console.log('roomsList', roomsList); // todo delete
         io.emit('update_rooms', { roomsList });
       } else {
         io.to(socket.id).emit('room_already_exists');

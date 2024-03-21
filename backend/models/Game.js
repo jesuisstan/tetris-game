@@ -184,7 +184,6 @@ class Game {
 
   // Notify a room that a player has left, change admin of a room:
   handleLeavingRoom = (io, socket, playersList, roomsList) => {
-    console.log('ROOMS at handleLeavingRoom 1', roomsList); // todo delete
     return new Promise((resolve, reject) => {
       const playerToErase = playersList.find((p) => p.socketId === socket.id);
       const roomToLeave = playerToErase?.room;
