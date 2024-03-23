@@ -58,12 +58,10 @@ const manageSocket = (server) => {
         .handleLeavingRoom(io, socket, playersList, roomsList)
         .then((res) => {
           if (res.status) {
-            //roomsList.updateRooms(res.roomsList);
             playersList.erasePlayer(res.playerToErase);
             console.log(
               `${res.playerToErase?.nickname} (socket ${res.playerToErase?.socketId}) disconnected`
             );
-            console.log('NEW ROOOOOOOOOMS ---------------------', roomsList); // todo delete
           }
         });
     });

@@ -79,26 +79,26 @@ const JoinRoomBlock = () => {
   useEffect(() => {
     emitEvent('get_rooms_list', null);
     console.log('soc off GET');
-  }, [soc]);
+  }, []);
 
   useEffect(() => {
     listenEvent('update_rooms', (data) => {
       // Listening for update_rooms event
 
-      const roomsData =
-        data?.roomsList?.map((item) =>
-          createData(item.name, item.mode, item.players)
-        );
+      const roomsData = data?.roomsList?.map((item) => {
+        console.log('item', item)
+        const x = createData(item.name, item.mode, item.players);
+        return x;
+      });
 
       console.log('roomsData----------', roomsData);
-      console.log('soc off SEEEEEEEEt');
 
       //dispatch(setRoomsList(roomsData));
       //localStorage.setItem('roomsList', JSON.stringify(roomsData));
       //setRows(roomsData);
       setRoomsList(roomsData);
     });
-  }, [soc]);
+  }, []);
 
   const joinRoom = (roomName) => {
     emitEvent('join_room', { roomName }); // Emitting join_room event
