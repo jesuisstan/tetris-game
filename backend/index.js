@@ -14,7 +14,7 @@ import manageSocket from './socket-manager.js';
 dotenv.config();
 
 export const MAX_PLAYERS_IN_ROOM =
-  Number(process.env.REACT_APP_MAX_PLAYERS_IN_ROOM) || 4;
+  Number(process.env.REACT_APP_MAX_PLAYERS_IN_ROOM) || 3;
 
 // Declare and export basic game vars:
 export let roomsList = new RoomsList();

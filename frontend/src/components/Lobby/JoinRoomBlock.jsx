@@ -9,6 +9,7 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TetrisLoader from '../UI/TetrisLoader';
+import errorAlert from '../../utils/error-alert';
 
 import {
   emitEvent,
@@ -21,14 +22,8 @@ import styles from '../../styles/lobby.module.css';
 
 const JoinRoomBlock = () => {
   const navigate = useNavigate();
-  //const roomsList = useSelector((state) => state.roomsList);
-  //const savedRoomsState = JSON.parse(localStorage.getItem('roomsList'));
   const [roomsList, setRoomsList] = useState(null);
 
-  const [soc, setSoc] = useState(getSocket());
-
-  //let roomsList = [];
-  console.log('getSocket: ', soc);
   //const onChange = (event) => {
   //  const { name, value } = event.target;
   //  let modifiedValue = value.replace(/\s/g, '');
@@ -42,30 +37,42 @@ const JoinRoomBlock = () => {
   //  navigate(roomUri);
   //};
 
+  const joinRoom = (roomName) => {
+    emitEvent('join_room', { roomName }); // Emitting join_room event
+  };
+
+  /* Table with rooms list adjusting */
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+
   const columns = [
     { id: 'roomName', label: 'Room name', minWidth: 150 },
     {
       id: 'mode',
       label: 'Game mode',
       minWidth: 150,
-      align: 'right',
+      align: 'center',
+      format: (value) => value.toLocaleString('en-US')
+    },
+    {
+      id: 'maxPlayers',
+      label: 'Max 👫',
+      minWidth: 50,
+      align: 'center',
       format: (value) => value.toLocaleString('en-US')
     },
     {
       id: 'players',
       label: 'Players',
-      minWidth: 150,
-      align: 'right',
+      minWidth: 50,
+      align: 'center',
       format: (value) => value.toLocaleString('en-US')
     }
   ];
 
-  const createData = (roomName, mode, players) => {
-    return { roomName, mode, players };
+  const createData = (roomName, mode, maxPlayers, players) => {
+    return { roomName, mode, maxPlayers, players };
   };
-
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -76,35 +83,27 @@ const JoinRoomBlock = () => {
     setPage(0);
   };
 
+  /* Socket moves */
   useEffect(() => {
     emitEvent('get_rooms_list', null);
-    console.log('soc off GET');
   }, []);
 
   useEffect(() => {
+    // Listening for update_rooms event
     listenEvent('update_rooms', (data) => {
-      // Listening for update_rooms event
+      const roomsData = data?.roomsList?.map((item) =>
+        createData(item.name, item.mode, item.maxPlayers, item.players)
+      );
 
-      const roomsData = data?.roomsList?.map((item) => {
-        console.log('item', item)
-        const x = createData(item.name, item.mode, item.players);
-        return x;
-      });
+      // Reverse the roomsData array before setting it to state
+      setRoomsList(roomsData.reverse());
+    });
 
-      console.log('roomsData----------', roomsData);
-
-      //dispatch(setRoomsList(roomsData));
-      //localStorage.setItem('roomsList', JSON.stringify(roomsData));
-      //setRows(roomsData);
-      setRoomsList(roomsData);
+    // Listen for "join_denied" events
+    listenEvent('join_denied', (data) => {
+      errorAlert(data?.message ?? 'Something went wrong');
     });
   }, []);
-
-  const joinRoom = (roomName) => {
-    emitEvent('join_room', { roomName }); // Emitting join_room event
-  };
-  //console.log('rows JOIN', rows);
-  console.log('roomsList JOIN', roomsList);
 
   return (
     <div
@@ -122,7 +121,7 @@ const JoinRoomBlock = () => {
         </>
       ) : (
         <Paper sx={{ width: '100%' }}>
-          <TableContainer sx={{ maxHeight: 440 }}>
+          <TableContainer sx={{ maxHeight: 600 }}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow>

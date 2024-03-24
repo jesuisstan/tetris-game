@@ -26,8 +26,6 @@ const App = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
 
-  console.log('socket',  getSocket()?.id); // todo delete
-
   useEffect(() => {
     initializeSocket(baseUrl, dispatch);
     return () => {
@@ -67,6 +65,10 @@ const App = () => {
   useEffect(() => {
     listenEvent('welcome', ({ message }) => {
       console.log('message from server:', message);
+    });
+
+    listenEvent('chat', ({ message }) => {
+      console.log('Chat message from server:', message);
     });
   }, []);
 

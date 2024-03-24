@@ -154,31 +154,49 @@ class Game {
   handleJoiningRoom = (io, socket, room, playersList, roomsList) => {
     return new Promise((resolve, reject) => {
       const roomData = roomsList.find((rm) => rm.name === room);
-      console.log('-----------------room---------------', room);
+      if (roomData?.mode === 'solo') {
+        io.to(socket.id).emit('join_denied', {
+          message: 'You cannot join "solo" room'
+        });
+      } else if (roomData?.mode === 'competition') {
+        const playerOnSocket = playersList.find(
+          (p) => p.socketId === socket.id
+        );
 
-      this.getRoomPlayersNicknames(io, room, playersList).then((users) => {
-        if (users.length < MAX_PLAYERS_IN_ROOM) {
-          const players = playersList.filter((p) => p.socketId === socket.id);
+        this.getRoomPlayersNicknames(io, room, playersList).then((users) => {
+          if (users.includes(playerOnSocket?.nickname)) {
+            io.to(socket.id).emit('join_denied', {
+              message: `${playerOnSocket.nickname} is already in "${room}" room`
+            }); // todo was "joined_denided"
+          } else {
+            if (users.length < MAX_PLAYERS_IN_ROOM) {
+              playerOnSocket[0]?.setRoom(roomData.name);
+              socket.join(roomData.name);
+              this.sendRoomPlayersList(io, roomData.name, playersList);
 
-          players[0].setRoom(roomData.name);
-          socket.join(roomData.name);
+              io.to(roomData.name).emit('chat', {
+                // todo Chat ?
+                message: `${playerOnSocket[0]?.nickname} joined the room "${roomData.name}"`,
+                type: 'joined'
+              });
+              //io.emit('chat', {
+              //  // todo Chat ?
+              //  message: `${playerOnSocket[0]?.nickname} joined the room "${roomData.name}"`,
+              //  type: 'joined'
+              //});
 
-          this.sendRoomPlayersList(io, roomData.name, playersList);
+              roomData.players += 1;
 
-          io.to(roomData.name).emit('chat', {
-            // todo Chat ?
-            message: `${players[0]?.nickname} joined the room "${roomData.name}"`,
-            type: 'joined'
-          });
-
-          roomData.players += 1;
-
-          io.emit('update_rooms', {roomsList});
-          io.to(room).emit('update_room_data', roomData);
-        } else {
-          io.to(socket.id).emit('room_full');
-        }
-      });
+              io.emit('update_rooms', { roomsList });
+              io.to(room).emit('update_room_data', roomData);
+            } else {
+              io.to(socket.id).emit('join_denied', {
+                message: 'This room is full'
+              });
+            }
+          }
+        });
+      }
     });
   };
 
@@ -194,7 +212,7 @@ class Game {
         io.to(playerToErase.socketId).emit('left_room'); // todo was 'leaved_room';
         io.to(roomToLeave).emit('chat', {
           // todo Chat ?
-          message: `${playerToErase.nickname} Left the room`,
+          message: `${playerToErase.nickname} left the room "${roomToLeave.name}"`,
           type: 'left'
         });
         io.to(roomToLeave).emit('clearStages', {
@@ -258,7 +276,7 @@ class Game {
           io.emit('update_rooms', { roomsList });
           io.to(roomToLeave).emit('chat', {
             // todo Chat ?
-            message: `${playersInRoom[0].nickname} gets admin status.`,
+            message: `${playersInRoom[0].nickname} gets admin status in "${roomToLeave.name} room".`,
             type: 'admin'
           });
 
@@ -274,7 +292,7 @@ class Game {
           io.to(roomToLeave).emit('update_room_data', roomData);
           io.emit('update_rooms', { roomsList });
           io.to(roomToLeave).emit('chat', {
-            message: `${playersInRoom[0].nickname} gets admin status.`,
+            message: `${playersInRoom[0].nickname} gets admin status in "${roomToLeave.name} room".`,
             type: 'admin'
           });
           resolve({ status: true, playerToErase, roomsList });
@@ -283,12 +301,11 @@ class Game {
             (rm) => rm.name !== roomToLeave
           );
 
-          console.log('NEWWWWWWWW ROOMS at handleLeavingRoom', newRoomsList); // todo delete
-
           socket.emit('update_roomList', newRoomsList);
           roomsList.updateRooms(newRoomsList);
-          //io.emit('update_rooms', roomsList);
+          io.emit('update_rooms', { roomsList });
           io.to(roomToLeave).emit('update_room_data', []);
+
           resolve({ status: true, playerToErase, roomsList });
         }
       } else {

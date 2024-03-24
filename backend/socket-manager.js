@@ -119,8 +119,8 @@ const manageSocket = (server) => {
     });
 
     socket.on('create_room', async (data) => {
-      const rm = roomsList.find((rom) => rom.name === data.room);
-      if (rm === undefined) {
+      const existingRoom = roomsList.find((rm) => rm.name === data.room);
+      if (existingRoom === undefined) {
         roomsList.addRoom({
           name: data.room,
           mode: data.gameMode,
