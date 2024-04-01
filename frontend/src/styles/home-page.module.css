@@ -20,17 +20,6 @@
   gap: 60px;
 }
 
-.optionsBlock {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  gap: 21px;
-  align-items: center;
-  justify-items: center;
-  text-align: center;
-  justify-content: center;
-}
-
 .trio {
   display: flex;
   flex-direction: row;
@@ -42,14 +31,37 @@
   justify-content: center;
 }
 
-@media (width < 768px) {
-  .main {
-    margin-bottom: 21px;
-  }
-  .trio {
-    flex-direction: column;
-    gap: 42px;
-  }
+.optionsBlock {
+  margin-top: 21px;
+  align-self: center;
+  display: flex;
+  flex-direction: row;
+  transition: transform 0.3s ease-out;
+  gap: 80px;
+}
+
+.left {
+  display: flex;
+  flex: 1;
+  align-items: top;
+  justify-content: flex-end;
+  width: 250px;
+}
+
+.right {
+  display: flex;
+  flex: 1;
+  align-items: top;
+  justify-content: flex-start;
+  width: 250px;
+}
+
+.deviderTetris {
+  display: flex;
+}
+
+.deviderTetrisVertical {
+  display: none;
 }
 
 .glitch {
@@ -114,5 +126,33 @@
   }
   62% {
     transform: translate(-22px, 5px) skew(21deg);
+  }
+}
+
+@media (width < 768px) {
+  .main {
+    margin-bottom: 21px;
+  }
+  .trio {
+    flex-direction: column;
+    gap: 42px;
+  }
+  .optionsBlock {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 21px;
+  }
+  .right {
+    justify-content: center;
+  }
+  .left {
+    justify-content: center;
+  }
+  .deviderTetris {
+    display: none;
+  }
+  .deviderTetrisVertical {
+    display: flex;
   }
 }

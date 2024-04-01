@@ -3,6 +3,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Preview from './Game/Preview';
 import { TETROMINOES } from '../utils/tetrominoes';
+import DeviderTetris from './UI/DeviderTetris';
 
 import * as MUI from '../styles/MUIstyles';
 import styles from '../styles/home-page.module.css';
@@ -44,7 +45,7 @@ const Home = () => {
         </div>
       </div>
 
-      <div className={styles.optionsBlock}>
+      {/*<div className={styles.optionsBlock}>
         <p style={{ color: 'var(--TETRIS_WHITE)' }}>
           Play "solo" <br />
           to practice a little
@@ -55,8 +56,32 @@ const Home = () => {
           <br />
           to prove skills online
         </p>
-      </div>
+      </div>*/}
+      <div className={styles.optionsBlock}>
+        <div>
+          <div className={styles.left}>
+            <p style={{ color: 'var(--TETRIS_WHITE)' }}>
+              Play "solo" <br />
+              to practice a little
+            </p>
+          </div>
+        </div>
 
+        <div className={styles.deviderTetris}>
+          <DeviderTetris />
+        </div>
+        <div className={styles.deviderTetrisVertical}>---OR---</div>
+
+        <div>
+          <div className={styles.right}>
+            <p style={{ color: 'var(--TETRIS_WHITE)' }}>
+              Play "competition"
+              <br />
+              to prove skills online
+            </p>
+          </div>
+        </div>
+      </div>
       <div>
         <LoadingButton
           //endIcon={<ArrowForwardIosIcon />}
