@@ -91,12 +91,13 @@ const JoinRoomBlock = () => {
   useEffect(() => {
     // Listening for update_rooms event
     listenEvent('update_rooms', (data) => {
+
       const roomsData = data?.roomsList?.map((item) =>
         createData(item.name, item.mode, item.maxPlayers, item.players)
       );
 
       // Reverse the roomsData array before setting it to state
-      setRoomsList(roomsData.reverse());
+      setRoomsList(roomsData?.reverse() || []);
     });
 
     // Listen for "join_denied" events

@@ -62,13 +62,14 @@ const manageSocket = (server) => {
             console.log(
               `${res.playerToErase?.nickname} (socket ${res.playerToErase?.socketId}) disconnected`
             );
+            console.log(`New players-list: `, playersList); // todo delete
           }
         });
     });
 
     // Listener for 'get_rooms_list' event:
     socket.on('get_rooms_list', () => {
-      io.emit('update_rooms', { roomsList });
+      roomsList.sendRoomsList(io);
     });
 
     socket.on('create_user_room', async (data) => {
@@ -96,7 +97,8 @@ const manageSocket = (server) => {
               owner: socket.id
             });
             gameTetris.handleCreatingRoom(io, socket, playersList, data.room);
-            io.emit('update_rooms', { roomsList });
+            //io.emit('update_rooms', { roomsList });
+            roomsList.sendRoomsList(io);
           } else if (
             rm.mode === 'competition' &&
             rm.state === false &&
@@ -119,7 +121,8 @@ const manageSocket = (server) => {
     });
 
     socket.on('create_room', async (data) => {
-      const existingRoom = roomsList.find((rm) => rm.name === data.room);
+      const existingRoom = roomsList.getRooms(io).find((rm) => rm.name === data.room);
+
       if (existingRoom === undefined) {
         roomsList.addRoom({
           name: data.room,
@@ -131,7 +134,7 @@ const manageSocket = (server) => {
         });
 
         gameTetris.handleCreatingRoom(io, socket, playersList, data.room);
-        io.emit('update_rooms', { roomsList });
+        roomsList.sendRoomsList(io);
       } else {
         io.to(socket.id).emit('room_already_exists');
       }
@@ -167,7 +170,8 @@ const manageSocket = (server) => {
           if (user.admin) {
             const tetriminos = await Tetromino.getTetriminos();
             gameTetris.startGame(io, room, tetriminos);
-            io.emit('update_rooms', roomsList);
+            //io.emit('update_rooms', roomsList);
+            roomsList.sendRoomsList(io);
           } else {
             io.to(socket.id).emit('wait_admin');
           }

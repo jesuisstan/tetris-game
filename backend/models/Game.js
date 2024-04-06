@@ -119,14 +119,6 @@ class Game {
     });
   };
 
-  // Send roomsList to client:
-  sendRoomsList = (io, roomsList) => {
-    return new Promise((resolve, reject) => {
-      io.emit('update_rooms', roomsList);
-      resolve(true);
-    });
-  };
-
   // Create a new room:
   handleCreatingRoom = (io, socket, playersList, room) => {
     return new Promise(async (resolve, reject) => {
@@ -169,7 +161,7 @@ class Game {
               message: `${playerOnSocket.nickname} is already in "${room}" room`
             }); // todo was "joined_denided"
           } else {
-            if (users.length < MAX_PLAYERS_IN_ROOM) {
+            if (users.length < MAX_PLAYERS_IN_ROOM && playerOnSocket) {
               playerOnSocket[0]?.setRoom(roomData.name);
               socket.join(roomData.name);
               this.sendRoomPlayersList(io, roomData.name, playersList);
@@ -187,7 +179,7 @@ class Game {
 
               roomData.players += 1;
 
-              io.emit('update_rooms', { roomsList });
+              roomsList.sendRoomsList(io);
               io.to(room).emit('update_room_data', roomData);
             } else {
               io.to(socket.id).emit('join_denied', {
@@ -205,6 +197,8 @@ class Game {
     return new Promise((resolve, reject) => {
       const playerToErase = playersList.find((p) => p.socketId === socket.id);
       const roomToLeave = playerToErase?.room;
+      const roomsToLeave = roomsList.getRoomsNamesForSocket(io, socket.id);
+      console.log('ROOOOOOOOOOOMSSSSSSSSSSSSS to leavEEEEEEE', roomsToLeave); // todo delete
       const isAdmin = playerToErase?.admin;
 
       if (roomToLeave) {
@@ -249,7 +243,7 @@ class Game {
             roomData.state = false;
           }
 
-          io.emit('update_rooms', { roomsList });
+          roomsList.sendRoomsList(io);
           io.to(roomToLeave).emit('update_room_data', roomData);
         } else if (isAdmin && playersInRoom.length >= 1 && roomData?.state) {
           roomData.players -= 1;
@@ -273,7 +267,7 @@ class Game {
           }
 
           io.to(roomToLeave).emit('update_room_data', roomData);
-          io.emit('update_rooms', { roomsList });
+          roomsList.sendRoomsList(io);
           io.to(roomToLeave).emit('chat', {
             // todo Chat ?
             message: `${playersInRoom[0].nickname} gets admin status in "${roomToLeave.name} room".`,
@@ -283,14 +277,14 @@ class Game {
           resolve({ status: true, playerToErase, roomsList });
         } else if (!isAdmin && playersInRoom.length >= 1 && !roomData.state) {
           roomData.players -= 1;
-          io.emit('update_rooms', { roomsList });
+          roomsList.sendRoomsList(io);
           io.to(roomToLeave).emit('update_room_data', roomData);
         } else if (isAdmin && playersInRoom.length >= 1 && !roomData.state) {
           playersInRoom[0].setAdminStatus(true);
           roomData.players -= 1;
 
           io.to(roomToLeave).emit('update_room_data', roomData);
-          io.emit('update_rooms', { roomsList });
+          roomsList.sendRoomsList(io);
           io.to(roomToLeave).emit('chat', {
             message: `${playersInRoom[0].nickname} gets admin status in "${roomToLeave.name} room".`,
             type: 'admin'
@@ -303,7 +297,7 @@ class Game {
 
           socket.emit('update_roomList', newRoomsList);
           roomsList.updateRooms(newRoomsList);
-          io.emit('update_rooms', { roomsList });
+          roomsList.sendRoomsList(io);
           io.to(roomToLeave).emit('update_room_data', []);
 
           resolve({ status: true, playerToErase, roomsList });
@@ -356,7 +350,7 @@ class Game {
       }
 
       io.to(data.roomName).emit('update_room_data', room[0]);
-      io.emit('update_rooms', roomsList);
+      roomsList.sendRoomsList(io);
     });
   };
 
@@ -369,7 +363,7 @@ class Game {
 
       if (room?.players === 1) {
         room.state = false;
-        io.emit('update_rooms', roomsList);
+        roomsList.sendRoomsList(io);
       }
       if (
         room?.mode === 'competition' &&
@@ -392,7 +386,7 @@ class Game {
             losers.forEach((element) => {
               element.gameOver = false;
             });
-            io.emit('update_rooms', roomsList);
+            roomsList.sendRoomsList(io);
           }
           if (
             res.length <= MAX_PLAYERS_IN_ROOM &&
@@ -413,7 +407,7 @@ class Game {
             });
 
             room.state = false;
-            io.emit('update_rooms', roomsList);
+            roomsList.sendRoomsList(io);
             losers.forEach((element) => {
               element.gameOver = false;
             });
