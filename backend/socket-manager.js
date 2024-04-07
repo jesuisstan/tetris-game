@@ -62,7 +62,6 @@ const manageSocket = (server) => {
             console.log(
               `${res.playerToErase?.nickname} (socket ${res.playerToErase?.socketId}) disconnected`
             );
-            console.log(`New players-list: `, playersList); // todo delete
           }
         });
     });
@@ -121,7 +120,9 @@ const manageSocket = (server) => {
     });
 
     socket.on('create_room', async (data) => {
-      const existingRoom = roomsList.getRooms(io).find((rm) => rm.name === data.room);
+      const existingRoom = roomsList
+        .getRooms(io)
+        .find((rm) => rm.name === data.room);
 
       if (existingRoom === undefined) {
         roomsList.addRoom({

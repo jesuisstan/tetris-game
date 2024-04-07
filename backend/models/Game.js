@@ -158,22 +158,22 @@ class Game {
         this.getRoomPlayersNicknames(io, room, playersList).then((users) => {
           if (users.includes(playerOnSocket?.nickname)) {
             io.to(socket.id).emit('join_denied', {
-              message: `${playerOnSocket.nickname} is already in "${room}" room`
+              message: `${playerOnSocket?.nickname} is already in "${room}" room`
             }); // todo was "joined_denided"
           } else {
             if (users.length < MAX_PLAYERS_IN_ROOM && playerOnSocket) {
-              playerOnSocket[0]?.setRoom(roomData.name);
+              playerOnSocket?.setRoom(roomData.name);
               socket.join(roomData.name);
               this.sendRoomPlayersList(io, roomData.name, playersList);
 
               io.to(roomData.name).emit('chat', {
                 // todo Chat ?
-                message: `${playerOnSocket[0]?.nickname} joined the room "${roomData.name}"`,
+                message: `${playerOnSocket?.nickname} joined the room "${roomData.name}"`,
                 type: 'joined'
               });
               //io.emit('chat', {
               //  // todo Chat ?
-              //  message: `${playerOnSocket[0]?.nickname} joined the room "${roomData.name}"`,
+              //  message: `${playerOnSocket?.nickname} joined the room "${roomData.name}"`,
               //  type: 'joined'
               //});
 
@@ -197,10 +197,8 @@ class Game {
     return new Promise((resolve, reject) => {
       const playerToErase = playersList.find((p) => p.socketId === socket.id);
       const roomToLeave = playerToErase?.room;
-      const roomsToLeave = roomsList.getRoomsNamesForSocket(io, socket.id);
-      console.log('ROOOOOOOOOOOMSSSSSSSSSSSSS to leavEEEEEEE', roomsToLeave); // todo delete
       const isAdmin = playerToErase?.admin;
-
+      console.log('----------handleLeavingRoom-----------'); // todo delete
       if (roomToLeave) {
         socket.leave(roomToLeave);
         io.to(playerToErase.socketId).emit('left_room'); // todo was 'leaved_room';
@@ -216,6 +214,7 @@ class Game {
         const playersOnSocket = playersList.filter(
           (p) => p.socketId === socket.id
         );
+
         const roomData = roomsList.find((rm) => rm.name === roomToLeave);
 
         playersOnSocket[0].setAdminStatus(false);
@@ -226,6 +225,7 @@ class Game {
 
         if (!isAdmin && playersInRoom.length >= 1 && roomData?.state) {
           roomData.players -= 1;
+          console.log('----------handleLeavingRoom----------- 1');
 
           if (playersInRoom.length === 1) {
             const playerWinner = playersList.find(
@@ -247,6 +247,7 @@ class Game {
           io.to(roomToLeave).emit('update_room_data', roomData);
         } else if (isAdmin && playersInRoom.length >= 1 && roomData?.state) {
           roomData.players -= 1;
+          console.log('----------handleLeavingRoom----------- 2');
 
           playersInRoom[0].setAdminStatus(true);
 
@@ -277,13 +278,17 @@ class Game {
           resolve({ status: true, playerToErase, roomsList });
         } else if (!isAdmin && playersInRoom.length >= 1 && !roomData.state) {
           roomData.players -= 1;
+          console.log('----------handleLeavingRoom----------- 3');
+
           roomsList.sendRoomsList(io);
           io.to(roomToLeave).emit('update_room_data', roomData);
         } else if (isAdmin && playersInRoom.length >= 1 && !roomData.state) {
           playersInRoom[0].setAdminStatus(true);
           roomData.players -= 1;
+          console.log('----------handleLeavingRoom----------- 4');
 
           io.to(roomToLeave).emit('update_room_data', roomData);
+
           roomsList.sendRoomsList(io);
           io.to(roomToLeave).emit('chat', {
             message: `${playersInRoom[0].nickname} gets admin status in "${roomToLeave.name} room".`,
@@ -294,8 +299,7 @@ class Game {
           const newRoomsList = roomsList.filter(
             (rm) => rm.name !== roomToLeave
           );
-
-          socket.emit('update_roomList', newRoomsList);
+          socket.emit('update_roomList', newRoomsList); // todo ???
           roomsList.updateRooms(newRoomsList);
           roomsList.sendRoomsList(io);
           io.to(roomToLeave).emit('update_room_data', []);
@@ -303,6 +307,8 @@ class Game {
           resolve({ status: true, playerToErase, roomsList });
         }
       } else {
+        console.log('----------handleLeavingRoom----------- ELSE'); // todo delete
+
         resolve({ status: true, playerToErase, roomsList });
       }
     });
