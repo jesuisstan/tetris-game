@@ -1,5 +1,6 @@
 import { Server } from 'socket.io';
-import Player from './models/Player.js';
+import Player from './classes/Player.js';
+import Tetromino from './classes/Tetromino.js';
 import {
   MAX_PLAYERS_IN_ROOM,
   roomsList,
@@ -162,14 +163,14 @@ const manageSocket = (server) => {
         });
     });
 
-    socket.on('startgame', async (data) => {
+    socket.on('start_game', async (data) => {
       const room = roomsList.find((room) => room.name === data.room);
       gameTetris
         .getRoomAdmin(io, socket.id, room, playersList)
         .then(async (user) => {
           if (user.admin) {
-            const tetriminos = await Tetromino.getTetriminos();
-            gameTetris.startGame(io, room, tetriminos);
+            const tetrominoes = await Tetromino.getTetrominoes();
+            gameTetris.startGame(io, room, tetrominoes);
             //io.emit('update_rooms', roomsList);
             roomsList.sendRoomsList(io);
           } else {
@@ -179,18 +180,18 @@ const manageSocket = (server) => {
       io.emit('game_started');
     });
 
-    socket.on('newTetriminos', async (data) => {
-      const tetriminos = await Tetromino.getTetriminos();
-      gameTetris.newTetriminos(io, data.room, tetriminos);
+    socket.on('new_tetrominoes', async (data) => {
+      const tetrominoes = await Tetromino.getTetrominoes();
+      gameTetris.newTetrominoes(io, data.room, tetrominoes);
     });
 
-    socket.on('Stage', (data) => {
+    socket.on('stage', (data) => {
       const player = playersList.find((p) => p.nickname === data.nickname);
       if (player && player.room === data.roomName)
         gameTetris.sendStage(io, data.roomName, data.stage, data.nickname);
     });
 
-    socket.on('checkStages', async (data) => {
+    socket.on('check_stages', async (data) => {
       gameTetris.checkStages(io, data.Stages, data.stage, data.room);
     });
 

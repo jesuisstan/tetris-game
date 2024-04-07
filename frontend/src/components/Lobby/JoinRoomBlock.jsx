@@ -117,19 +117,9 @@ const JoinRoomBlock = () => {
         gap: '21px'
       }}
     >
-      {!roomsList || loading ? (
-        <>
-          {!roomsList && (
-            <p style={{ color: 'var(--TETRIS_WHITE)' }}>Room list is </p>
-          )}
-          {loading && (
-            <p style={{ color: 'var(--TETRIS_WHITE)' }}>
-              Joining the room in progress...{' '}
-            </p>
-          )}
-          <TetrisLoader />
-        </>
-      ) : (
+      {!roomsList && <TetrisLoader text="Room list is loading..." />}
+      {loading && <TetrisLoader text="Joining the room in progress..." />}
+      {roomsList && !loading && (
         <Paper sx={{ width: '100%' }}>
           <TableContainer sx={{ maxHeight: 600 }}>
             <Table stickyHeader aria-label="sticky table">
@@ -167,6 +157,7 @@ const JoinRoomBlock = () => {
                               key={column.id}
                               align={column.align}
                               onClick={() => joinRoom(row.roomName)}
+                              sx={{ cursor: 'pointer' }}
                             >
                               {column.format && typeof value === 'number'
                                 ? column.format(value)

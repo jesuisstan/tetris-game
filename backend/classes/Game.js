@@ -315,24 +315,24 @@ class Game {
     });
   };
 
-  startGame = (io, room, Tetrimios) => {
+  startGame = (io, room, tetrominoes) => {
     return new Promise((resolve, reject) => {
       if (!room.state) {
         room.state = true;
-        io.to(room.name).emit('startGame', Tetrimios);
+        io.to(room.name).emit('start_game', tetrominoes);
       }
     });
   };
 
-  newTetriminos = (io, room, Tetrimios) => {
+  newTetrominoes = (io, room, tetrominoes) => {
     return new Promise((resolve, reject) => {
-      io.to(room).emit('newTetriminos', Tetrimios);
+      io.to(room).emit('new_tetrominoes', tetrominoes);
     });
   };
 
   sendStage = (io, room, stage, username) => {
     return new Promise((resolve, reject) => {
-      io.to(room).emit('getstages', { stage, username });
+      io.to(room).emit('get_stages', { stage, username });
     });
   };
 
@@ -341,7 +341,7 @@ class Game {
    */
   checkStages = (io, Stages, stage, room) => {
     return new Promise((resolve, reject) => {
-      io.to(room).emit('updateStages', { Stages });
+      io.to(room).emit('update_stages', { Stages });
     });
   };
 

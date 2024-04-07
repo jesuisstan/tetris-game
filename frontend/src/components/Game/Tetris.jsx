@@ -19,7 +19,7 @@ const Tetris = ({ rows, columns, setGameOver }) => {
     resetPlayer,
     addLinesCleared
   });
-console.log(player.tetrominoes)
+//console.log(player.tetrominoes) // todo delete
   return (
     <div className={styles.tetrisMain}>
       <div className={styles.wrapper}>

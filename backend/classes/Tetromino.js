@@ -1,11 +1,13 @@
+import { TETROMINOES_AMMOUNT } from '../index.js';
+
 class Tetromino {
   constructor() {}
 
   // method to generate a random tetromino:
   createRandomTetromino() {
-    let randomTetrimino = Math.floor(Math.random() * 7);
+    let randomTetromino = Math.floor(Math.random() * 7);
 
-    switch (randomTetrimino) {
+    switch (randomTetromino) {
       case 0:
         return 'I';
       case 1:
@@ -23,11 +25,11 @@ class Tetromino {
     }
   }
 
-  // method to get an array of 20 random tetrominoes:
+  // method to get an array of <TETROMINOES_AMMOUNT> random tetrominoes:
   getTetrominoes() {
     let tetrominoes = [];
 
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < TETROMINOES_AMMOUNT; i++) {
       tetrominoes.push(this.createRandomTetromino());
     }
 

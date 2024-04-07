@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect } from 'react';
 
 const defaultDropTime = 1000;
 const minimumDropTime = 100;
@@ -25,12 +25,10 @@ export const useDropTime = ({ gameStats }) => {
 
   useEffect(() => {
     const speed = speedIncrement * (gameStats.level - 1);
-console.log('speed = ', speed) // todo delete
 
     const newDropTime = Math.max(defaultDropTime - speed, minimumDropTime);
     setDropTime(newDropTime);
   }, [gameStats.level, setDropTime]);
-  
-  console.log('newDropTime = ', dropTime) // todo delete
+
   return [dropTime, pauseDropTime, resumeDropTime];
 };

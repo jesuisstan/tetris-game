@@ -6,15 +6,18 @@ import authRoutes from './routes/auth-route.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import http from 'http';
-import PlayersList from './models/PlayersList.js';
-import RoomsList from './models/RoomsList.js';
-import Game from './models/Game.js';
+import PlayersList from './classes/PlayersList.js';
+import RoomsList from './classes/RoomsList.js';
+import Game from './classes/Game.js';
 import manageSocket from './socket-manager.js';
 
 dotenv.config();
 
 export const MAX_PLAYERS_IN_ROOM =
   Number(process.env.REACT_APP_MAX_PLAYERS_IN_ROOM) || 3;
+
+export const TETROMINOES_AMMOUNT =
+  Number(process.env.REACT_APP_TETROMINOES_AMMOUNT) || 20;
 
 // Declare and export basic game vars:
 export let roomsList = new RoomsList();

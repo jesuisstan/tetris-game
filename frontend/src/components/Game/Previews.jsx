@@ -7,7 +7,7 @@ import '../../styles/tetris-styles/preview.css';
 const Previews = ({ tetrominoes }) => {
   // Preview 3 next tetrominoes
   const previewTetrominoes = tetrominoes
-    .slice(1 - tetrominoes.length)
+    .slice(tetrominoes.length - 3)
     .reverse();
 
   return (
