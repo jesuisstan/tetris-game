@@ -181,6 +181,7 @@ class Game {
 
               roomsList.sendRoomsList(io);
               io.to(room).emit('update_room_data', roomData);
+              io.emit('room_joined', null);
             } else {
               io.to(socket.id).emit('join_denied', {
                 message: 'This room is full'

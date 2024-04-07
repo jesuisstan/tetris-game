@@ -149,7 +149,6 @@ const manageSocket = (server) => {
         playersList,
         roomsList
       );
-      io.emit('room_joined', data);
     });
 
     socket.on('leave_room', () => {

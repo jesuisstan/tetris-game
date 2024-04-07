@@ -58,7 +58,7 @@ const CreateRoomBlock = () => {
     emitEvent('create_room', { room, gameMode }); // Emitting create_room event
 
     setLoading(false);
-    //navigate(roomUri);
+    navigate(roomUri);
   };
 
   useEffect(() => {

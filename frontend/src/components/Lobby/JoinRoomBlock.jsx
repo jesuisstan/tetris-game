@@ -11,24 +11,16 @@ import TableRow from '@mui/material/TableRow';
 import TetrisLoader from '../UI/TetrisLoader';
 import errorAlert from '../../utils/error-alert';
 
-import {
-  emitEvent,
-  getSocket,
-  listenEvent
-} from '../../socket/socketMiddleware';
+import { useSelector } from 'react-redux';
 
-import * as MUI from '../../styles/MUIstyles';
-import styles from '../../styles/lobby.module.css';
+import { emitEvent, listenEvent } from '../../socket/socketMiddleware';
 
 const JoinRoomBlock = () => {
+  const user = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [roomsList, setRoomsList] = useState(null);
-
-  //const onChange = (event) => {
-  //  const { name, value } = event.target;
-  //  let modifiedValue = value.replace(/\s/g, '');
-  //  setValues({ ...values, [name]: modifiedValue });
-  //};
+  const [roomURI, setRoomURI] = useState('');
+  const [loading, setLoading] = useState(false);
 
   //const joinRoom = (event) => {
   //  event.preventDefault();
@@ -38,6 +30,8 @@ const JoinRoomBlock = () => {
   //};
 
   const joinRoom = (roomName) => {
+    setRoomURI(`/tetris/${roomName}[${user.nickname}]`);
+    setLoading(true);
     emitEvent('join_room', { roomName }); // Emitting join_room event
   };
 
@@ -91,7 +85,6 @@ const JoinRoomBlock = () => {
   useEffect(() => {
     // Listening for update_rooms event
     listenEvent('update_rooms', (data) => {
-
       const roomsData = data?.roomsList?.map((item) =>
         createData(item.name, item.mode, item.maxPlayers, item.players)
       );
@@ -102,9 +95,18 @@ const JoinRoomBlock = () => {
 
     // Listen for "join_denied" events
     listenEvent('join_denied', (data) => {
+      setLoading(false);
       errorAlert(data?.message ?? 'Something went wrong');
     });
   }, []);
+
+  useEffect(() => {
+    // Listen for "room_joined" event
+    listenEvent('room_joined', () => {
+      setLoading(false);
+      navigate(roomURI); // Navigate after receiving acknowledgment
+    });
+  }, [roomURI]);
 
   return (
     <div
@@ -115,9 +117,16 @@ const JoinRoomBlock = () => {
         gap: '21px'
       }}
     >
-      {!roomsList ? (
+      {!roomsList || loading ? (
         <>
-          <p style={{ color: 'var(--TETRIS_WHITE)' }}>Room list is </p>
+          {!roomsList && (
+            <p style={{ color: 'var(--TETRIS_WHITE)' }}>Room list is </p>
+          )}
+          {loading && (
+            <p style={{ color: 'var(--TETRIS_WHITE)' }}>
+              Joining the room in progress...{' '}
+            </p>
+          )}
           <TetrisLoader />
         </>
       ) : (
