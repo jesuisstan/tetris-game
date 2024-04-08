@@ -5,7 +5,8 @@ import {
   MAX_PLAYERS_IN_ROOM,
   roomsList,
   gameTetris,
-  playersList
+  playersList,
+  tetromino
 } from './index.js';
 
 const manageSocket = (server) => {
@@ -169,7 +170,7 @@ const manageSocket = (server) => {
         .getRoomAdmin(io, socket.id, room, playersList)
         .then(async (user) => {
           if (user.admin) {
-            const tetrominoes = await Tetromino.getTetrominoes();
+            const tetrominoes = await tetromino.getTetrominoes();
             gameTetris.startGame(io, room, tetrominoes);
             //io.emit('update_rooms', roomsList);
             roomsList.sendRoomsList(io);
@@ -180,9 +181,10 @@ const manageSocket = (server) => {
       io.emit('game_started');
     });
 
-    socket.on('new_tetrominoes', async (data) => {
-      const tetrominoes = await Tetromino.getTetrominoes();
-      gameTetris.newTetrominoes(io, data.room, tetrominoes);
+    socket.on('get_tetrominoes', async (data) => {
+      console.log('Request for new tetrominoes from the room', data.roomName) // todo
+      const tetrominoes = await tetromino.getTetrominoes();
+      gameTetris.newTetrominoes(io, data.roomName, tetrominoes);
     });
 
     socket.on('stage', (data) => {

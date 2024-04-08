@@ -1,4 +1,4 @@
-import { TETROMINOES_AMMOUNT } from '../index.js';
+import { TETROMINOES_AMOUNT } from '../index.js';
 
 class Tetromino {
   constructor() {}
@@ -25,11 +25,11 @@ class Tetromino {
     }
   }
 
-  // method to get an array of <TETROMINOES_AMMOUNT> random tetrominoes:
-  getTetrominoes() {
+  // method to get an array of <TETROMINOES_AMOUNT> random tetrominoes:
+  getTetrominoes = async () =>  {
     let tetrominoes = [];
 
-    for (let i = 0; i < TETROMINOES_AMMOUNT; i++) {
+    for (let i = 0; i < TETROMINOES_AMOUNT; i++) {
       tetrominoes.push(this.createRandomTetromino());
     }
 

@@ -22,13 +22,6 @@ const JoinRoomBlock = () => {
   const [roomURI, setRoomURI] = useState('');
   const [loading, setLoading] = useState(false);
 
-  //const joinRoom = (event) => {
-  //  event.preventDefault();
-  //  setLoading(true);
-  //  const roomUri = `/tetris/${values.room}[${values.nickname}]`;
-  //  navigate(roomUri);
-  //};
-
   const joinRoom = (roomName) => {
     setRoomURI(`/tetris/${roomName}[${user.nickname}]`);
     setLoading(true);

@@ -16,15 +16,14 @@ const GameLayout = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
 
-  //let roomPlusNickname = window.location.href.split('/')[5]; // Assuming window.location.href.split('/')[5] is 'zzz[TestUser]'
-  //const regex = /\[(.*?)\]/; // Regular expression to extract text within square brackets
-  //const matches = roomPlusNickname.match(regex); // Match the regex against the string
-  //let player = { nickname: '', room: '', role: '' };
-  //if (matches && matches.length > 1) {
-  //  player.room = roomPlusNickname.split('[')[0]; // Extract characters before '[' as room
-  //  player.nickname = matches[1]; // Extract characters within square brackets as nickname
-  //  player.role = user.nickname === matches[1] ? 'host' : 'guest';
-  //}
+  let roomPlusNickname = window.location.href.split('/')[5]; // Assuming window.location.href.split('/')[5] is 'zzz[TestUser]'
+  const regex = /\[(.*?)\]/; // Regular expression to extract text within square brackets
+  const matches = roomPlusNickname.match(regex); // Match the regex against the string
+  let roomName= ''
+  if (matches && matches.length > 1) {
+    roomName = roomPlusNickname.split('[')[0]; // Extract characters before '[' as room
+
+  }
 
   //useEffect(() => {
   //  if (player.nickname && player.room) {
@@ -60,7 +59,7 @@ const GameLayout = () => {
           Play
         </LoadingButton>
       ) : (
-        <Tetris rows={20} columns={10} setGameOver={setGameOver} />
+        <Tetris room={roomName} rows={20} columns={10} setGameOver={setGameOver} />
       )}
     </div>
   );

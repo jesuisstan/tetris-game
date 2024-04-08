@@ -66,6 +66,16 @@ export const randomTetromino = () => {
   return TETROMINOES[key];
 };
 
+export const createTetrominoes = (symbols) => {
+  return symbols.map(symbol => {
+    const tetromino = Object.values(TETROMINOES).find(t => t.className.includes(symbol.toLowerCase()));
+    if (!tetromino) {
+      throw new Error(`No tetromino found for symbol: ${symbol}`);
+    }
+    return tetromino;
+  });
+};
+
 export const rotate = ({ piece, direction }) => {
   // Transpose rows and columns
   const newPiece = piece.map((_, index) =>

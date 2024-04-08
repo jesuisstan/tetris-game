@@ -9,6 +9,7 @@ import http from 'http';
 import PlayersList from './classes/PlayersList.js';
 import RoomsList from './classes/RoomsList.js';
 import Game from './classes/Game.js';
+import Tetromino from './classes/Tetromino.js';
 import manageSocket from './socket-manager.js';
 
 dotenv.config();
@@ -16,13 +17,14 @@ dotenv.config();
 export const MAX_PLAYERS_IN_ROOM =
   Number(process.env.REACT_APP_MAX_PLAYERS_IN_ROOM) || 3;
 
-export const TETROMINOES_AMMOUNT =
-  Number(process.env.REACT_APP_TETROMINOES_AMMOUNT) || 20;
+export const TETROMINOES_AMOUNT =
+  Number(process.env.REACT_APP_TETROMINOES_AMOUNT) || 20;
 
 // Declare and export basic game vars:
 export let roomsList = new RoomsList();
 export let gameTetris = new Game();
 export let playersList = new PlayersList();
+export let tetromino = new Tetromino();
 
 const app = express();
 app.use(express.json());
