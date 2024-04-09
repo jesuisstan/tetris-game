@@ -1,0 +1,78 @@
+@property --rotate {
+  syntax: '<angle>';
+  initial-value: 132deg;
+  inherits: false;
+}
+
+.magic {
+  background: var(--TETRIS_BLACK);
+  width: 150px;
+  height: 42px;
+  padding: 3px;
+  position: relative;
+  border-radius: 90px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  display: flex;
+  color: var(--TETRIS_WHITE);
+  cursor: pointer;
+  transition: letter-spacing 0.5s ease-in;
+}
+
+.magic:hover {
+  letter-spacing: 0.15em;
+  transition: letter-spacing 0.5s ease-out;
+}
+
+.magic:hover:before,
+.magic:hover:after {
+  animation: none;
+  opacity: 0;
+}
+
+.magic::before {
+  content: '';
+  width: 104%;
+  /*height of colored background*/
+  height: 108%;
+  border-radius: 90px;
+  background-image: linear-gradient(
+    var(--rotate),
+    var(--TETRIS_GREEN),
+    var(--TETRIS_WHITE),
+    var(--TETRIS_PINK)
+  );
+  position: absolute;
+  z-index: -1;
+  top: -5%;
+  left: -2%;
+  animation: spin 2.5s linear infinite;
+}
+
+.magic::after {
+  position: absolute;
+  content: '';
+  /*top: calc(var(--magic-height) / 6);*/
+  left: 0;
+  right: 0;
+  z-index: -1;
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
+  transform: scale(0.8);
+  filter: blur(calc(42px / 2));
+  background-image: linear-gradient(var(--rotate), #0055a4, #ffffff, #ef4135);
+  opacity: 1;
+  transition: opacity 0.5s;
+  animation: spin 2.5s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    --rotate: 0deg;
+  }
+  100% {
+    --rotate: 360deg;
+  }
+}

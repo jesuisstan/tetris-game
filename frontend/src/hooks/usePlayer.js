@@ -13,7 +13,7 @@ const buildPlayer = (roomName, previous) => {
   //listenEvent('new_tetrominoes', (data) => {
   //  console.log(data.tetrominoes);
   //});
-
+console.log('buildPlayer runs')
   if (previous) {
     tetrominoes = [...previous.tetrominoes];
 

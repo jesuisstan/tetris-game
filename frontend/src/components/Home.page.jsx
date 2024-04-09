@@ -1,12 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import LoadingButton from '@mui/lab/LoadingButton';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Preview from './Game/Preview';
 import { TETROMINOES } from '../utils/tetrominoes';
 import DeviderTetris from './UI/DeviderTetris';
 
 import * as MUI from '../styles/MUIstyles';
 import styles from '../styles/home-page.module.css';
+import magicStyles from '../styles/magic-btn.module.css';
+
 
 const Home = () => {
   const navigate = useNavigate();
@@ -17,29 +18,29 @@ const Home = () => {
 
       <div className={styles.previewBlock}>
         <div className={styles.trio}>
-          <div className={styles.glitch}>
+          <div className={styles.spinToRight}>
             <Preview tetromino={TETROMINOES.J} index={1} key={1} />
           </div>
-          <div className={styles.glitch}>
+          <div className={styles.spinToRight}>
             <Preview tetromino={TETROMINOES.O} index={3} key={3} />
           </div>
-          <div className={styles.glitch}>
+          <div className={styles.spinToRight}>
             <Preview tetromino={TETROMINOES.S} index={5} key={5} />
           </div>
         </div>
 
-        <div className={styles.glitch}>
+        <div className="glitch">
           <Preview tetromino={TETROMINOES.I} index={4} key={4} />
         </div>
 
         <div className={styles.trio}>
-          <div className={styles.glitch}>
+          <div className={styles.spinToLeft}>
             <Preview tetromino={TETROMINOES.Z} index={7} key={7} />
           </div>
-          <div className={styles.glitch}>
+          <div className={styles.spinToLeft}>
             <Preview tetromino={TETROMINOES.T} index={6} key={6} />
           </div>
-          <div className={styles.glitch}>
+          <div className={styles.spinToLeft}>
             <Preview tetromino={TETROMINOES.L} index={2} key={2} />
           </div>
         </div>
@@ -82,8 +83,10 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div>
-        <LoadingButton
+      <div className={magicStyles.magic}           onClick={() => {
+            navigate('/lobby');
+          }}>
+        {/*<LoadingButton
           //endIcon={<ArrowForwardIosIcon />}
           variant="contained"
           color="inherit"
@@ -91,9 +94,9 @@ const Home = () => {
           onClick={() => {
             navigate('/lobby');
           }}
-        >
+        >*/}
           C'est parti!
-        </LoadingButton>
+        {/*</LoadingButton>*/}
       </div>
     </div>
   );
