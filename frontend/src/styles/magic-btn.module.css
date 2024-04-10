@@ -62,7 +62,7 @@
   margin: 0 auto;
   transform: scale(0.8);
   filter: blur(calc(42px / 2));
-  background-image: linear-gradient(var(--rotate), #0055a4, #ffffff, #ef4135);
+  background-image: linear-gradient(var(--rotate), var(--TETRIS_GREEN), var(--TETRIS_WHITE), var(--TETRIS_PINK));
   opacity: 1;
   transition: opacity 0.5s;
   animation: spin 2.5s linear infinite;

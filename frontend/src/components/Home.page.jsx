@@ -8,7 +8,6 @@ import * as MUI from '../styles/MUIstyles';
 import styles from '../styles/home-page.module.css';
 import magicStyles from '../styles/magic-btn.module.css';
 
-
 const Home = () => {
   const navigate = useNavigate();
 
@@ -29,7 +28,7 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="glitch">
+        <div className={`glitch ${styles.centerItem}`}>
           <Preview tetromino={TETROMINOES.I} index={4} key={4} />
         </div>
 
@@ -46,18 +45,6 @@ const Home = () => {
         </div>
       </div>
 
-      {/*<div className={styles.optionsBlock}>
-        <p style={{ color: 'var(--TETRIS_WHITE)' }}>
-          Play "solo" <br />
-          to practice a little
-        </p>
-        <p style={{ color: 'var(--TETRIS_GREEN)' }}>--- OR ---</p>
-        <p style={{ color: 'var(--TETRIS_WHITE)' }}>
-          Play "competition"
-          <br />
-          to prove skills online
-        </p>
-      </div>*/}
       <div className={styles.optionsBlock}>
         <div>
           <div className={styles.left}>
@@ -83,20 +70,13 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className={magicStyles.magic}           onClick={() => {
-            navigate('/lobby');
-          }}>
-        {/*<LoadingButton
-          //endIcon={<ArrowForwardIosIcon />}
-          variant="contained"
-          color="inherit"
-          sx={MUI.LoadButton}
-          onClick={() => {
-            navigate('/lobby');
-          }}
-        >*/}
-          C'est parti!
-        {/*</LoadingButton>*/}
+      <div
+        className={magicStyles.magic}
+        onClick={() => {
+          navigate('/lobby');
+        }}
+      >
+        C'est parti!
       </div>
     </div>
   );

@@ -57,6 +57,10 @@
   width: 250px;
 }
 
+.centerItem {
+  transition: scale 0.5s ease-in;
+}
+
 .deviderTetris {
   display: flex;
 }
@@ -65,16 +69,21 @@
   display: none;
 }
 
-.glitch {
-  animation: glitch 1.5s linear infinite;
-}
-
 .spinToRight {
   animation: spinToRight 2.5s linear infinite;
+  transition: scale 0.5s ease-in;
 }
 
 .spinToLeft {
   animation: spinToLeft 2.5s linear infinite;
+  transition: scale 0.5s ease-in;
+}
+
+.spinToLeft:hover,
+.spinToRight:hover,
+.centerItem:hover {
+  scale: 150%;
+  transition: scale 0.5s ease-out;
 }
 
 @keyframes spinToRight {
@@ -112,7 +121,6 @@
     transform: translate(0, 0) skew(0deg) rotate(-360deg);
   }
 }
-
 
 @media (width < 768px) {
   .main {

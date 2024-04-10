@@ -18,11 +18,10 @@ const GameLayout = () => {
 
   let roomPlusNickname = window.location.href.split('/')[5]; // Assuming window.location.href.split('/')[5] is 'zzz[TestUser]'
   const regex = /\[(.*?)\]/; // Regular expression to extract text within square brackets
-  const matches = roomPlusNickname.match(regex); // Match the regex against the string
-  let roomName= ''
+  const matches = roomPlusNickname?.match(regex); // Match the regex against the string
+  let roomName = '';
   if (matches && matches.length > 1) {
     roomName = roomPlusNickname.split('[')[0]; // Extract characters before '[' as room
-
   }
 
   //useEffect(() => {
@@ -59,7 +58,12 @@ const GameLayout = () => {
           Play
         </LoadingButton>
       ) : (
-        <Tetris room={roomName} rows={20} columns={10} setGameOver={setGameOver} />
+        <Tetris
+          room={roomName}
+          rows={20}
+          columns={10}
+          setGameOver={setGameOver}
+        />
       )}
     </div>
   );
