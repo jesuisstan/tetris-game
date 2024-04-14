@@ -7,7 +7,7 @@
 .magic {
   background: var(--TETRIS_BLACK);
   width: 150px;
-  height: 42px;
+  height: 43px;
   padding: 3px;
   position: relative;
   border-radius: 90px;
@@ -35,7 +35,7 @@
   content: '';
   width: 104%;
   /*height of colored background*/
-  height: 108%;
+  height: 47px;
   border-radius: 90px;
   background-image: linear-gradient(
     var(--rotate),
