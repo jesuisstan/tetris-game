@@ -46,17 +46,51 @@ console.log('buildPlayer runs')
   };
 };
 
+//export const usePlayer = (roomName) => {
+//  const [player, setPlayer] = useState(() => buildPlayer(roomName));
+//  const [tetr, setTetr] = useState([]);
+
+//  //useEffect(() => {
+//  //}, []);
+//  console.log('tetr', tetr);
+  
+//  useEffect(() => {
+//    emitEvent('get_tetrominoes', { roomName });
+//    console.log('get_tetrominoes')
+//    // Listen for "new_tetrominoes" event
+//    listenEvent('new_tetrominoes', (data) => {
+//      console.log('data.tetrominoes', data);
+//      setTetr(tetr.unshift(...createTetrominoes(data)))
+//      //let xxx = createTetrominoes(data);
+//      //console.log('xxx', xxx);
+//      //console.log('tetr', tetr);
+
+//    });
+//  }, []);
+
+//  const resetPlayer = useCallback(() => {
+//    setPlayer((prev) => buildPlayer(roomName, prev));
+//  }, [roomName]);
+
+//  return [player, setPlayer, resetPlayer];
+//};
+
 export const usePlayer = (roomName) => {
   const [player, setPlayer] = useState(() => buildPlayer(roomName));
 
+console.log('tetrominoes', tetrominoes)
   useEffect(() => {
-    // Listen for "new_tetrominoes" event
+    emitEvent('get_tetrominoes', { roomName });
+
     listenEvent('new_tetrominoes', (data) => {
-      console.log('data.tetrominoes', data);
-      let xxx = createTetrominoes(data);
-      console.log('xxx', xxx);
+      const newTetrominoes = createTetrominoes(data);
+      tetrominoes.unshift(...newTetrominoes);
+      setPlayer((prev) => ({
+        ...prev,
+        tetrominoes
+      }));
     });
-  }, []);
+  }, [roomName]);
 
   const resetPlayer = useCallback(() => {
     setPlayer((prev) => buildPlayer(roomName, prev));
