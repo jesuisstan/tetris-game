@@ -10,6 +10,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TetrisLoader from '../UI/TetrisLoader';
 import errorAlert from '../../utils/error-alert';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 
 import { useSelector } from 'react-redux';
 
@@ -54,6 +55,12 @@ const JoinRoomBlock = () => {
       minWidth: 50,
       align: 'center',
       format: (value) => value.toLocaleString('en-US')
+    },
+    {
+      id: 'joinButton', // New column for join button
+      label: 'Join', // No need to show label for this column
+      minWidth: 50,
+      align: 'center'
     }
   ];
 
@@ -145,13 +152,29 @@ const JoinRoomBlock = () => {
                       >
                         {columns.map((column) => {
                           const value = row[column.id];
+                          if (column.id === 'joinButton') {
+                            // Render join button
+                            return (
+                              <TableCell
+                                key={column.id}
+                                align={column.align}
+                                sx={{ cursor: 'pointer' }}
+                              >
+                                <button
+                                  disabled={
+                                    row.mode === 'solo' ||
+                                    row.maxPlayers === row.players
+                                  }
+                                  style={{ cursor: 'pointer' }}
+                                  onClick={() => joinRoom(row.roomName)}
+                                >
+                                  <SportsEsportsIcon />
+                                </button>
+                              </TableCell>
+                            );
+                          }
                           return (
-                            <TableCell
-                              key={column.id}
-                              align={column.align}
-                              onClick={() => joinRoom(row.roomName)}
-                              sx={{ cursor: 'pointer' }}
-                            >
+                            <TableCell key={column.id} align={column.align}>
                               {column.format && typeof value === 'number'
                                 ? column.format(value)
                                 : value}
