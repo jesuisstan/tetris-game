@@ -146,6 +146,7 @@ class Game {
   handleJoiningRoom = (io, socket, room, playersList, roomsList) => {
     return new Promise((resolve, reject) => {
       const roomData = roomsList.find((rm) => rm.name === room);
+      
       if (roomData?.mode === 'solo') {
         io.to(socket.id).emit('join_denied', {
           message: 'You cannot join "solo" room'
@@ -157,9 +158,12 @@ class Game {
 
         this.getRoomPlayersNicknames(io, room, playersList).then((users) => {
           if (users.includes(playerOnSocket?.nickname)) {
-            io.to(socket.id).emit('join_denied', {
-              message: `${playerOnSocket?.nickname} is already in "${room}" room`
-            }); // todo was "joined_denided"
+            //io.to(socket.id).emit('join_denied', {
+            //  message: `${playerOnSocket?.nickname} is already in "${room}" room`
+            //});
+
+            // just let the user come back to the room
+            io.to(socket.id).emit('welcome_to_the_room', null);
           } else {
             if (users.length < MAX_PLAYERS_IN_ROOM && playerOnSocket) {
               playerOnSocket?.setRoom(roomData.name);
@@ -181,7 +185,8 @@ class Game {
 
               roomsList.sendRoomsList(io);
               io.to(room).emit('update_room_data', roomData);
-              io.emit('room_joined', null);
+              io.to(socket.id).emit('welcome_to_the_room', null);
+              //io.emit('room_joined', null); // global noticement
             } else {
               io.to(socket.id).emit('join_denied', {
                 message: 'This room is full'

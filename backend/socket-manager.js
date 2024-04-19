@@ -182,7 +182,7 @@ const manageSocket = (server) => {
     });
 
     socket.on('get_tetrominoes', async (data) => {
-      console.log('Request for new tetrominoes from the room', data.roomName) // todo
+      console.log('Request for new tetrominoes from the room', data.roomName); // todo
       const tetrominoes = await tetromino.getTetrominoes();
       gameTetris.newTetrominoes(io, data.roomName, tetrominoes);
     });

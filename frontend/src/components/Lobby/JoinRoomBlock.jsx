@@ -14,7 +14,11 @@ import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 
 import { useSelector } from 'react-redux';
 
-import { emitEvent, listenEvent } from '../../socket/socketMiddleware';
+import {
+  emitEvent,
+  listenEvent,
+  stopListeningEvent
+} from '../../socket/socketMiddleware';
 
 const JoinRoomBlock = () => {
   const user = useSelector((state) => state.user);
@@ -101,8 +105,8 @@ const JoinRoomBlock = () => {
   }, []);
 
   useEffect(() => {
-    // Listen for "room_joined" event
-    listenEvent('room_joined', () => {
+    // Listen for welcoming event
+    listenEvent('welcome_to_the_room', () => {
       setLoading(false);
       navigate(roomURI); // Navigate after receiving acknowledgment
     });
@@ -155,11 +159,7 @@ const JoinRoomBlock = () => {
                           if (column.id === 'joinButton') {
                             // Render join button
                             return (
-                              <TableCell
-                                key={column.id}
-                                align={column.align}
-                                sx={{ cursor: 'pointer' }}
-                              >
+                              <TableCell key={column.id} align={column.align}>
                                 <button
                                   disabled={
                                     row.mode === 'solo' ||
@@ -168,7 +168,15 @@ const JoinRoomBlock = () => {
                                   style={{ cursor: 'pointer' }}
                                   onClick={() => joinRoom(row.roomName)}
                                 >
-                                  <SportsEsportsIcon />
+                                  <SportsEsportsIcon
+                                    sx={{
+                                      color:
+                                        row.mode === 'solo' ||
+                                        row.maxPlayers === row.players
+                                          ? 'var(--TETRIS_RED)'
+                                          : 'var(--TETRIS_GREEN)'
+                                    }}
+                                  />
                                 </button>
                               </TableCell>
                             );

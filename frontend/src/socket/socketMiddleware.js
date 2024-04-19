@@ -36,6 +36,14 @@ export const listenEvent = (eventName, callback) => {
   }
 };
 
+export const stopListeningEvent = (eventName, callback) => {
+  if (socket) {
+    socket.off(eventName, callback);
+  } else {
+    console.error('Socket not initialized.');
+  }
+};
+
 export const getRoomsList = () => {
   return new Promise((resolve, reject) => {
     emitEvent('get_rooms_list', null); // Emitting get_rooms_list event
