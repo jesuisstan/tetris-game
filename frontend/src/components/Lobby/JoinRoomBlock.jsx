@@ -17,7 +17,6 @@ import { useSelector } from 'react-redux';
 import {
   emitEvent,
   listenEvent,
-  stopListeningEvent
 } from '../../socket/socketMiddleware';
 
 const JoinRoomBlock = () => {
