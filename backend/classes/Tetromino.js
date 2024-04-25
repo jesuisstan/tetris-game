@@ -32,7 +32,7 @@ class Tetromino {
     for (let i = 0; i < TETROMINOES_AMOUNT; i++) {
       tetrominoes.push(this.createRandomTetromino());
     }
-
+console.log(tetrominoes)
     return tetrominoes;
   }
 }

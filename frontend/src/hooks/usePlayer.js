@@ -52,16 +52,14 @@ const TETROMINOES_AMOUNT =
   Number(process.env.REACT_APP_TETROMINOES_AMOUNT) || 20;
 
 const buildPlayer = (roomName, initialTetrominoes, popTetromino, previous) => {
-  if (!previous) {
-    initialTetrominoes.pop(); // Modify initialTetrominoes by popping an element
-  }
+  //if (!previous) {
+  //  initialTetrominoes.pop(); // Modify initialTetrominoes by popping an element
+  //}
 
   //const tetromino = initialTetrominoes.pop(); // Pop a tetromino from the array
   const tetromino = popTetromino(); // Pop a tetromino from the array
-console.log('initialTetrominoes.length ??????????', initialTetrominoes.length )
-  if (initialTetrominoes.length <= 4) {
-console.log('GET', initialTetrominoes.length )
 
+  if (initialTetrominoes.length <= 4) {
     emitEvent('get_tetrominoes', { roomName });
   }
 
