@@ -9,7 +9,7 @@ import GameController from './GameController';
 
 import styles from '../../styles/tetris-styles/tetris.module.css';
 
-const Tetris = ({room, rows, columns, setGameOver, initialTetrominoes, popTetromino }) => {
+const Tetris = ({room, rows, columns, gameOver, setGameOver, initialTetrominoes, popTetromino }) => {
   const [gameStats, addLinesCleared] = useGameStats();
   const [player, setPlayer, resetPlayer] = usePlayer(room, initialTetrominoes, popTetromino);
   const [board, setBoard] = useBoard({
@@ -30,13 +30,13 @@ const Tetris = ({room, rows, columns, setGameOver, initialTetrominoes, popTetrom
           <Previews tetrominoes={player.tetrominoes} />
         </div>
 
-        <GameController
+        {!gameOver && <GameController
           board={board}
           gameStats={gameStats}
           player={player}
           setGameOver={setGameOver}
           setPlayer={setPlayer}
-        />
+        />}
       </div>
     </div>
   );

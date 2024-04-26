@@ -8,13 +8,14 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import errorAlert from '../../utils/error-alert';
 import { createTetrominoes } from '../../utils/tetrominoes';
 import { emitEvent, listenEvent } from '../../socket/socketMiddleware';
+import TetrisLoader from '../UI/TetrisLoader';
+import MagicButton from '../UI/MagicButton';
 
-import * as MUI from '../../styles/MUIstyles';
-
-//const baseUrl = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_FRONTEND_PORT}`;
-//const socket = io.connect(baseUrl);
+import styles from '../../styles/game-layout.module.css';
 
 const GameLayout = () => {
+  const [loading, setLoading] = useState(true);
+
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
   const [initialTetrominoes, setInitialTetrominoes] = useState([]);
@@ -31,54 +32,56 @@ const GameLayout = () => {
   const start = () => resetGameOver();
 
   useEffect(() => {
-    if (initialTetrominoes.length <= 4) {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+
+  useEffect(() => {
+    if (initialTetrominoes.length === 0) {
       emitEvent('get_tetrominoes', { roomName });
     }
 
     listenEvent('new_tetrominoes', (data) => {
-      setInitialTetrominoes(prevTetrominoes => [
+      setInitialTetrominoes((prevTetrominoes) => [
         ...createTetrominoes(data),
-        ...prevTetrominoes,
+        ...prevTetrominoes
       ]);
     });
   }, []);
 
   const popTetromino = () => initialTetrominoes.pop();
 
-  console.log('initialTetrominoes from GL', initialTetrominoes);
   return (
     <div style={{ marginTop: '21px' }}>
-      {gameOver ? (
-        <>
-          <LoadingButton
-            variant="contained"
-            color="inherit"
-            sx={MUI.LoadButton}
-            onClick={start}
-          >
-            Play
-          </LoadingButton>
-
-          {/*{initialTetrominoes}*/}
-          {initialTetrominoes.length}
-          <button
-            onClick={() => {
-              console.log(initialTetrominoes.pop());
-              console.log(initialTetrominoes.length);
-            }}
-          >
-            dicrease
-          </button>
-        </>
+      {loading ? (
+        <div className={styles.centered}>
+          <TetrisLoader />
+        </div>
       ) : (
-        <Tetris
-          room={roomName}
-          rows={20}
-          columns={10}
-          setGameOver={setGameOver}
-          initialTetrominoes={initialTetrominoes}
-          popTetromino={popTetromino}
-        />
+        <div>
+          {gameOver && (
+            <div className={styles.floatingCentered}>
+              <MagicButton
+                text="Start"
+                action={() => {
+                  start();
+                }}
+              />
+            </div>
+          )}
+          <div className={gameOver ? styles.blurContent : ''}>
+            <Tetris
+              room={roomName}
+              rows={20}
+              columns={10}
+              gameOver={gameOver}
+              setGameOver={setGameOver}
+              initialTetrominoes={initialTetrominoes}
+              popTetromino={popTetromino}
+            />
+          </div>
+        </div>
       )}
     </div>
   );

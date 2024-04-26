@@ -42,7 +42,6 @@
 //  return [player, setPlayer, resetPlayer];
 //};
 
-
 import { useState, useEffect, useCallback } from 'react';
 import { randomTetromino, createTetrominoes } from '../utils/tetrominoes';
 
@@ -78,8 +77,10 @@ export const usePlayer = (roomName, initialTetrominoes, popTetromino) => {
   );
 
   const resetPlayer = useCallback(() => {
-    setPlayer((prev) => buildPlayer(roomName, [...initialTetrominoes],popTetromino, prev)); // Pass a copy of initialTetrominoes
+    setPlayer((prev) =>
+      buildPlayer(roomName, [...initialTetrominoes], popTetromino, prev)
+    ); // Pass a copy of initialTetrominoes
   }, [roomName, initialTetrominoes]);
-//console.log('initialTetrominoes LENGTH', initialTetrominoes.length)
+  //console.log('initialTetrominoes LENGTH', initialTetrominoes.length)
   return [player, setPlayer, resetPlayer];
 };

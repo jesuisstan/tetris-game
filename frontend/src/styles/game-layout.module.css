@@ -1,0 +1,24 @@
+.centered {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 82.2vh;
+}
+
+.floatingCentered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
+}
+
+.blurContent {
+  filter: blur(5px); /* Adjust the blur amount as needed */
+}
+
+.blurContent .floatingCentered,
+.blurContent .floatingCentered * {
+  filter: none; /* Exclude MagicButton and its children from blur */
+}

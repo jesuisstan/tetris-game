@@ -69,8 +69,8 @@ const attemptMovement = ({ board, action, player, setPlayer, setGameOver }) => {
 
   const { collided, nextPosition } = movePlayer({
     delta,
-    position: player.position,
-    shape: player.tetromino.shape,
+    position: player?.position,
+    shape: player?.tetromino?.shape,
     board
   });
 

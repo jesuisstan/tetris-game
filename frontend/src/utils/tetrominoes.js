@@ -1,4 +1,4 @@
-const className = "tetromino";
+const className = 'tetromino';
 
 export const TETROMINOES = {
   I: {
@@ -67,9 +67,10 @@ export const randomTetromino = () => {
 };
 
 export const createTetrominoes = (symbols) => {
-  console.log('symbols:', symbols);
-  return symbols.map(symbol => {
-    const tetromino = Object.values(TETROMINOES).find(t => t.className.endsWith(`_${symbol.toLowerCase()}`));
+  return symbols.map((symbol) => {
+    const tetromino = Object.values(TETROMINOES).find((t) =>
+      t.className.endsWith(`_${symbol.toLowerCase()}`)
+    );
     console.log('tetromino:', tetromino);
     if (!tetromino) {
       throw new Error(`No tetromino found for symbol: ${symbol}`);
@@ -97,8 +98,10 @@ export const transferToBoard = ({
   rows,
   shape
 }) => {
+  if (!shape || !rows || !position) return;
+
   shape.forEach((row, y) => {
-    row.forEach((cell, x) => {
+    row?.forEach((cell, x) => {
       if (cell) {
         const occupied = isOccupied;
         const _y = y + position.row;

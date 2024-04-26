@@ -3,10 +3,9 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import Preview from './Game/Preview';
 import { TETROMINOES } from '../utils/tetrominoes';
 import DeviderTetris from './UI/DeviderTetris';
+import MagicButton from './UI/MagicButton';
 
-import * as MUI from '../styles/MUIstyles';
 import styles from '../styles/home-page.module.css';
-import magicStyles from '../styles/magic-btn.module.css';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -70,14 +69,12 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div
-        className={magicStyles.magic}
-        onClick={() => {
+      <MagicButton
+        text="C'est parti!"
+        action={() => {
           navigate('/lobby');
         }}
-      >
-        C'est parti!
-      </div>
+      />
     </div>
   );
 };
