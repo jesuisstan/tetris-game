@@ -71,7 +71,7 @@ export const createTetrominoes = (symbols) => {
     const tetromino = Object.values(TETROMINOES).find((t) =>
       t.className.endsWith(`_${symbol.toLowerCase()}`)
     );
-    console.log('tetromino:', tetromino);
+
     if (!tetromino) {
       throw new Error(`No tetromino found for symbol: ${symbol}`);
     }

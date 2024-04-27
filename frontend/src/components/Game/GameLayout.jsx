@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-//import io from 'socket.io-client';
 import { useDispatch, useSelector } from 'react-redux';
 import Tetris from './Tetris';
 import { useGameOver } from '../../hooks/useGameOver';
@@ -29,7 +28,12 @@ const GameLayout = () => {
   }
 
   const [gameOver, setGameOver, resetGameOver] = useGameOver();
-  const start = () => resetGameOver();
+
+  const start = () => {
+    if (initialTetrominoes.length === 0) {
+      emitEvent('get_tetrominoes', { roomName });
+    }
+  };
 
   useEffect(() => {
     setTimeout(() => {
@@ -38,15 +42,15 @@ const GameLayout = () => {
   }, []);
 
   useEffect(() => {
-    if (initialTetrominoes.length === 0) {
-      emitEvent('get_tetrominoes', { roomName });
-    }
-
     listenEvent('new_tetrominoes', (data) => {
       setInitialTetrominoes((prevTetrominoes) => [
         ...createTetrominoes(data),
         ...prevTetrominoes
       ]);
+
+      if (gameOver) {
+        resetGameOver();
+      }
     });
   }, []);
 
@@ -60,7 +64,7 @@ const GameLayout = () => {
         </div>
       ) : (
         <div>
-          {gameOver && (
+          {gameOver && !loading && (
             <div className={styles.floatingCentered}>
               <MagicButton
                 text="Start"
@@ -68,18 +72,21 @@ const GameLayout = () => {
                   start();
                 }}
               />
+              {/*<TetrisLoader text="Awaiting the start" />*/}
             </div>
           )}
           <div className={gameOver ? styles.blurContent : ''}>
-            <Tetris
-              room={roomName}
-              rows={20}
-              columns={10}
-              gameOver={gameOver}
-              setGameOver={setGameOver}
-              initialTetrominoes={initialTetrominoes}
-              popTetromino={popTetromino}
-            />
+            {!gameOver && (
+              <Tetris
+                room={roomName}
+                rows={20}
+                columns={10}
+                gameOver={gameOver}
+                setGameOver={setGameOver}
+                initialTetrominoes={initialTetrominoes}
+                popTetromino={popTetromino}
+              />
+            )}
           </div>
         </div>
       )}

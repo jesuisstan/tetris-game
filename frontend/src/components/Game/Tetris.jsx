@@ -11,7 +11,7 @@ import styles from '../../styles/tetris-styles/tetris.module.css';
 
 const Tetris = ({room, rows, columns, gameOver, setGameOver, initialTetrominoes, popTetromino }) => {
   const [gameStats, addLinesCleared] = useGameStats();
-  const [player, setPlayer, resetPlayer] = usePlayer(room, initialTetrominoes, popTetromino);
+  const [player, setPlayer, resetPlayer] = usePlayer(gameOver, room, initialTetrominoes, popTetromino);
   const [board, setBoard] = useBoard({
     rows,
     columns,
@@ -19,7 +19,7 @@ const Tetris = ({room, rows, columns, gameOver, setGameOver, initialTetrominoes,
     resetPlayer,
     addLinesCleared
   });
-//console.log(player.tetrominoes) // todo delete
+
   return (
     <div className={styles.tetrisMain}>
       <div className={styles.wrapper}>
@@ -27,7 +27,7 @@ const Tetris = ({room, rows, columns, gameOver, setGameOver, initialTetrominoes,
 
         <div className={styles.infoBlock}>
           <GameStats gameStats={gameStats} />
-          <Previews tetrominoes={player.tetrominoes} />
+          <Previews tetrominoes={player?.tetrominoes}/>
         </div>
 
         {!gameOver && <GameController

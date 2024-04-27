@@ -5,7 +5,7 @@ import { useDropTime } from '../../hooks/useDropTime';
 import { useInterval } from '../../hooks/useInterval';
 
 import '../../styles/tetris-styles/game-controller.css';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import FocusButton from '../UI/FocusButton';
 
 const GameController = ({
@@ -18,9 +18,18 @@ const GameController = ({
   const [dropTime, pauseDropTime, resumeDropTime] = useDropTime({
     gameStats
   });
+  const inputRef = useRef(null);
+
+  const focusOnTetris = () => {
+    // Ensure the input element retains focus
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
 
   useInterval(() => {
     handleInput({ action: Action.SlowDrop });
+    focusOnTetris();
   }, dropTime);
 
   const onKeyUp = ({ code }) => {
@@ -58,18 +67,8 @@ const GameController = ({
     });
   };
 
-  const inputRef = useRef(null);
-
-  const focusOnTetris = () => {
-    // Ensure the input element retains focus
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-  };
-
   return (
     <div>
-      <FocusButton title="Focus on tetris" onClick={focusOnTetris} />
       <input
         ref={inputRef}
         className="GameController"

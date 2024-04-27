@@ -43,22 +43,13 @@
 //};
 
 import { useState, useEffect, useCallback } from 'react';
-import { randomTetromino, createTetrominoes } from '../utils/tetrominoes';
 
 import { emitEvent, listenEvent } from '../socket/socketMiddleware';
 
-const TETROMINOES_AMOUNT =
-  Number(process.env.REACT_APP_TETROMINOES_AMOUNT) || 20;
-
-const buildPlayer = (roomName, initialTetrominoes, popTetromino, previous) => {
-  //if (!previous) {
-  //  initialTetrominoes.pop(); // Modify initialTetrominoes by popping an element
-  //}
-
-  //const tetromino = initialTetrominoes.pop(); // Pop a tetromino from the array
+const buildPlayer = (gameOver, roomName, initialTetrominoes, popTetromino) => {
   const tetromino = popTetromino(); // Pop a tetromino from the array
 
-  if (initialTetrominoes.length <= 4) {
+  if (initialTetrominoes.length === 4) {
     emitEvent('get_tetrominoes', { roomName });
   }
 
@@ -71,16 +62,21 @@ const buildPlayer = (roomName, initialTetrominoes, popTetromino, previous) => {
   };
 };
 
-export const usePlayer = (roomName, initialTetrominoes, popTetromino) => {
+export const usePlayer = (
+  gameOver,
+  roomName,
+  initialTetrominoes,
+  popTetromino
+) => {
   const [player, setPlayer] = useState(() =>
-    buildPlayer(roomName, initialTetrominoes, popTetromino)
+    buildPlayer(gameOver, roomName, initialTetrominoes, popTetromino)
   );
 
   const resetPlayer = useCallback(() => {
     setPlayer((prev) =>
-      buildPlayer(roomName, [...initialTetrominoes], popTetromino, prev)
+      buildPlayer(gameOver, roomName, [...initialTetrominoes], popTetromino)
     ); // Pass a copy of initialTetrominoes
   }, [roomName, initialTetrominoes]);
-  //console.log('initialTetrominoes LENGTH', initialTetrominoes.length)
+
   return [player, setPlayer, resetPlayer];
 };
