@@ -9,9 +9,22 @@ import GameController from './GameController';
 
 import styles from '../../styles/tetris-styles/tetris.module.css';
 
-const Tetris = ({room, rows, columns, gameOver, setGameOver, initialTetrominoes, popTetromino }) => {
+const Tetris = ({
+  room,
+  rows,
+  columns,
+  gameOver,
+  setGameOver,
+  initialTetrominoes,
+  popTetromino
+}) => {
   const [gameStats, addLinesCleared] = useGameStats();
-  const [player, setPlayer, resetPlayer] = usePlayer(gameOver, room, initialTetrominoes, popTetromino);
+  const [player, setPlayer, resetPlayer] = usePlayer(
+    gameOver,
+    room,
+    initialTetrominoes,
+    popTetromino
+  );
   const [board, setBoard] = useBoard({
     rows,
     columns,
@@ -27,17 +40,29 @@ const Tetris = ({room, rows, columns, gameOver, setGameOver, initialTetrominoes,
 
         <div className={styles.infoBlock}>
           <GameStats gameStats={gameStats} />
-          <Previews tetrominoes={player?.tetrominoes}/>
+          <Previews tetrominoes={player?.tetrominoes} />
         </div>
 
-        {!gameOver && <GameController
-          board={board}
-          gameStats={gameStats}
-          player={player}
-          setGameOver={setGameOver}
-          setPlayer={setPlayer}
-        />}
+        {!gameOver && (
+          <GameController
+            board={board}
+            gameStats={gameStats}
+            player={player}
+            setGameOver={setGameOver}
+            setPlayer={setPlayer}
+          />
+        )}
       </div>
+      <div className={styles.others}>
+
+      <Board board={board} />
+      <Board board={board} />
+      {/*<Board board={board} />
+      <Board board={board} />*/}
+
+
+      </div>
+
     </div>
   );
 };

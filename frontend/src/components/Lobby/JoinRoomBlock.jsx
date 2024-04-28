@@ -14,10 +14,7 @@ import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 
 import { useSelector } from 'react-redux';
 
-import {
-  emitEvent,
-  listenEvent,
-} from '../../socket/socketMiddleware';
+import { emitEvent, listenEvent } from '../../socket/socketMiddleware';
 
 const JoinRoomBlock = () => {
   const user = useSelector((state) => state.user);
@@ -37,38 +34,32 @@ const JoinRoomBlock = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const columns = [
-    { id: 'roomName', label: 'Room name', minWidth: 150 },
+    { id: 'roomName', label: 'Room name', minWidth: 142 },
     {
       id: 'mode',
       label: 'Game mode',
-      minWidth: 150,
+      minWidth: 142,
       align: 'center',
       format: (value) => value.toLocaleString('en-US')
     },
     {
-      id: 'maxPlayers',
-      label: 'Max 👫',
-      minWidth: 50,
+      id: 'details',
+      label: 'Players / Max',
+      minWidth: 142,
       align: 'center',
       format: (value) => value.toLocaleString('en-US')
     },
     {
-      id: 'players',
-      label: 'Players',
-      minWidth: 50,
-      align: 'center',
-      format: (value) => value.toLocaleString('en-US')
-    },
-    {
-      id: 'joinButton', // New column for join button
-      label: 'Join', // No need to show label for this column
-      minWidth: 50,
+      id: 'joinButton',
+      label: 'Join',
+      minWidth: 100,
       align: 'center'
     }
   ];
 
   const createData = (roomName, mode, maxPlayers, players) => {
-    return { roomName, mode, maxPlayers, players };
+    const details = `${players} / ${maxPlayers}`;
+    return { roomName, mode, details };
   };
 
   const handleChangePage = (event, newPage) => {
