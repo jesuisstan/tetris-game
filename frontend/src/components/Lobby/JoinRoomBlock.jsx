@@ -59,7 +59,7 @@ const JoinRoomBlock = () => {
 
   const createData = (roomName, mode, maxPlayers, players) => {
     const details = `${players} / ${maxPlayers}`;
-    return { roomName, mode, details };
+    return { roomName, mode, details, players, maxPlayers };
   };
 
   const handleChangePage = (event, newPage) => {

@@ -187,10 +187,10 @@ const manageSocket = (server) => {
       gameTetris.newTetrominoes(io, data.roomName, tetrominoes);
     });
 
-    socket.on('stage', (data) => {
+    socket.on('board_from_front', (data) => {
       const player = playersList.find((p) => p.nickname === data.nickname);
-      if (player && player.room === data.roomName)
-        gameTetris.sendStage(io, data.roomName, data.stage, data.nickname);
+      if (player && player.room === data.room)
+        gameTetris.sendBoard(io, socket.id, data.room, data.board, data.nickname);
     });
 
     socket.on('check_stages', async (data) => {
