@@ -146,16 +146,15 @@ class Game {
   handleJoiningRoom = (io, socket, room, playersList, roomsList) => {
     return new Promise((resolve, reject) => {
       const roomData = roomsList.find((rm) => rm.name === room);
+      const playerOnSocket = playersList.find((p) => p.socketId === socket.id);
 
       if (roomData?.mode === 'solo') {
-        io.to(socket.id).emit('join_denied', {
-          message: 'You cannot join "solo" room'
-        });
+        socket.id === playerOnSocket?.socketId
+          ? io.to(socket.id).emit('welcome_to_the_room', null)
+          : io.to(socket.id).emit('join_denied', {
+              message: 'You cannot join "solo" room'
+            });
       } else if (roomData?.mode === 'competition') {
-        const playerOnSocket = playersList.find(
-          (p) => p.socketId === socket.id
-        );
-
         this.getRoomPlayersNicknames(io, room, playersList).then((users) => {
           if (users.includes(playerOnSocket?.nickname)) {
             //io.to(socket.id).emit('join_denied', {

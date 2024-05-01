@@ -35,13 +35,30 @@ const GameLayout = () => {
     }
   };
 
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-  }, []);
+  //useEffect(() => {
+  //  setTimeout(() => {
+  //    setLoading(false);
+  //  }, 1000);
+  //}, []);
 
   useEffect(() => {
+    if (roomName) emitEvent('join_room', { roomName }); // Emitting join_room event
+
+    // Listen for welcoming event
+    listenEvent('welcome_to_the_room', () => {
+      setLoading(false);
+      //navigate(roomURI); // Navigate after receiving acknowledgment
+    });
+
+    // Listen for "join_denied" events
+    listenEvent('join_denied', (data) => {
+      setLoading(false);
+      errorAlert(data?.message ?? 'Something went wrong');
+      setTimeout(() => {
+        navigate('/lobby');
+      }, 500);
+    });
+
     listenEvent('new_tetrominoes', (data) => {
       setInitialTetrominoes((prevTetrominoes) => [
         ...createTetrominoes(data),

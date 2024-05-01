@@ -17,19 +17,11 @@ import { useSelector } from 'react-redux';
 import { emitEvent, listenEvent } from '../../socket/socketMiddleware';
 
 const JoinRoomBlock = () => {
-  const user = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
   const [roomsList, setRoomsList] = useState(null);
   const [roomURI, setRoomURI] = useState('');
   const [loading, setLoading] = useState(false);
-
-  const joinRoom = (roomName) => {
-    setRoomURI(`/tetris/${roomName}[${user.nickname}]`);
-    setLoading(true);
-    emitEvent('join_room', { roomName }); // Emitting join_room event
-  };
-
-  /* Table with rooms list adjusting */
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -71,7 +63,19 @@ const JoinRoomBlock = () => {
     setPage(0);
   };
 
-  /* Socket moves */
+  const joinRoom = (roomName) => {
+    setLoading(true);
+    const newRoomURI = `/tetris/${roomName}[${user.nickname}]`;
+    setRoomURI(newRoomURI);
+  };
+  
+  useEffect(() => {
+    if (roomURI !== '') {
+      setLoading(false);
+      navigate(roomURI);
+    }
+  }, [roomURI, navigate]);
+
   useEffect(() => {
     emitEvent('get_rooms_list', null);
   }, []);
@@ -86,21 +90,7 @@ const JoinRoomBlock = () => {
       // Reverse the roomsData array before setting it to state
       setRoomsList(roomsData?.reverse() || []);
     });
-
-    // Listen for "join_denied" events
-    listenEvent('join_denied', (data) => {
-      setLoading(false);
-      errorAlert(data?.message ?? 'Something went wrong');
-    });
   }, []);
-
-  useEffect(() => {
-    // Listen for welcoming event
-    listenEvent('welcome_to_the_room', () => {
-      setLoading(false);
-      navigate(roomURI); // Navigate after receiving acknowledgment
-    });
-  }, [roomURI]);
 
   return (
     <div

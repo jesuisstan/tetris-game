@@ -40,7 +40,6 @@ class RoomsList extends Array {
   sendRoomsList(io) {
     const roomsList = this.getRooms(io);
     console.log('SOCKET ROOMS: ', io.sockets.adapter.rooms) // todo delete
-    console.log('roomsList!!!!!!!!!!!!', roomsList); // todo delete
     this.updateRooms(roomsList)
     //return new Promise((resolve, reject) => {
     io.emit('update_rooms', { roomsList });
