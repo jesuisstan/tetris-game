@@ -13,7 +13,12 @@ import { setUser } from './store/user-slice';
 
 //import io from 'socket.io-client';
 
-import { initializeSocket, closeSocket, emitEvent, listenEvent } from './socket/socketMiddleware';
+import {
+  initializeSocket,
+  closeSocket,
+  emitEvent,
+  listenEvent
+} from './socket/socketMiddleware';
 import { setSocket } from './store/socket-slice';
 import { getSocket } from './socket/socketMiddleware';
 
@@ -48,27 +53,9 @@ const App = () => {
     fetchUserData();
   }, [dispatch, user._id]);
 
-  //useEffect(() => {
-  //  dispatch(setSocket(socket));
-  //  return () => {
-  //    socket.disconnect();
-  //  };
-  //}, [dispatch]);
-
-  //// listen to mesages from server:
-  //useEffect(() => {
-  //  socket.on('welcome', ({ message }) => {
-  //    console.log('message from server:', message);
-  //  });
-  //}, []);
-
   useEffect(() => {
     listenEvent('welcome', ({ message }) => {
       console.log('message from server:', message);
-    });
-
-    listenEvent('chat', ({ message }) => {
-      console.log('Chat message from server:', message);
     });
   }, []);
 
@@ -85,13 +72,7 @@ const App = () => {
 
             <Route
               path="lobby"
-              element={
-                user.nickname ? (
-                  <Lobby />
-                ) : (
-                  <PleaseLogin />
-                )
-              }
+              element={user.nickname ? <Lobby /> : <PleaseLogin />}
             />
 
             <Route path="/tetris/:room?" element={<GameLayout />} />

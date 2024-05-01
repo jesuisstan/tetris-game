@@ -150,7 +150,7 @@ class Game {
 
       if (roomData?.mode === 'solo') {
         socket.id === playerOnSocket?.socketId
-          ? io.to(socket.id).emit('welcome_to_the_room', null)
+          ? io.to(socket.id).emit('welcome_to_the_room', roomData)
           : io.to(socket.id).emit('join_denied', {
               message: 'You cannot join "solo" room'
             });
@@ -162,7 +162,7 @@ class Game {
             //});
 
             // just let the user come back to the room
-            io.to(socket.id).emit('welcome_to_the_room', null);
+            io.to(socket.id).emit('welcome_to_the_room', roomData);
           } else {
             if (users.length < MAX_PLAYERS_IN_ROOM && playerOnSocket) {
               playerOnSocket?.setRoom(roomData.name);
@@ -184,7 +184,7 @@ class Game {
 
               roomsList.sendRoomsList(io);
               io.to(room).emit('update_room_data', roomData);
-              io.to(socket.id).emit('welcome_to_the_room', null);
+              io.to(socket.id).emit('welcome_to_the_room', roomData);
               //io.emit('room_joined', null); // global noticement
             } else {
               io.to(socket.id).emit('join_denied', {
@@ -203,10 +203,10 @@ class Game {
       const playerToErase = playersList.find((p) => p.socketId === socket.id);
       const roomToLeave = playerToErase?.room;
       const isAdmin = playerToErase?.admin;
-      console.log('----------handleLeavingRoom-----------'); // todo delete
+
       if (roomToLeave) {
         socket.leave(roomToLeave);
-        io.to(playerToErase.socketId).emit('left_room'); // todo was 'leaved_room';
+        io.to(playerToErase.socketId).emit('left_room');
         io.to(roomToLeave).emit('chat', {
           // todo Chat ?
           message: `${playerToErase.nickname} left the room "${roomToLeave.name}"`,
@@ -221,7 +221,7 @@ class Game {
         );
 
         const roomData = roomsList.find((rm) => rm.name === roomToLeave);
-
+console.log('roomData!!!!!!!!!!!!!!!!!!!!!!',roomData)
         playersOnSocket[0].setAdminStatus(false);
         playersOnSocket[0].setRoom('');
         playersOnSocket[0].setGameOver(false);
@@ -255,6 +255,8 @@ class Game {
           console.log('----------handleLeavingRoom----------- 2');
 
           playersInRoom[0].setAdminStatus(true);
+          roomData.admin.nickname =  playersInRoom[0].nickname
+          roomData.admin.socketId =  playersInRoom[0].socketId
 
           if (playersInRoom.length === 1) {
             const playerWinner = playersList.find(
@@ -276,7 +278,7 @@ class Game {
           roomsList.sendRoomsList(io);
           io.to(roomToLeave).emit('chat', {
             // todo Chat ?
-            message: `${playersInRoom[0].nickname} gets admin status in "${roomToLeave.name} room".`,
+            message: `${playersInRoom[0].nickname} gets admin status in this room".`,
             type: 'admin'
           });
 
@@ -290,7 +292,8 @@ class Game {
         } else if (isAdmin && playersInRoom.length >= 1 && !roomData.state) {
           playersInRoom[0].setAdminStatus(true);
           roomData.players -= 1;
-          console.log('----------handleLeavingRoom----------- 4');
+          roomData.admin.nickname =  playersInRoom[0].nickname
+          roomData.admin.socketId =  playersInRoom[0].socketId
 
           io.to(roomToLeave).emit('update_room_data', roomData);
 
@@ -348,9 +351,6 @@ class Game {
     });
   };
 
-  /*
-   ** Check Stages state and send it to the rooms
-   */
   checkStages = (io, Stages, stage, room) => {
     return new Promise((resolve, reject) => {
       io.to(room).emit('update_stages', { Stages });

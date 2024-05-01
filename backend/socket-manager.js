@@ -95,7 +95,10 @@ const manageSocket = (server) => {
               maxPlayers: 1,
               players: 1,
               state: false,
-              owner: socket.id
+              admin: {
+                socketId: socket.id,
+                nickname: data.nickname
+              }
             });
             gameTetris.handleCreatingRoom(io, socket, playersList, data.room);
             //io.emit('update_rooms', { roomsList });
@@ -113,7 +116,7 @@ const manageSocket = (server) => {
               roomsList
             );
           } else {
-            io.to(socket.id).emit('join_denied'); // todo was "joined_denided"
+            io.to(socket.id).emit('join_denied');
           }
         });
       else {
@@ -133,7 +136,10 @@ const manageSocket = (server) => {
           maxPlayers: data.gameMode === 'solo' ? 1 : MAX_PLAYERS_IN_ROOM,
           players: 1,
           state: false,
-          owner: socket.id
+          admin: {
+            socketId: socket.id,
+            nickname: data.nickname
+          }
         });
 
         gameTetris.handleCreatingRoom(io, socket, playersList, data.room);
@@ -154,7 +160,6 @@ const manageSocket = (server) => {
     });
 
     socket.on('leave_room', () => {
-      // todo was 'leaveRoom'
       gameTetris
         .handleLeavingRoom(io, socket, playersList, roomsList)
         .then((res) => {
@@ -182,7 +187,6 @@ const manageSocket = (server) => {
     });
 
     socket.on('get_tetrominoes', async (data) => {
-      console.log('Request for new tetrominoes from the room', data.roomName); // todo
       const tetrominoes = await tetromino.getTetrominoes();
       gameTetris.newTetrominoes(io, data.roomName, tetrominoes);
     });
@@ -190,7 +194,13 @@ const manageSocket = (server) => {
     socket.on('board_from_front', (data) => {
       const player = playersList.find((p) => p.nickname === data.nickname);
       if (player && player.room === data.room)
-        gameTetris.sendBoard(io, socket.id, data.room, data.board, data.nickname);
+        gameTetris.sendBoard(
+          io,
+          socket.id,
+          data.room,
+          data.board,
+          data.nickname
+        );
     });
 
     socket.on('check_stages', async (data) => {

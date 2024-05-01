@@ -55,7 +55,7 @@ const CreateRoomBlock = () => {
     setLoading(true);
     const roomUri = `/tetris/${room}[${user.nickname}]`;
 
-    emitEvent('create_room', { room, gameMode }); // Emitting create_room event
+    emitEvent('create_room', { room, gameMode, nickname: user.nickname }); // Emitting create_room event
 
     setLoading(false);
     navigate(roomUri);

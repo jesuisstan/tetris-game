@@ -35,6 +35,13 @@ const JoinRoomBlock = () => {
       format: (value) => value.toLocaleString('en-US')
     },
     {
+      id: 'admin',
+      label: 'Admin',
+      minWidth: 142,
+      align: 'center',
+      format: (value) => value.toLocaleString('en-US')
+    },
+    {
       id: 'details',
       label: 'Players / Max',
       minWidth: 142,
@@ -49,9 +56,9 @@ const JoinRoomBlock = () => {
     }
   ];
 
-  const createData = (roomName, mode, maxPlayers, players) => {
+  const createData = (roomName, mode, admin, maxPlayers, players) => {
     const details = `${players} / ${maxPlayers}`;
-    return { roomName, mode, details, players, maxPlayers };
+    return { roomName, mode, admin, details, players, maxPlayers };
   };
 
   const handleChangePage = (event, newPage) => {
@@ -68,7 +75,7 @@ const JoinRoomBlock = () => {
     const newRoomURI = `/tetris/${roomName}[${user.nickname}]`;
     setRoomURI(newRoomURI);
   };
-  
+
   useEffect(() => {
     if (roomURI !== '') {
       setLoading(false);
@@ -83,8 +90,15 @@ const JoinRoomBlock = () => {
   useEffect(() => {
     // Listening for update_rooms event
     listenEvent('update_rooms', (data) => {
+      console.log('data-------------', data)
       const roomsData = data?.roomsList?.map((item) =>
-        createData(item.name, item.mode, item.maxPlayers, item.players)
+        createData(
+          item.name,
+          item.mode,
+          item.admin.nickname,
+          item.maxPlayers,
+          item.players
+        )
       );
 
       // Reverse the roomsData array before setting it to state

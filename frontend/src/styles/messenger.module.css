@@ -1,0 +1,44 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 1px solid var(--TETRIS_WHITE);
+  padding: 21px;
+  width: 500px;
+  height: 250px;
+  text-align: left;
+  gap: 21px;
+}
+
+.messagesContainer {
+  overflow-y: auto;
+  width: 100%;
+  padding-left: 21px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  scroll-behavior: smooth; 
+}
+
+.message {
+  color: var(--TETRIS_WHITE);
+  opacity: 0; /* Initially hide the message */
+  animation: typingAnimation 0.5s forwards; /* Apply the typing animation */
+}
+
+.singleMessage {
+  color: var(--TETRIS_WHITE);
+}
+
+@keyframes typingAnimation {
+  from {
+    opacity: 0;
+    transform: translateY(20px); /* Move the message downward */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0); /* Move the message back to its original position */
+  }
+}
