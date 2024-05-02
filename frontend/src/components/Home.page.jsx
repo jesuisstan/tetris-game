@@ -12,7 +12,7 @@ const Home = () => {
 
   return (
     <div className={styles.main}>
-      <h1>Welcome to Tetris Game!</h1>
+      <h1>Welcome to Red Tetris Game!</h1>
 
       <div className={styles.previewBlock}>
         <div className={styles.trio}>
@@ -49,7 +49,7 @@ const Home = () => {
           <div className={styles.left}>
             <p style={{ color: 'var(--TETRIS_WHITE)' }}>
               Play "solo" <br />
-              to practice a little
+              to practice your skills offline
             </p>
           </div>
         </div>
@@ -64,7 +64,7 @@ const Home = () => {
             <p style={{ color: 'var(--TETRIS_WHITE)' }}>
               Play "competition"
               <br />
-              to prove skills online
+              to prove your skills online
             </p>
           </div>
         </div>

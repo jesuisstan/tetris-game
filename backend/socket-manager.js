@@ -170,20 +170,10 @@ const manageSocket = (server) => {
     });
 
     socket.on('start_game', async (data) => {
-      const room = roomsList.find((room) => room.name === data.room);
-      gameTetris
-        .getRoomAdmin(io, socket.id, room, playersList)
-        .then(async (user) => {
-          if (user.admin) {
-            const tetrominoes = await tetromino.getTetrominoes();
-            gameTetris.startGame(io, room, tetrominoes);
-            //io.emit('update_rooms', roomsList);
-            roomsList.sendRoomsList(io);
-          } else {
-            io.to(socket.id).emit('wait_admin');
-          }
-        });
-      io.emit('game_started');
+      const room = roomsList.find((room) => room.name === data.roomName);
+      console.log('AAAAAAAAAAAAAAAAAAAAAAAA', data.roomName, 'rooom:', room);
+      const tetrominoes = await tetromino.getTetrominoes();
+      gameTetris.startGame(io, room, tetrominoes);
     });
 
     socket.on('get_tetrominoes', async (data) => {

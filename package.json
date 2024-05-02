@@ -1,7 +1,7 @@
 {
   "name": "red-tetris",
   "version": "1.0.0",
-  "description": "",
+  "description": "amazing tetris game",
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.7",
     "concurrently": "^6.0.0",

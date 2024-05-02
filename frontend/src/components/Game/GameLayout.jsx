@@ -17,7 +17,7 @@ const GameLayout = () => {
   const [loading, setLoading] = useState(true);
   const [roomData, setRoomData] = useState({});
   const user = useSelector((state) => state.user);
-  const [initialTetrominoes, setInitialTetrominoes] = useState([]);
+  const [tetrominoes, setTetrominoes] = useState([]);
 
   let roomPlusNickname = window.location.href.split('/')[5]; // Assuming window.location.href.split('/')[5] is 'zzz[TestUser]'
   const regex = /\[(.*?)\]/; // Regular expression to extract text within square brackets
@@ -30,9 +30,7 @@ const GameLayout = () => {
   const [gameOver, setGameOver, resetGameOver] = useGameOver();
 
   const start = () => {
-    if (initialTetrominoes.length === 0) {
-      emitEvent('get_tetrominoes', { roomName });
-    }
+    emitEvent('start_game', { roomName });
   };
 
   //useEffect(() => {
@@ -42,12 +40,16 @@ const GameLayout = () => {
   //}, []);
 
   useEffect(() => {
-    if (roomName) emitEvent('join_room', { roomName }); // Emitting join_room event
+    if (roomName) emitEvent('join_room', { roomName });
 
     // Listen for welcoming event
     listenEvent('welcome_to_the_room', (roomData) => {
       setRoomData(roomData);
       setLoading(false);
+    });
+
+    listenEvent('update_room_data', (data) => {
+      setRoomData(data);
     });
 
     // Listen for "join_denied" events
@@ -60,18 +62,24 @@ const GameLayout = () => {
     });
 
     listenEvent('new_tetrominoes', (data) => {
-      setInitialTetrominoes((prevTetrominoes) => [
+      setTetrominoes((prevTetrominoes) => [
         ...createTetrominoes(data),
         ...prevTetrominoes
       ]);
+    });
 
+    listenEvent('game_started', (data) => {
+      console.log('game_started DATA', data)
+      setTetrominoes(createTetrominoes(data));
+console.log('gameOver', gameOver)
       if (gameOver) {
         resetGameOver();
       }
     });
   }, []);
+  console.log('gameOver', gameOver)
 
-  const popTetromino = () => initialTetrominoes.pop();
+  const popTetromino = () => tetrominoes.pop();
 
   return (
     <div style={{ marginTop: '21px' }}>
@@ -83,7 +91,7 @@ const GameLayout = () => {
         <div>
           {gameOver && !loading && (
             <div className={styles.floatingCentered}>
-              {user.nickname === roomData?.admin.nickname ? (
+              {user.nickname === roomData?.admin?.nickname ? (
                 <MagicButton
                   text="Start"
                   action={() => {
@@ -104,7 +112,7 @@ const GameLayout = () => {
                 columns={10}
                 gameOver={gameOver}
                 setGameOver={setGameOver}
-                initialTetrominoes={initialTetrominoes}
+                initialTetrominoes={tetrominoes}
                 popTetromino={popTetromino}
               />
             )}

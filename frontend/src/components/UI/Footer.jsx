@@ -15,7 +15,7 @@ const Footer = () => {
         <p className={styles.copyright}>
           {!isSmallScreen && (
             <>
-              Tetris Game Fullstack App © 2024 |
+              Red Tetris Game © 2024 |
               <a
                 href="https://github.com/jesuisstan/tetris-game"
                 className={styles.footerLink}
