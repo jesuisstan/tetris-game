@@ -77,13 +77,14 @@ const Tetris = ({
   return (
     <div className={styles.tetrisMain}>
       <div className={styles.wrapper}>
-        <Board board={board} />
+        <div style={{ minWidth: '41vh', minHeight: '82vh' }}>
+          <Board board={board} />
+        </div>
 
         <div className={styles.infoBlock}>
           <GameStats gameStats={gameStats} />
           <Previews tetrominoes={player?.tetrominoes} />
         </div>
-
         {!gameOver && (
           <GameController
             board={board}
@@ -94,14 +95,19 @@ const Tetris = ({
           />
         )}
       </div>
-      <Messenger />
-      <div className={styles.others}>
-        {Object.entries(othersBoards).map(([playerName, board]) => (
-          <div key={playerName}>
-            <p>{playerName}</p>
-            <Board board={board} />
-          </div>
-        ))}
+      <div className={styles.right}>
+        <Messenger />
+
+        <div className={styles.others}>
+          {Object.entries(othersBoards).map(([playerName, board]) => (
+            <div key={playerName}>
+              <p style={{marginBottom: '21px'}}>{playerName}</p>
+              <div className={styles.eachOtherBoard}>
+                <Board board={board} />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

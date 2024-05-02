@@ -25,12 +25,32 @@
 
 .others {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
-  align-self: flex-start;
-  align-content: start;
-  justify-content: start;
   gap: 42px;
-  transform: scale(0.5);
 }
 
+/*.others > div {
+  align-self: flex-start;
+  justify-content: flex-start;
+  transform: scale(0.5);
+}*/
 
+.display {
+  width: 41vh;
+  height: 82vh;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-content: flex-start;
+  align-items: flex-start;
+  gap: 42px;
+}
+
+.eachOtherBoard {
+  width: 21vh;
+  height: 42vh;
+}

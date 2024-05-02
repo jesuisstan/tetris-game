@@ -69,15 +69,13 @@ const GameLayout = () => {
     });
 
     listenEvent('game_started', (data) => {
-      console.log('game_started DATA', data)
       setTetrominoes(createTetrominoes(data));
-console.log('gameOver', gameOver)
+
       if (gameOver) {
         resetGameOver();
       }
     });
   }, []);
-  console.log('gameOver', gameOver)
 
   const popTetromino = () => tetrominoes.pop();
 

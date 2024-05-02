@@ -43,7 +43,10 @@ const connectToDatabase = () => {
 // Configure CORS middleware
 app.use(
   cors({
-    origin: `${process.env.REACT_APP_HOST}:${process.env.REACT_APP_FRONTEND_PORT}`,
+    origin: [
+      `${process.env.REACT_APP_HOST}:*`,
+      'localhost:*'
+    ],
     //methods: 'GET,POST,PUT,DELETE',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true

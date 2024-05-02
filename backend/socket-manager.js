@@ -12,7 +12,7 @@ import {
 const manageSocket = (server) => {
   const io = new Server(server, {
     cors: {
-      origin: `${process.env.REACT_APP_HOST}:${process.env.REACT_APP_FRONTEND_PORT}`,
+      origin: [`${process.env.REACT_APP_HOST}:*`, 'localhost:*'],
       methods: ['GET', 'POST', 'PUT', 'DELETE'],
       credentials: true
     },
@@ -171,7 +171,6 @@ const manageSocket = (server) => {
 
     socket.on('start_game', async (data) => {
       const room = roomsList.find((room) => room.name === data.roomName);
-      console.log('AAAAAAAAAAAAAAAAAAAAAAAA', data.roomName, 'rooom:', room);
       const tetrominoes = await tetromino.getTetrominoes();
       gameTetris.startGame(io, room, tetrominoes);
     });

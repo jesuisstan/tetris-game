@@ -321,12 +321,14 @@ class Game {
   };
 
   startGame = (io, room, tetrominoes) => {
-    return new Promise((resolve, reject) => {
-      //if (!room.state) {
-        room.state = true; // todo 
+    if (room) {
+      return new Promise((resolve, reject) => {
+        //if (!room.state) {
+        room.state = true; // todo
         io.to(room.name).emit('game_started', tetrominoes);
-      //}
-    });
+        //}
+      });
+    }
   };
 
   newTetrominoes = (io, room, tetrominoes) => {
