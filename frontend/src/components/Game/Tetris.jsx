@@ -16,9 +16,11 @@ import {
 } from '../../socket/socketMiddleware';
 
 import styles from '../../styles/tetris-styles/tetris.module.css';
+import TetrisLoader from '../UI/TetrisLoader';
 
 const Tetris = ({
-  room,
+  roomName,
+  roomMode,
   rows,
   columns,
   gameOver,
@@ -34,7 +36,7 @@ const Tetris = ({
   const [gameStats, addLinesCleared] = useGameStats();
   const [player, setPlayer, resetPlayer] = usePlayer(
     gameOver,
-    room,
+    roomName,
     initialTetrominoes,
     popTetromino
   );
@@ -49,15 +51,12 @@ const Tetris = ({
   useEffect(() => {
     console.log('boards SEND event');
     if (!gameOver) {
-      emitEvent('board_from_front', { board, room, nickname });
+      emitEvent('board_from_front', { board, roomName, nickname });
     }
   }, [gameOver, board]);
 
   useEffect(() => {
-    console.log('useEffect for board_from_back');
     const handleGetBoard = (data) => {
-      console.log('callback of the board_from_back');
-
       setOthersBoards((prevBoards) => ({
         ...prevBoards,
         [data.playerName]: data.board
@@ -95,20 +94,36 @@ const Tetris = ({
           />
         )}
       </div>
-      <div className={styles.right}>
-        <Messenger />
+      {roomMode === 'competition' && (
+        <div className={styles.right}>
+          <Messenger />
 
-        <div className={styles.others}>
-          {Object.entries(othersBoards).map(([playerName, board]) => (
-            <div key={playerName}>
-              <p style={{marginBottom: '21px'}}>{playerName}</p>
-              <div className={styles.eachOtherBoard}>
-                <Board board={board} />
+          {Object.keys(othersBoards).length === 0 ? (
+            <TetrisLoader text="Loading observation bar..." />
+          ) : (
+            <div className={styles.observation}>
+              <p>Observation:</p>
+              <div className={styles.others}>
+                {Object.entries(othersBoards).map(([playerName, board]) => (
+                  <div key={playerName}>
+                    <p
+                      style={{
+                        marginBottom: '7px',
+                        color: 'var(--TETRIS_WHITE)'
+                      }}
+                    >
+                      {playerName}
+                    </p>
+                    <div className={styles.eachOtherBoard}>
+                      <Board board={board} />
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          ))}
+          )}
         </div>
-      </div>
+      )}
     </div>
   );
 };

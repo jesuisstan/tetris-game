@@ -26,7 +26,7 @@ class Tetromino {
   }
 
   // method to get an array of <TETROMINOES_AMOUNT> random tetrominoes:
-  getTetrominoes = async () =>  {
+  getTetrominoes = async () => {
     let tetrominoes = [];
 
     for (let i = 0; i < TETROMINOES_AMOUNT; i++) {
@@ -34,7 +34,7 @@ class Tetromino {
     }
 
     return tetrominoes;
-  }
+  };
 }
 
 export default Tetromino;

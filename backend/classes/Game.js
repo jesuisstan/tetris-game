@@ -337,9 +337,9 @@ class Game {
     });
   };
 
-  sendBoard = (io, exceptSocketId, room, board, playerName) => {
+  sendBoard = (io, exceptSocketId, roomName, board, playerName) => {
     return new Promise((resolve, reject) => {
-      const socketIds = Array.from(io.sockets.adapter.rooms.get(room) || []);
+      const socketIds = Array.from(io.sockets.adapter.rooms.get(roomName) || []);
 
       socketIds.forEach((socketId) => {
         if (socketId !== exceptSocketId) {

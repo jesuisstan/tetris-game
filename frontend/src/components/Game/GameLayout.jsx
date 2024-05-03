@@ -45,6 +45,7 @@ const GameLayout = () => {
     // Listen for welcoming event
     listenEvent('welcome_to_the_room', (roomData) => {
       setRoomData(roomData);
+      console.log('roomData', roomData);
       setLoading(false);
     });
 
@@ -105,7 +106,8 @@ const GameLayout = () => {
           <div className={gameOver ? styles.blurContent : ''}>
             {!gameOver && (
               <Tetris
-                room={roomName}
+                roomName={roomName}
+                roomMode={roomData.mode}
                 rows={20}
                 columns={10}
                 gameOver={gameOver}

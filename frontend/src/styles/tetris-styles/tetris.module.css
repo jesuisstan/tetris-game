@@ -6,6 +6,7 @@
   justify-content: center;
   align-items: flex-start;
   gap: 42px;
+  padding-left: 21px;
 }
 
 .wrapper {
@@ -17,40 +18,55 @@
 }
 
 .infoBlock {
-  /*position: absolute;*/
   height: 100%;
   display: flex;
   flex-direction: column;
 }
 
+.right {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  /*align-items: flex-start;*/
+  /*align-self: center;*/
+  gap: 42px;
+  padding-right: 21px;
+}
+
+.observation {
+  display: flex;
+  flex-direction: column;
+  gap: 21px;
+  border: 1px solid var(--TETRIS_WHITE);
+  text-align: left;
+  padding: 21px;
+  max-width: 980px;
+}
+
 .others {
+  text-align: center;
+
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   gap: 42px;
-}
-
-/*.others > div {
-  align-self: flex-start;
-  justify-content: flex-start;
-  transform: scale(0.5);
-}*/
-
-.display {
-  width: 41vh;
-  height: 82vh;
-}
-
-.right {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-content: flex-start;
-  align-items: flex-start;
-  gap: 42px;
+  /*border: 1px solid var(--TETRIS_WHITE);*/
+  justify-content: center;
 }
 
 .eachOtherBoard {
   width: 21vh;
   height: 42vh;
+}
+
+@media (max-width: 1024px) {
+  .tetrisMain {
+    flex-direction: column;
+    align-items: center;
+  }
+  .right {
+    justify-content: center;
+    margin-bottom: 21px;
+    /*align-self: center;*/
+  }
 }
