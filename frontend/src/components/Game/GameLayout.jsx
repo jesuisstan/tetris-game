@@ -33,11 +33,16 @@ const GameLayout = () => {
     emitEvent('start_game', { roomName });
   };
 
-  //useEffect(() => {
-  //  setTimeout(() => {
-  //    setLoading(false);
-  //  }, 1000);
-  //}, []);
+  useEffect(() => {
+    if (roomData.mode === 'solo') {
+      if (roomData.admin.nickname !== user.nickname) {
+        errorAlert('This is not your solo game');
+        setTimeout(() => {
+          navigate('/lobby');
+        }, 300);
+      }
+    }
+  }, [roomData]);
 
   useEffect(() => {
     if (roomName) emitEvent('join_room', { roomName });
@@ -45,7 +50,6 @@ const GameLayout = () => {
     // Listen for welcoming event
     listenEvent('welcome_to_the_room', (roomData) => {
       setRoomData(roomData);
-      console.log('roomData', roomData);
       setLoading(false);
     });
 
@@ -100,7 +104,13 @@ const GameLayout = () => {
               ) : (
                 <TetrisLoader text="Awaiting the start" />
               )}
-              <Messenger />
+              {roomData.mode === 'competititon' ? (
+                <Messenger />
+              ) : (
+                <span style={{ color: 'var(--TETRIS_WHITE)' }}>
+                  the solo game
+                </span>
+              )}
             </div>
           )}
           <div className={gameOver ? styles.blurContent : ''}>

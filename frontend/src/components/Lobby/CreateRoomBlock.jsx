@@ -64,6 +64,8 @@ const CreateRoomBlock = () => {
   useEffect(() => {
     listenEvent('room_already_exists', () => {
       errorAlert('Room with such a name already exists');
+      navigate('/lobby');
+
     });
   }, []);
 
