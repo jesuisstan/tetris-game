@@ -5,8 +5,7 @@ import { useDropTime } from '../../hooks/useDropTime';
 import { useInterval } from '../../hooks/useInterval';
 
 import '../../styles/tetris-styles/game-controller.css';
-import { useEffect, useRef } from 'react';
-import FocusButton from '../UI/FocusButton';
+import { useRef } from 'react';
 
 const GameController = ({
   board,

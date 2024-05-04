@@ -104,7 +104,7 @@ const GameLayout = () => {
               ) : (
                 <TetrisLoader text="Awaiting the start" />
               )}
-              {roomData.mode === 'competititon' ? (
+              {roomData.mode === 'competition' ? (
                 <Messenger />
               ) : (
                 <span style={{ color: 'var(--TETRIS_WHITE)' }}>

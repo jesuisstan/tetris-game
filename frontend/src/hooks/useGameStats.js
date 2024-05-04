@@ -1,4 +1,6 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback } from 'react';
+
+import { emitEvent } from '../socket/socketMiddleware';
 
 const buildGameStats = () => ({
   level: 1,
@@ -7,7 +9,7 @@ const buildGameStats = () => ({
   points: 0
 });
 
-export const useGameStats = () => {
+export const useGameStats = (roomMode, roomName) => {
   const [gameStats, setGameStats] = useState(buildGameStats());
 
   const addLinesCleared = useCallback((lines) => {
@@ -20,6 +22,13 @@ export const useGameStats = () => {
           ? previous.level + 1
           : previous.level;
       const linesCompleted = newLinesCompleted % linesPerLevel;
+
+      if (roomMode === 'competition') {
+        if (lines >= 2) {
+          const penaltyLines = lines - 1;
+          emitEvent('penalty_condition', { roomName, penaltyLines });
+        }
+      }
 
       return {
         level,

@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
-import { buildBoard, nextBoard } from "../utils/board";
+import { buildBoard, nextBoard } from '../utils/board';
+
+//import { listenEvent, stopListeningEvent } from '../socket/socketMiddleware';
 
 export const useBoard = ({
   rows,
@@ -11,13 +13,16 @@ export const useBoard = ({
 }) => {
   const [board, setBoard] = useState(buildBoard({ rows, columns }));
 
+  const penaltyRows = 1; // todo delete penalty Rows
+
   useEffect(() => {
     setBoard((previousBoard) =>
       nextBoard({
         board: previousBoard,
         player,
         resetPlayer,
-        addLinesCleared
+        addLinesCleared,
+        penaltyRows
       })
     );
   }, [player, resetPlayer, addLinesCleared]);

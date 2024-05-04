@@ -9,6 +9,8 @@ import Board from './Board';
 import GameStats from './GameStats';
 import Previews from './Previews';
 import GameController from './GameController';
+import TetrisLoader from '../UI/TetrisLoader';
+
 import {
   emitEvent,
   listenEvent,
@@ -16,7 +18,6 @@ import {
 } from '../../socket/socketMiddleware';
 
 import styles from '../../styles/tetris-styles/tetris.module.css';
-import TetrisLoader from '../UI/TetrisLoader';
 
 const Tetris = ({
   roomName,
@@ -33,14 +34,14 @@ const Tetris = ({
 
   const [othersBoards, setOthersBoards] = useState({});
 
-  const [gameStats, addLinesCleared] = useGameStats();
+  const [gameStats, addLinesCleared] = useGameStats(roomMode, roomName);
   const [player, setPlayer, resetPlayer] = usePlayer(
     gameOver,
     roomName,
     initialTetrominoes,
     popTetromino
   );
-  const [board, setBoard] = useBoard({
+  const [board] = useBoard({
     rows,
     columns,
     player,
@@ -49,9 +50,10 @@ const Tetris = ({
   });
 
   useEffect(() => {
-    console.log('boards SEND event');
-    if (!gameOver) {
-      emitEvent('board_from_front', { board, roomName, nickname });
+    if (roomMode === 'competition') {
+      if (!gameOver) {
+        emitEvent('board_from_front', { board, roomName, nickname });
+      }
     }
   }, [gameOver, board]);
 
@@ -65,6 +67,10 @@ const Tetris = ({
 
     if (!gameOver) {
       listenEvent('board_from_back', handleGetBoard);
+
+      //listenEvent('add_penalty', (data) => {
+      //  console.log('add_penalty', data)
+      //});
     }
 
     return () => {

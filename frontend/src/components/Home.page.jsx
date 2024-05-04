@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import LoadingButton from '@mui/lab/LoadingButton';
 import Preview from './Game/Preview';
 import { TETROMINOES } from '../utils/tetrominoes';
 import DeviderTetris from './UI/DeviderTetris';

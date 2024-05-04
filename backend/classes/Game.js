@@ -337,20 +337,6 @@ class Game {
     });
   };
 
-  sendBoard = (io, exceptSocketId, roomName, board, playerName) => {
-    return new Promise((resolve, reject) => {
-      const socketIds = Array.from(io.sockets.adapter.rooms.get(roomName) || []);
-
-      socketIds.forEach((socketId) => {
-        if (socketId !== exceptSocketId) {
-          io.to(socketId).emit('board_from_back', { board, playerName });
-        }
-      });
-
-      resolve(true);
-    });
-  };
-
   checkStages = (io, Stages, stage, room) => {
     return new Promise((resolve, reject) => {
       io.to(room).emit('update_stages', { Stages });
@@ -436,10 +422,47 @@ class Game {
     });
   };
 
-  // As soon as a player destroys n lines on his ground, the opposit player receive n - 1 lines in penalty:
-  addPenalty = (socket, room) => {
+  sendBoard = (io, exceptSocketId, roomName, board, playerName) => {
     return new Promise((resolve, reject) => {
-      socket.broadcast.to(room).emit('addPenalty');
+      const room = io.sockets.adapter.rooms.get(roomName);
+
+      if (room) {
+        for (const socketId of room) {
+          if (socketId !== exceptSocketId) {
+            io.to(socketId).emit('board_from_back', { board, playerName });
+          }
+        }
+      }
+
+      //// first implementation:
+      //const socketIds = Array.from(
+      //  io.sockets.adapter.rooms.get(roomName) || []
+      //);
+
+      //socketIds.forEach((socketId) => {
+      //  if (socketId !== exceptSocketId) {
+      //    io.to(socketId).emit('board_from_back', { board, playerName });
+      //  }
+      //});
+
+      resolve(true);
+    });
+  };
+
+  // As soon as a player destroys n lines on his ground, the opposit players receive n - 1 lines in penalty:
+  addPenalty = (io, exceptSocketId, roomName, penaltyLines) => {
+    return new Promise((resolve, reject) => {
+      const room = io.sockets.adapter.rooms.get(roomName);
+
+      if (room) {
+        for (const socketId of room) {
+          if (socketId !== exceptSocketId) {
+            io.to(socketId).emit('add_penalty', { penaltyLines });
+          }
+        }
+      }
+
+      resolve(true);
     });
   };
 }

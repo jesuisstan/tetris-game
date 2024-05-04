@@ -38,13 +38,18 @@ const findDropPosition = ({ board, position, shape }) => {
   return { ...position, row };
 };
 
-export const nextBoard = ({ board, player, resetPlayer, addLinesCleared }) => {
+export const nextBoard = ({
+  board,
+  player,
+  resetPlayer,
+  addLinesCleared,
+  penaltyRows
+}) => {
   if (!board || !player || !resetPlayer || !addLinesCleared) return;
-  
+
   const { tetromino, position } = player;
 
-  // Copy and clear spaces used by pieces that
-  // hadn't collided and occupied spaces permanently
+  // Copy and clear spaces used by pieces that hadn't collided and occupied spaces permanently
   let rows = board?.rows?.map((row) =>
     row.map((cell) => (cell.occupied ? cell : { ...defaultCell }))
   );
@@ -68,8 +73,7 @@ export const nextBoard = ({ board, player, resetPlayer, addLinesCleared }) => {
     shape: tetromino?.shape
   });
 
-  // Place the piece.
-  // If it collided, mark the board cells as collided
+  // Place the piece. If it collided, mark the board cells as collided
   if (!player.isFastDropping) {
     rows = transferToBoard({
       className: tetromino?.className,
@@ -98,7 +102,6 @@ export const nextBoard = ({ board, player, resetPlayer, addLinesCleared }) => {
     addLinesCleared(linesCleared);
   }
 
-  // If we collided, reset the player!
   if (player.collided || player.isFastDropping) {
     resetPlayer();
   }

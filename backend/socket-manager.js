@@ -206,8 +206,9 @@ const manageSocket = (server) => {
       gameTetris.handleGameOver(io, data, playersList, roomsList);
     });
 
-    socket.on('add_penalty', async (data) => {
-      gameTetris.addPenalty(socket, data.room);
+    socket.on('penalty_condition', async (data) => {
+      console.log('penalty_condition MATCHES', data);
+      gameTetris.addPenalty(io, socket.id, data?.roomName, data?.penaltyLines);
     });
   });
 

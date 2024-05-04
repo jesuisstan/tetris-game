@@ -90,7 +90,7 @@ const JoinRoomBlock = () => {
   useEffect(() => {
     // Listening for update_rooms event
     listenEvent('update_rooms', (data) => {
-      console.log('data-------------', data)
+      console.log('data-------------', data);
       const roomsData = data?.roomsList?.map((item) =>
         createData(
           item.name,
@@ -138,54 +138,65 @@ const JoinRoomBlock = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {roomsList
-                  ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => {
-                    return (
-                      <TableRow
-                        hover
-                        role="checkbox"
-                        tabIndex={-1}
-                        key={row.roomName}
-                      >
-                        {columns.map((column) => {
-                          const value = row[column.id];
-                          if (column.id === 'joinButton') {
-                            // Render join button
+                {roomsList?.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={columns.length} align="center">
+                      No rooms available
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  roomsList
+                    ?.slice(
+                      page * rowsPerPage,
+                      page * rowsPerPage + rowsPerPage
+                    )
+                    .map((row) => {
+                      return (
+                        <TableRow
+                          hover
+                          role="checkbox"
+                          tabIndex={-1}
+                          key={row.roomName}
+                        >
+                          {columns.map((column) => {
+                            const value = row[column.id];
+                            if (column.id === 'joinButton') {
+                              // Render join button
+                              return (
+                                <TableCell key={column.id} align={column.align}>
+                                  <button
+                                    disabled={
+                                      row.mode === 'solo' ||
+                                      row.maxPlayers === row.players
+                                    }
+                                    style={{ cursor: 'pointer' }}
+                                    onClick={() => joinRoom(row.roomName)}
+                                  >
+                                    <SportsEsportsIcon
+                                      sx={{
+                                        color:
+                                          row.mode === 'solo' ||
+                                          row.maxPlayers === row.players
+                                            ? 'var(--TETRIS_RED)'
+                                            : 'var(--TETRIS_GREEN)'
+                                      }}
+                                    />
+                                  </button>
+                                </TableCell>
+                              );
+                            }
                             return (
                               <TableCell key={column.id} align={column.align}>
-                                <button
-                                  disabled={
-                                    row.mode === 'solo' ||
-                                    row.maxPlayers === row.players
-                                  }
-                                  style={{ cursor: 'pointer' }}
-                                  onClick={() => joinRoom(row.roomName)}
-                                >
-                                  <SportsEsportsIcon
-                                    sx={{
-                                      color:
-                                        row.mode === 'solo' ||
-                                        row.maxPlayers === row.players
-                                          ? 'var(--TETRIS_RED)'
-                                          : 'var(--TETRIS_GREEN)'
-                                    }}
-                                  />
-                                </button>
+                                {column.format && typeof value === 'number'
+                                  ? column.format(value)
+                                  : value}
                               </TableCell>
                             );
-                          }
-                          return (
-                            <TableCell key={column.id} align={column.align}>
-                              {column.format && typeof value === 'number'
-                                ? column.format(value)
-                                : value}
-                            </TableCell>
-                          );
-                        })}
-                      </TableRow>
-                    );
-                  })}
+                          })}
+                        </TableRow>
+                      );
+                    })
+                )}
               </TableBody>
             </Table>
           </TableContainer>

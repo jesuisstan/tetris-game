@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 
-import { emitEvent, listenEvent } from '../socket/socketMiddleware';
+import { emitEvent } from '../socket/socketMiddleware';
 
 const buildPlayer = (gameOver, roomName, initialTetrominoes, popTetromino) => {
   const tetromino = popTetromino(); // Pop a tetromino from the array
