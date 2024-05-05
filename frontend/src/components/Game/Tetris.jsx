@@ -48,7 +48,8 @@ const Tetris = ({
     player,
     resetPlayer,
     addLinesCleared,
-    penaltyRows
+    penaltyRows,
+    setPenaltyRows
   });
 
   useEffect(() => {

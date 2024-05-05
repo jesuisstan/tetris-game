@@ -10,7 +10,8 @@ export const useBoard = ({
   player,
   resetPlayer,
   addLinesCleared,
-  penaltyRows
+  penaltyRows,
+  setPenaltyRows
 }) => {
   const [board, setBoard] = useState(buildBoard({ rows, columns }));
 
@@ -21,7 +22,8 @@ export const useBoard = ({
         player,
         resetPlayer,
         addLinesCleared,
-        penaltyRows
+        penaltyRows,
+        setPenaltyRows
       })
     );
   }, [player, resetPlayer, addLinesCleared]);

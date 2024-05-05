@@ -38,16 +38,43 @@ const findDropPosition = ({ board, position, shape }) => {
   return { ...position, row };
 };
 
+const canSpawnTetromino = ({ board, position, shape }) => {
+  if (!board || !position || !shape) return false;
+
+  // Simulate the initial position of the tetromino on the board
+  for (let y = 0; y < shape.length; y++) {
+    const row = y + position.row;
+
+    for (let x = 0; x < shape[y].length; x++) {
+      if (shape[y][x]) {
+        const column = x + position.column;
+
+        // Check if the simulated cell overlaps with existing occupied cells
+        if (board.rows?.[row] && board.rows?.[row][column]?.occupied) {
+          return false; // Collision detected, cannot spawn tetromino
+        }
+      }
+    }
+  }
+
+  return true; // No collision detected, tetromino can be spawned
+};
+
 export const nextBoard = ({
   board,
   player,
   resetPlayer,
   addLinesCleared,
-  penaltyRows
+  penaltyRows,
+  setPenaltyRows
 }) => {
   if (!board || !player || !resetPlayer || !addLinesCleared) return;
-  console.log('nextBoard called'); // todo delete
   const { tetromino, position } = player;
+
+  // Check if the next tetromino can spawn without colliding with existing cells
+  if (!canSpawnTetromino({ board, position, shape: tetromino.shape })) {
+    return board; // Return the current board without making any changes
+  }
 
   // Copy and clear spaces used by pieces that hadn't collided and occupied spaces permanently
   let rows = board?.rows?.map((row) =>
@@ -100,7 +127,11 @@ export const nextBoard = ({
   const blankRow = rows?.[0]?.map((_) => ({ ...defaultCell }));
   let linesCleared = 0;
   rows = rows?.reduce((acc, row) => {
-    if (row.every((column) => column.occupied && !column.className.includes('penalty'))) {
+    if (
+      row.every(
+        (column) => column.occupied && !column.className.includes('penalty')
+      )
+    ) {
       linesCleared++;
       acc.unshift([...blankRow]);
     } else {
@@ -132,6 +163,8 @@ export const nextBoard = ({
         shape: penaltyTetromino.shape
       });
     }
+
+    setPenaltyRows(0);
   }
 
   // Return the next board
