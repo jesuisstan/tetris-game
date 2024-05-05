@@ -450,14 +450,14 @@ class Game {
   };
 
   // As soon as a player destroys n lines on his ground, the opposit players receive n - 1 lines in penalty:
-  addPenalty = (io, exceptSocketId, roomName, penaltyLines) => {
+  addPenalty = (io, exceptSocketId, roomName, penaltyRows) => {
     return new Promise((resolve, reject) => {
       const room = io.sockets.adapter.rooms.get(roomName);
 
       if (room) {
         for (const socketId of room) {
           if (socketId !== exceptSocketId) {
-            io.to(socketId).emit('add_penalty', { penaltyLines });
+            io.to(socketId).emit('add_penalty', { penaltyRows });
           }
         }
       }

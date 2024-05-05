@@ -208,7 +208,7 @@ const manageSocket = (server) => {
 
     socket.on('penalty_condition', async (data) => {
       console.log('penalty_condition MATCHES', data);
-      gameTetris.addPenalty(io, socket.id, data?.roomName, data?.penaltyLines);
+      gameTetris.addPenalty(io, socket.id, data?.roomName, data?.penaltyRows);
     });
   });
 

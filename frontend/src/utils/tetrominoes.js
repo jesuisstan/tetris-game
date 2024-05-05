@@ -56,6 +56,10 @@ export const TETROMINOES = {
       [0, 0, 0]
     ],
     className: `${className} ${className}__z`
+  },
+  PENALTY: {
+    shape: [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1]],
+    className: `${className} ${className}__penalty`
   }
 };
 
@@ -106,7 +110,10 @@ export const transferToBoard = ({
         const occupied = isOccupied;
         const _y = y + position.row;
         const _x = x + position.column;
-        rows[_y][_x] = { occupied, className };
+        //rows[_y][_x] = { occupied, className };
+        if (rows.length > _y && rows[_y]) {
+          rows[_y][_x] = { occupied, className };
+        }
       }
     });
   });

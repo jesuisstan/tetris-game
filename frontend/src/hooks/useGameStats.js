@@ -25,8 +25,8 @@ export const useGameStats = (roomMode, roomName) => {
 
       if (roomMode === 'competition') {
         if (lines >= 2) {
-          const penaltyLines = lines - 1;
-          emitEvent('penalty_condition', { roomName, penaltyLines });
+          const penaltyRows = lines - 1;
+          emitEvent('penalty_condition', { roomName, penaltyRows });
         }
       }
 

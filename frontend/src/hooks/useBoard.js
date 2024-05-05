@@ -9,11 +9,10 @@ export const useBoard = ({
   columns,
   player,
   resetPlayer,
-  addLinesCleared
+  addLinesCleared,
+  penaltyRows
 }) => {
   const [board, setBoard] = useState(buildBoard({ rows, columns }));
-
-  const penaltyRows = 1; // todo delete penalty Rows
 
   useEffect(() => {
     setBoard((previousBoard) =>

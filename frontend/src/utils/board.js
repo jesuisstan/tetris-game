@@ -1,5 +1,5 @@
 import { movePlayer } from './player-controller';
-import { transferToBoard } from './tetrominoes';
+import { transferToBoard, TETROMINOES } from './tetrominoes';
 
 export const defaultCell = {
   occupied: false,
@@ -46,7 +46,7 @@ export const nextBoard = ({
   penaltyRows
 }) => {
   if (!board || !player || !resetPlayer || !addLinesCleared) return;
-
+  console.log('nextBoard called'); // todo delete
   const { tetromino, position } = player;
 
   // Copy and clear spaces used by pieces that hadn't collided and occupied spaces permanently
@@ -85,10 +85,22 @@ export const nextBoard = ({
   }
 
   // Check for cleared lines
+  //const blankRow = rows?.[0]?.map((_) => ({ ...defaultCell }));
+  //let linesCleared = 0;
+  //rows = rows?.reduce((acc, row) => {
+  //  if (row.every((column) => column.occupied)) {
+  //    linesCleared++;
+  //    acc.unshift([...blankRow]);
+  //  } else {
+  //    acc.push(row);
+  //  }
+
+  //  return acc;
+  //}, []);
   const blankRow = rows?.[0]?.map((_) => ({ ...defaultCell }));
   let linesCleared = 0;
   rows = rows?.reduce((acc, row) => {
-    if (row.every((column) => column.occupied)) {
+    if (row.every((column) => column.occupied && !column.className.includes('penalty'))) {
       linesCleared++;
       acc.unshift([...blankRow]);
     } else {
@@ -104,6 +116,22 @@ export const nextBoard = ({
 
   if (player.collided || player.isFastDropping) {
     resetPlayer();
+  }
+
+  // Add penalty rows
+  if (penaltyRows >= 1) {
+    const penaltyTetromino = TETROMINOES.PENALTY;
+
+    for (let i = 0; i < penaltyRows; i++) {
+      const position = { row: i + board.size.rows - penaltyRows, column: 0 };
+      rows = transferToBoard({
+        className: penaltyTetromino.className,
+        isOccupied: true,
+        position,
+        rows,
+        shape: penaltyTetromino.shape
+      });
+    }
   }
 
   // Return the next board

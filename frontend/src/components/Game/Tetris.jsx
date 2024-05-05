@@ -33,6 +33,7 @@ const Tetris = ({
   const nickname = user.nickname;
 
   const [othersBoards, setOthersBoards] = useState({});
+  const [penaltyRows, setPenaltyRows] = useState(0);
 
   const [gameStats, addLinesCleared] = useGameStats(roomMode, roomName);
   const [player, setPlayer, resetPlayer] = usePlayer(
@@ -46,7 +47,8 @@ const Tetris = ({
     columns,
     player,
     resetPlayer,
-    addLinesCleared
+    addLinesCleared,
+    penaltyRows
   });
 
   useEffect(() => {
@@ -68,16 +70,20 @@ const Tetris = ({
     if (!gameOver) {
       listenEvent('board_from_back', handleGetBoard);
 
-      //listenEvent('add_penalty', (data) => {
-      //  console.log('add_penalty', data)
-      //});
+      listenEvent('add_penalty', (data) => {
+        setPenaltyRows(data?.penaltyRows);
+        //setTimeout(() => {setPenaltyRows(0)}, 500)
+      });
     }
 
     return () => {
       // Clean up event listener when component unmounts
       stopListeningEvent('board_from_back', null);
+      stopListeningEvent('add_penalty', null);
     };
   }, [gameOver]);
+
+  console.log('add_penalty', penaltyRows); // todo delete
 
   return (
     <div className={styles.tetrisMain}>
