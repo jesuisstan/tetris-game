@@ -72,7 +72,8 @@ const Tetris = ({
       listenEvent('board_from_back', handleGetBoard);
 
       listenEvent('add_penalty', (data) => {
-        setPenaltyRows(data?.penaltyRows);
+        setPenaltyRows((prev) => prev + data.penaltyRows);
+
         //setTimeout(() => {setPenaltyRows(0)}, 500)
       });
     }

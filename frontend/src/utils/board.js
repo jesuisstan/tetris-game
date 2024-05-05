@@ -164,7 +164,7 @@ export const nextBoard = ({
       });
     }
 
-    setPenaltyRows(0);
+    //setPenaltyRows(0);
   }
 
   // Return the next board
