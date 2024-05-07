@@ -52,11 +52,11 @@ class Game {
   };
 
   // Get an array of player names:
-  getRoomPlayersNicknames = (io, room, playersList) => {
+  getRoomPlayersNicknames = (io, roomName, playersList) => {
     return new Promise((resolve, reject) => {
       const socketIds = [];
       const roomPlayersList = [];
-      const clientsList = io.sockets.adapter.rooms.get(room);
+      const clientsList = io.sockets.adapter.rooms.get(roomName);
 
       if (clientsList) {
         for (const clientId of clientsList) {
@@ -143,10 +143,8 @@ class Game {
     return new Promise((resolve, reject) => {
       const roomData = roomsList.find((rm) => rm.name === room);
       const playerOnSocket = playersList.find((p) => p.socketId === socket.id);
-      console.log('--------handleJoiningRoom-------- data:', roomData); // todo delete
-      if (roomData?.state === true) {
-        console.log('if (roomData?.state === true)'); // todo delete
 
+      if (roomData?.state === true) {
         io.to(socket.id).emit('join_denied', {
           message: 'You cannot join a room while active game. Try later'
         });
@@ -160,61 +158,59 @@ class Game {
               message: 'You cannot join "solo" room'
             });
       } else if (roomData?.mode === 'competition') {
-        console.log("else if (roomData?.mode === 'competition')"); // todo delete
-
-        this.getRoomPlayersNicknames(io, room, playersList).then(
-          (usersInRoom) => {
-            if (usersInRoom.includes(playerOnSocket?.nickname)) {
-              console.log(
-                'if (usersInRoom.includes(playerOnSocket?.nickname))'
-              ); // todo delete
-
-              //io.to(socket.id).emit('join_denied', {
-              //  message: `${playerOnSocket?.nickname} is already in "${room}" room`
-              //});
-
-              // just let the user come back to the room
-              io.to(socket.id).emit('welcome_to_the_room', roomData);
-            } else {
-              if (usersInRoom.length >= MAX_PLAYERS_IN_ROOM) {
+        // Use getRoomPlayersDetails to get player objects
+        this.getRoomPlayersDetails(io, room, playersList)
+          .then((roomPlayers) => {
+            if (
+              roomPlayers.find(
+                (player) => player.nickname === playerOnSocket.nickname
+              )
+            ) {
+              if (
+                roomPlayers.find(
+                  (player) => player.socketId === playerOnSocket.socketId
+                )
+              ) {
+                // just let the user get into the room:
+                io.to(socket.id).emit('welcome_to_the_room', roomData);
+                return;
+              } else {
+                // user with the same nickname but on other socket is not allowed:
                 io.to(socket.id).emit('join_denied', {
-                  message: 'The room is full'
+                  message: `${playerOnSocket.nickname} is already in the room "${room}".`
                 });
                 return;
-              } else if (
-                usersInRoom.length < MAX_PLAYERS_IN_ROOM &&
-                playerOnSocket
-              ) {
-                playerOnSocket?.setRoom(roomData.name);
-                socket.join(roomData.name);
-                this.sendRoomPlayersList(io, roomData.name, playersList);
-
-                io.to(roomData.name).emit('chat', {
-                  // todo Chat ?
-                  message: `${playerOnSocket?.nickname} joined the room "${roomData.name}"`,
-                  type: 'joined'
-                });
-                //io.emit('chat', {
-                //  // todo Chat ?
-                //  message: `${playerOnSocket?.nickname} joined the room "${roomData.name}"`,
-                //  type: 'joined'
-                //});
-
-                roomData.players += 1;
-
-                roomsList.sendRoomsList(io);
-                io.to(room).emit('update_room_data', roomData);
-                io.to(socket.id).emit('welcome_to_the_room', roomData);
-                //io.emit('room_joined', null); // global noticement
-              } else {
-                io.to(socket.id).emit('join_denied', {
-                  message:
-                    'Something went wrong... Refresh the page and try again'
-                });
               }
             }
-          }
-        );
+
+            if (roomPlayers.length >= MAX_PLAYERS_IN_ROOM) {
+              io.to(socket.id).emit('join_denied', {
+                message: 'The room is full.'
+              });
+              return;
+            }
+
+            // Proceed with joining the room
+            playerOnSocket.setRoom(roomData.name);
+            socket.join(roomData.name);
+            this.sendRoomPlayersList(io, roomData.name, playersList);
+
+            io.to(roomData.name).emit('chat', {
+              message: `${playerOnSocket.nickname} joined the room "${roomData.name}"`,
+              type: 'joined'
+            });
+
+            roomData.players += 1;
+            roomsList.sendRoomsList(io);
+            io.to(room).emit('update_room_data', roomData);
+            io.to(socket.id).emit('welcome_to_the_room', roomData);
+          })
+          .catch((error) => {
+            console.error('Error fetching room players:', error);
+            io.to(socket.id).emit('join_denied', {
+              message: 'Something went wrong... Refresh the page and try again'
+            });
+          });
       }
     });
   };

@@ -19,19 +19,14 @@ const manageSocket = (server) => {
     //path: '/socket',
     // improve the stability and reliability of your WebSocket connections by fine-tuning the heartbeat mechanism:
     pingInterval: 10000, // Set the interval between ping-requests from Server to Client
-    pingTimeout: 1000 // Set the time which server awaits the answer from Client
+    pingTimeout: 500 // Set the time which server awaits the answer from Client
   });
 
   io.on('connection', async (socket) => {
     try {
       // Initialize an empty send buffer for each socket connection:
       socket.sendBuffer = [];
-      console.log(
-        'A new client connected. Socket id:',
-        socket.id,
-        'Players list:',
-        playersList
-      );
+      console.log('A new client connected. Socket id:', socket.id);
     } catch (error) {
       // Catch and log any errors that might occur during initialization:
       console.error(error.message);
@@ -42,6 +37,7 @@ const manageSocket = (server) => {
         // Create a new Player instance with the received data
         const newPlayer = new Player(nickname, socket.id);
         playersList.addNewPlayer(newPlayer);
+        console.log('A new player added to list:', nickname, playersList);
 
         // Emit a welcome message to the client
         socket.emit('welcome', {
