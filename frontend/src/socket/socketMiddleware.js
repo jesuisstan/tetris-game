@@ -15,7 +15,11 @@ export const getSocket = () => {
 };
 
 export const closeSocket = () => {
+  console.log('CLOSE 1');
+
   if (socket) {
+    console.log('CLOSE 2');
+
     socket.disconnect();
   }
 };

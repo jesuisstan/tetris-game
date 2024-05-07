@@ -85,8 +85,6 @@ const Tetris = ({
     };
   }, [gameOver]);
 
-  console.log('add_penalty', penaltyRows); // todo delete
-
   return (
     <div className={styles.tetrisMain}>
       <div className={styles.wrapper}>

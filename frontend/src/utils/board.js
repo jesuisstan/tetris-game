@@ -72,7 +72,7 @@ export const nextBoard = ({
   const { tetromino, position } = player;
 
   // Check if the next tetromino can spawn without colliding with existing cells
-  if (!canSpawnTetromino({ board, position, shape: tetromino.shape })) {
+  if (!canSpawnTetromino({ board, position, shape: tetromino?.shape })) {
     return board; // Return the current board without making any changes
   }
 

@@ -6,14 +6,21 @@ import Messenger from './Messenger';
 import { useGameOver } from '../../hooks/useGameOver';
 import errorAlert from '../../utils/error-alert';
 import { createTetrominoes } from '../../utils/tetrominoes';
-import { emitEvent, listenEvent } from '../../socket/socketMiddleware';
 import TetrisLoader from '../UI/TetrisLoader';
 import MagicButton from '../UI/MagicButton';
+
+import {
+  getSocket,
+  emitEvent,
+  listenEvent,
+  stopListeningEvent
+} from '../../socket/socketMiddleware';
 
 import styles from '../../styles/game-layout.module.css';
 
 const GameLayout = () => {
   const navigate = useNavigate();
+  const socketId = getSocket().id;
   const [loading, setLoading] = useState(true);
   const [roomData, setRoomData] = useState({});
   const user = useSelector((state) => state.user);
@@ -28,18 +35,25 @@ const GameLayout = () => {
   }
 
   const [gameOver, setGameOver, resetGameOver] = useGameOver();
-
+  console.log('gameOver =====', gameOver); //todo delete
+  
   const start = () => {
     emitEvent('start_game', { roomName });
   };
 
   useEffect(() => {
-    if (roomData.mode === 'solo') {
-      if (roomData.admin.nickname !== user.nickname) {
+    if (roomData?.mode === 'solo') {
+      if (roomData.admin.socketId !== socketId) {
         errorAlert('This is not your solo game');
         setTimeout(() => {
           navigate('/lobby');
         }, 300);
+      }
+    }
+
+    if (roomData?.mode === 'competition') {
+      if (roomData.state === false) {
+        setGameOver(true);
       }
     }
   }, [roomData]);
@@ -80,6 +94,15 @@ const GameLayout = () => {
         resetGameOver();
       }
     });
+
+    return () => {
+      // Clean up event listener when component unmounts
+      stopListeningEvent('game_started', null);
+      stopListeningEvent('new_tetrominoes', null);
+      stopListeningEvent('join_denied', null);
+      stopListeningEvent('update_room_data', null);
+      stopListeningEvent('welcome_to_the_room', null);
+    };
   }, []);
 
   const popTetromino = () => tetrominoes.pop();
@@ -94,7 +117,7 @@ const GameLayout = () => {
         <div>
           {gameOver && !loading && (
             <div className={styles.floatingCentered}>
-              {user.nickname === roomData?.admin?.nickname ? (
+              {socketId === roomData?.admin?.socketId ? (
                 <MagicButton
                   text="Start"
                   action={() => {

@@ -25,7 +25,6 @@ import { getSocket } from './socket/socketMiddleware';
 import './styles/index.css';
 
 const baseUrl = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_FRONTEND_PORT}`;
-//const socket = io.connect(baseUrl); // todo
 
 const App = () => {
   const dispatch = useDispatch();
@@ -45,7 +44,6 @@ const App = () => {
         const userData = await utils.getUserData();
         dispatch(setUser(userData));
       } else {
-        //socket?.emit('player_arrived', user?.nickname); // todo socket
         emitEvent('player_arrived', user?.nickname);
       }
     };

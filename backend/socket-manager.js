@@ -18,8 +18,8 @@ const manageSocket = (server) => {
     },
     //path: '/socket',
     // improve the stability and reliability of your WebSocket connections by fine-tuning the heartbeat mechanism:
-    pingTimeout: 4000, // Set the ping timeout to 4 seconds
-    pingInterval: 2000 // Set the ping interval to 2 seconds
+    pingInterval: 10000, // Set the interval between ping-requests from Server to Client
+    pingTimeout: 1000 // Set the time which server awaits the answer from Client
   });
 
   io.on('connection', async (socket) => {
@@ -37,7 +37,6 @@ const manageSocket = (server) => {
       console.error(error.message);
     }
 
-    // Handle 'player_arrived' event
     socket.on('player_arrived', async (nickname) => {
       try {
         // Create a new Player instance with the received data

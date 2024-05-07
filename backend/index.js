@@ -76,6 +76,7 @@ app.use((err, req, res, next) => {
 
 // Set up socket connection
 const server = http.createServer(app);
+//server.keepAliveTimeout = 1000
 manageSocket(server);
 
 app.get('/rooms', (req, res) => {
