@@ -41,6 +41,24 @@ const GameLayout = () => {
     emitEvent('start_game', { roomName });
   };
 
+  // handling chat messaging:
+  const [messages, setMessages] = useState([]);
+  useEffect(() => {
+    //if (roomData?.mode === 'competition') {
+      const handleNewMessage = ({ message }) => {
+        console.log('Chat message from server:', message);
+        setMessages((prevMessages) => [...prevMessages, message]);
+      };
+
+      listenEvent('chat', handleNewMessage);
+
+      return () => {
+        // Clean up event listener when component unmounts
+        stopListeningEvent('chat', null);
+      };
+    //}
+  }, []);
+
   useEffect(() => {
     if (roomData?.mode === 'solo') {
       if (roomData.admin.socketId !== socketId) {
@@ -128,7 +146,7 @@ const GameLayout = () => {
                 <TetrisLoader text="Awaiting the start" />
               )}
               {roomData.mode === 'competition' ? (
-                <Messenger />
+                <Messenger messages={messages}/>
               ) : (
                 <span style={{ color: 'var(--TETRIS_WHITE)' }}>
                   the solo game
@@ -139,14 +157,14 @@ const GameLayout = () => {
           <div className={gameOver ? styles.blurContent : ''}>
             {!gameOver && (
               <Tetris
-                roomName={roomName}
-                roomMode={roomData.mode}
+                roomData={roomData}
                 rows={20}
                 columns={10}
                 gameOver={gameOver}
                 setGameOver={setGameOver}
                 initialTetrominoes={tetrominoes}
                 popTetromino={popTetromino}
+                messages={messages}
               />
             )}
           </div>

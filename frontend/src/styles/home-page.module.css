@@ -127,7 +127,7 @@
     margin-bottom: 21px;
   }
   .trio {
-    flex-direction: column;
+    /*flex-direction: column;*/
     gap: 42px;
   }
   .optionsBlock {

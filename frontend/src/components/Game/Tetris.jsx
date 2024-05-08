@@ -20,14 +20,14 @@ import {
 import styles from '../../styles/tetris-styles/tetris.module.css';
 
 const Tetris = ({
-  roomName,
-  roomMode,
+  roomData,
   rows,
   columns,
   gameOver,
   setGameOver,
   initialTetrominoes,
-  popTetromino
+  popTetromino,
+  messages
 }) => {
   const user = useSelector((state) => state.user);
   const nickname = user.nickname;
@@ -35,10 +35,13 @@ const Tetris = ({
   const [othersBoards, setOthersBoards] = useState({});
   const [penaltyRows, setPenaltyRows] = useState(0);
 
-  const [gameStats, addLinesCleared] = useGameStats(roomMode, roomName);
+  const [gameStats, addLinesCleared] = useGameStats(
+    roomData.mode,
+    roomData.name
+  );
   const [player, setPlayer, resetPlayer] = usePlayer(
     gameOver,
-    roomName,
+    roomData.name,
     initialTetrominoes,
     popTetromino
   );
@@ -53,9 +56,13 @@ const Tetris = ({
   });
 
   useEffect(() => {
-    if (roomMode === 'competition') {
+    if (roomData.mode === 'competition') {
       if (!gameOver) {
-        emitEvent('board_from_front', { board, roomName, nickname });
+        emitEvent('board_from_front', {
+          board,
+          roomName: roomData.name,
+          nickname
+        });
       }
     }
   }, [gameOver, board]);
@@ -73,8 +80,6 @@ const Tetris = ({
 
       listenEvent('add_penalty', (data) => {
         setPenaltyRows((prev) => prev + data.penaltyRows);
-
-        //setTimeout(() => {setPenaltyRows(0)}, 500)
       });
     }
 
@@ -106,9 +111,9 @@ const Tetris = ({
           />
         )}
       </div>
-      {roomMode === 'competition' && (
+      {roomData.mode === 'competition' && (
         <div className={styles.right}>
-          <Messenger />
+          <Messenger messages={messages} />
 
           {Object.keys(othersBoards).length === 0 ? (
             <TetrisLoader text="Loading observation bar..." />

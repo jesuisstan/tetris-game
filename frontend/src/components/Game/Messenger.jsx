@@ -1,29 +1,12 @@
 import { useEffect, useState, useRef } from 'react';
-import { useSelector } from 'react-redux';
 
 import { listenEvent, stopListeningEvent } from '../../socket/socketMiddleware';
 
 import styles from '../../styles/messenger.module.css';
 
-const Messenger = () => {
-  const user = useSelector((state) => state.user);
-  const [messages, setMessages] = useState([]);
+const Messenger = ({ messages }) => {
   const messagesEndRef = useRef(null);
-
-  useEffect(() => {
-    const handleNewMessage = ({ message }) => {
-      console.log('Chat message from server:', message);
-      setMessages((prevMessages) => [...prevMessages, message]);
-    };
-
-    listenEvent('chat', handleNewMessage);
-
-    return () => {
-      // Clean up event listener when component unmounts
-      stopListeningEvent('chat', null);
-    };
-  }, []);
-
+console.log('messages',messages)
   // Scroll to the bottom whenever messages change
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });

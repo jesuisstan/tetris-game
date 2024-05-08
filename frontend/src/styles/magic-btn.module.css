@@ -21,7 +21,7 @@
 }
 
 .magic:hover {
-  letter-spacing: 0.15em;
+  letter-spacing: 0.21em;
   transition: letter-spacing 0.5s ease-out;
 }
 

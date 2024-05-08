@@ -26,7 +26,7 @@
 
 body {
   font-style: normal;
-  letter-spacing: 0.15px;
+  letter-spacing: 1.3px;
   color: var(--TETRIS_PINK);
   background: var(--TETRIS_BLACK);
 }

@@ -176,7 +176,7 @@ const manageSocket = (server) => {
     });
 
     socket.on('board_from_front', (data) => {
-      const player = playersList.find((p) => p.nickname === data.nickname);
+      const player = playersList.find((p) => p.socketId === socket.id);
       if (player && player.room === data.roomName)
         gameTetris.sendBoard(
           io,
