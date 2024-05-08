@@ -18,8 +18,8 @@ const manageSocket = (server) => {
     },
     //path: '/socket',
     // improve the stability and reliability of your WebSocket connections by fine-tuning the heartbeat mechanism:
-    pingInterval: 10000, // Set the interval between ping-requests from Server to Client
-    pingTimeout: 500 // Set the time which server awaits the answer from Client
+    pingInterval: 20000, // Set the interval between ping-requests from Server to Client
+    pingTimeout: 40000 // Set the time which server awaits the answer from Client
   });
 
   io.on('connection', async (socket) => {

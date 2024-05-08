@@ -36,7 +36,7 @@ const GameLayout = () => {
 
   const [gameOver, setGameOver, resetGameOver] = useGameOver();
   console.log('gameOver =====', gameOver); //todo delete
-  
+
   const start = () => {
     emitEvent('start_game', { roomName });
   };

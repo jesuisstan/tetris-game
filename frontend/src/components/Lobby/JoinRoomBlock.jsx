@@ -14,10 +14,15 @@ import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 
 import { useSelector } from 'react-redux';
 
-import { emitEvent, listenEvent } from '../../socket/socketMiddleware';
+import {
+  getSocket,
+  emitEvent,
+  listenEvent
+} from '../../socket/socketMiddleware';
 
 const JoinRoomBlock = () => {
   const navigate = useNavigate();
+  const socketId = getSocket().id;
   const user = useSelector((state) => state.user);
   const [roomsList, setRoomsList] = useState(null);
   const [roomURI, setRoomURI] = useState('');
@@ -26,39 +31,54 @@ const JoinRoomBlock = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const columns = [
-    { id: 'roomName', label: 'Room name', minWidth: 121 },
+    { id: 'roomName', label: 'Name', minWidth: 100 },
     {
       id: 'mode',
-      label: 'Game mode',
-      minWidth: 121,
+      label: 'Mode',
+      minWidth: 100,
       align: 'center',
       format: (value) => value.toLocaleString('en-US')
     },
     {
       id: 'admin',
       label: 'Admin',
-      minWidth: 121,
+      minWidth: 100,
       align: 'center',
       format: (value) => value.toLocaleString('en-US')
     },
     {
       id: 'details',
       label: 'Players / Max',
-      minWidth: 121,
+      minWidth: 100,
       align: 'center',
       format: (value) => value.toLocaleString('en-US')
     },
     {
-      id: 'joinButton',
-      label: 'Join',
+      id: 'access',
+      label: 'Access',
       minWidth: 100,
       align: 'center'
     }
   ];
 
-  const createData = (roomName, mode, admin, maxPlayers, players) => {
+  const createData = (
+    roomName,
+    mode,
+    admin,
+    maxPlayers,
+    players,
+    adminSocketId
+  ) => {
     const details = `${players} / ${maxPlayers}`;
-    return { roomName, mode, admin, details, players, maxPlayers };
+    return {
+      roomName,
+      mode,
+      admin,
+      details,
+      players,
+      maxPlayers,
+      adminSocketId
+    };
   };
 
   const handleChangePage = (event, newPage) => {
@@ -70,9 +90,23 @@ const JoinRoomBlock = () => {
     setPage(0);
   };
 
-  const joinRoom = (roomName) => {
+  const checkAccess = (roomData, socketId) => {
+    if (!roomData) return false;
+    if (roomData.mode === 'solo') {
+      return roomData.adminSocketId === socketId ? true : false;
+    }
+    if (roomData.mode === 'competition') {
+      return roomData.maxPlayers === roomData.players || roomData.state === true
+        ? false
+        : true;
+    }
+  };
+
+  const joinRoom = (roomData) => {
+    if (!checkAccess(roomData, socketId)) return;
+
     setLoading(true);
-    const newRoomURI = `/tetris/${roomName}[${user.nickname}]`;
+    const newRoomURI = `/tetris/${roomData.roomName}[${user.nickname}]`;
     setRoomURI(newRoomURI);
   };
 
@@ -97,7 +131,8 @@ const JoinRoomBlock = () => {
           item.mode,
           item.admin.nickname,
           item.maxPlayers,
-          item.players
+          item.players,
+          item.admin.socketId
         )
       );
 
@@ -157,31 +192,21 @@ const JoinRoomBlock = () => {
                           role="checkbox"
                           tabIndex={-1}
                           key={row.roomName}
+                          onClick={() => joinRoom(row)}
+                          style={{ cursor: 'pointer' }}
                         >
                           {columns.map((column) => {
                             const value = row[column.id];
-                            if (column.id === 'joinButton') {
-                              // Render join button
+                            if (column.id === 'access') {
                               return (
                                 <TableCell key={column.id} align={column.align}>
-                                  <button
-                                    disabled={
-                                      row.mode === 'solo' ||
-                                      row.maxPlayers === row.players
-                                    }
-                                    style={{ cursor: 'pointer' }}
-                                    onClick={() => joinRoom(row.roomName)}
-                                  >
-                                    <SportsEsportsIcon
-                                      sx={{
-                                        color:
-                                          row.mode === 'solo' ||
-                                          row.maxPlayers === row.players
-                                            ? 'var(--TETRIS_RED)'
-                                            : 'var(--TETRIS_GREEN)'
-                                      }}
-                                    />
-                                  </button>
+                                  <SportsEsportsIcon
+                                    sx={{
+                                      color: checkAccess(row, socketId)
+                                        ? 'var(--TETRIS_GREEN)'
+                                        : 'var(--TETRIS_RED)'
+                                    }}
+                                  />
                                 </TableCell>
                               );
                             }

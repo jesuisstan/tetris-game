@@ -6,7 +6,7 @@ import { setSocket } from '../store/socket-slice';
 let socket;
 
 export const initializeSocket = (baseUrl, dispatch) => {
-  socket = io.connect(baseUrl);
+  socket = io.connect(baseUrl, { closeOnBeforeunload: true }); // closeOnBeforeunload is to disconnect socket immediatly on page reloading
   dispatch(setSocket(socket));
 };
 
@@ -15,11 +15,7 @@ export const getSocket = () => {
 };
 
 export const closeSocket = () => {
-  console.log('CLOSE 1');
-
   if (socket) {
-    console.log('CLOSE 2');
-
     socket.disconnect();
   }
 };
