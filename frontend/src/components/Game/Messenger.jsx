@@ -1,12 +1,10 @@
-import { useEffect, useState, useRef } from 'react';
-
-import { listenEvent, stopListeningEvent } from '../../socket/socketMiddleware';
+import { useEffect, useRef } from 'react';
 
 import styles from '../../styles/messenger.module.css';
 
 const Messenger = ({ messages }) => {
   const messagesEndRef = useRef(null);
-console.log('messages',messages)
+
   // Scroll to the bottom whenever messages change
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });

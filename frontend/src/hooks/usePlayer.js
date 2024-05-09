@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 
 import { emitEvent } from '../socket/socketMiddleware';
 
-const buildPlayer = (gameOver, roomName, initialTetrominoes, popTetromino) => {
+const buildPlayer = (roomName, initialTetrominoes, popTetromino) => {
   const tetromino = popTetromino(); // Pop a tetromino from the array
 
   if (initialTetrominoes.length === 4) {
@@ -19,18 +19,17 @@ const buildPlayer = (gameOver, roomName, initialTetrominoes, popTetromino) => {
 };
 
 export const usePlayer = (
-  gameOver,
   roomName,
   initialTetrominoes,
   popTetromino
 ) => {
   const [player, setPlayer] = useState(() =>
-    buildPlayer(gameOver, roomName, initialTetrominoes, popTetromino)
+    buildPlayer(roomName, initialTetrominoes, popTetromino)
   );
 
   const resetPlayer = useCallback(() => {
     setPlayer((prev) =>
-      buildPlayer(gameOver, roomName, [...initialTetrominoes], popTetromino)
+      buildPlayer(roomName, [...initialTetrominoes], popTetromino)
     ); // Pass a copy of initialTetrominoes
   }, [roomName, initialTetrominoes]);
 

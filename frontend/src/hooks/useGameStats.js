@@ -24,16 +24,10 @@ export const useGameStats = (roomMode, roomName) => {
       const linesCompleted = newLinesCompleted % linesPerLevel;
 
       if (roomMode === 'competition') {
-        // todo delete this "if" and uncomment the next after debugging cuz we need n-1 penalty. not n (+ modify nextBoard foo)
-        if (lines >= 1) {
-          const penaltyRows = lines;
+        if (lines >= 2) {
+          const penaltyRows = lines - 1;
           emitEvent('penalty_condition', { roomName, penaltyRows });
         }
-
-        //if (lines >= 2) {
-        //  const penaltyRows = lines - 1;
-        //  emitEvent('penalty_condition', { roomName, penaltyRows });
-        //}
       }
 
       return {

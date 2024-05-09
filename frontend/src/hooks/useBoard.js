@@ -2,16 +2,13 @@ import { useState, useEffect } from 'react';
 
 import { buildBoard, nextBoard } from '../utils/board';
 
-//import { listenEvent, stopListeningEvent } from '../socket/socketMiddleware';
-
 export const useBoard = ({
   rows,
   columns,
   player,
   resetPlayer,
   addLinesCleared,
-  penaltyRows,
-  setPenaltyRows
+  penaltyRows
 }) => {
   const [board, setBoard] = useState(buildBoard({ rows, columns }));
 
@@ -22,8 +19,7 @@ export const useBoard = ({
         player,
         resetPlayer,
         addLinesCleared,
-        penaltyRows,
-        setPenaltyRows
+        penaltyRows
       })
     );
   }, [player, resetPlayer, addLinesCleared]);

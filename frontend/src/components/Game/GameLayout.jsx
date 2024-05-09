@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import Tetris from './Tetris';
 import Messenger from './Messenger';
 import { useGameOver } from '../../hooks/useGameOver';
@@ -23,7 +22,6 @@ const GameLayout = () => {
   const socketId = getSocket().id;
   const [loading, setLoading] = useState(true);
   const [roomData, setRoomData] = useState({});
-  const user = useSelector((state) => state.user);
   const [tetrominoes, setTetrominoes] = useState([]);
 
   let roomPlusNickname = window.location.href.split('/')[5]; // Assuming window.location.href.split('/')[5] is 'zzz[TestUser]'

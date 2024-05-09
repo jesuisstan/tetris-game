@@ -1,29 +1,50 @@
-import { hasCollision, isWithinBoard } from "./board";
-import { rotate } from "./tetrominoes";
-import { Action } from "./input";
+import { hasCollision, isWithinBoard } from './board';
+import { rotate } from './tetrominoes';
+import { Action } from './input';
 
 const attemptRotation = ({ board, player, setPlayer }) => {
-  const shape = rotate({
-    piece: player.tetromino.shape,
-    direction: 1
-  });
+  const currentShape = player.tetromino.shape;
+  const currentPosition = player.position;
 
-  const position = player.position;
-  const isValidRotation =
-    isWithinBoard({ board, position, shape }) &&
-    !hasCollision({ board, position, shape });
+  // Attempt rotation without moving horizontally
+  let rotatedShape = rotate({ piece: currentShape, direction: 1 });
+  let isValidRotation =
+    isWithinBoard({ board, position: currentPosition, shape: rotatedShape }) &&
+    !hasCollision({ board, position: currentPosition, shape: rotatedShape });
 
-  if (isValidRotation) {
-    setPlayer({
-      ...player,
-      tetromino: {
-        ...player.tetromino,
-        shape
+  // If rotation failed, try moving horizontally and then rotating
+  if (!isValidRotation) {
+    const possiblePositions = [
+      { row: currentPosition.row, column: currentPosition.column - 1 }, // Try moving left
+      { row: currentPosition.row, column: currentPosition.column + 1 } // Try moving right
+    ];
+
+    for (const newPosition of possiblePositions) {
+      isValidRotation =
+        isWithinBoard({ board, position: newPosition, shape: rotatedShape }) &&
+        !hasCollision({ board, position: newPosition, shape: rotatedShape });
+
+      if (isValidRotation) {
+        setPlayer({
+          ...player,
+          tetromino: { ...player.tetromino, shape: rotatedShape },
+          position: newPosition
+        });
+        return; // Rotation successful after horizontal movement
       }
-    });
-  } else {
+    }
+  }
+
+  // If rotation is still not possible, return false
+  if (!isValidRotation) {
     return false;
   }
+
+  // Rotation is successful without horizontal movement
+  setPlayer({
+    ...player,
+    tetromino: { ...player.tetromino, shape: rotatedShape }
+  });
 };
 
 export const movePlayer = ({ delta, position, shape, board }) => {

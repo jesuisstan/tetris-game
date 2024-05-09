@@ -40,7 +40,6 @@ const Tetris = ({
     roomData.name
   );
   const [player, setPlayer, resetPlayer] = usePlayer(
-    gameOver,
     roomData.name,
     initialTetrominoes,
     popTetromino
@@ -51,8 +50,7 @@ const Tetris = ({
     player,
     resetPlayer,
     addLinesCleared,
-    penaltyRows,
-    setPenaltyRows
+    penaltyRows
   });
 
   useEffect(() => {

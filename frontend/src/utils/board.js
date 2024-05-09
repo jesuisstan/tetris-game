@@ -65,8 +65,7 @@ export const nextBoard = ({
   player,
   resetPlayer,
   addLinesCleared,
-  penaltyRows,
-  setPenaltyRows
+  penaltyRows
 }) => {
   if (!board || !player || !resetPlayer || !addLinesCleared) return;
   const { tetromino, position } = player;
@@ -111,19 +110,6 @@ export const nextBoard = ({
     });
   }
 
-  // Check for cleared lines
-  //const blankRow = rows?.[0]?.map((_) => ({ ...defaultCell }));
-  //let linesCleared = 0;
-  //rows = rows?.reduce((acc, row) => {
-  //  if (row.every((column) => column.occupied)) {
-  //    linesCleared++;
-  //    acc.unshift([...blankRow]);
-  //  } else {
-  //    acc.push(row);
-  //  }
-
-  //  return acc;
-  //}, []);
   const blankRow = rows?.[0]?.map((_) => ({ ...defaultCell }));
   let linesCleared = 0;
   rows = rows?.reduce((acc, row) => {
@@ -163,8 +149,6 @@ export const nextBoard = ({
         shape: penaltyTetromino.shape
       });
     }
-
-    //setPenaltyRows(0);
   }
 
   // Return the next board
