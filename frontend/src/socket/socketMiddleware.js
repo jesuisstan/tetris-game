@@ -54,3 +54,23 @@ export const getRoomsList = () => {
     });
   });
 };
+
+export const checkRoomPresence = async (roomName) => {
+  return new Promise((resolve, reject) => {
+    emitEvent('check_room_presence', { roomName }); // Emitting check_room_presence event
+
+    const handleRoomPresence = (presence) => {
+      clearTimeout(timeoutId); // Clear the timeout once result received
+      stopListeningEvent('room_exists', handleRoomPresence); // Stop listening once result received
+      resolve(presence);
+    };
+
+    listenEvent('room_exists', handleRoomPresence); // Listening for room_presence_result event
+
+    // Set a timeout to reject the promise if no room_presence_result occurs within a certain time
+    const timeoutId = setTimeout(() => {
+      stopListeningEvent('room_exists', handleRoomPresence); // Stop listening if timeout occurs
+      reject(new Error('Room presence check timed out'));
+    }, 5000); // Timeout after 5 seconds (adjust as needed)
+  });
+};

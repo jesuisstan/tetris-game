@@ -12,7 +12,8 @@ import {
   getSocket,
   emitEvent,
   listenEvent,
-  stopListeningEvent
+  stopListeningEvent,
+  checkRoomPresence
 } from '../../socket/socketMiddleware';
 
 import styles from '../../styles/game-layout.module.css';
@@ -39,12 +40,29 @@ const GameLayout = () => {
     emitEvent('start_game', { roomName });
   };
 
+  // check the presence of a room in case user enters with a link:
+  useEffect(() => {
+    const checkRoom = async () => {
+      try {
+        let res = await checkRoomPresence(roomName);
+        if (res?.presence === false) {
+          errorAlert('No such a room exists');
+          navigate('/lobby');
+        }
+      } catch (error) {
+        errorAlert('Something went wrong while checking room presence');
+        navigate('/lobby');
+      }
+    };
+
+    checkRoom();
+  }, [roomName]);
+
   // handling chat messaging:
   const [messages, setMessages] = useState([]);
   useEffect(() => {
     //if (roomData?.mode === 'competition') {
     const handleNewMessage = ({ message }) => {
-      console.log('Chat message from server:', message);
       setMessages((prevMessages) => [...prevMessages, message]);
     };
 

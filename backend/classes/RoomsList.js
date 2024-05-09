@@ -59,6 +59,12 @@ class RoomsList extends Array {
 
     return rooms;
   }
+
+  // Method to check the presence of a room and emit the result
+  checkRoomPresence(io, socketId, roomName) {
+    const roomExists = this.some((room) => room.name === roomName);
+    io.to(socketId).emit('room_exists', { roomName, presence: roomExists });
+  }
 }
 
 export default RoomsList;
