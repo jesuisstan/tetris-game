@@ -8,6 +8,7 @@ import '../../styles/tetris-styles/game-controller.css';
 import { useRef } from 'react';
 
 const GameController = ({
+  roomData,
   board,
   gameStats,
   player,
@@ -62,7 +63,8 @@ const GameController = ({
       board,
       player,
       setPlayer,
-      setGameOver
+      setGameOver,
+      roomData
     });
   };
 

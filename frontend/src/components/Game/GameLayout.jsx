@@ -23,6 +23,7 @@ const GameLayout = () => {
   const [loading, setLoading] = useState(true);
   const [roomData, setRoomData] = useState({});
   const [tetrominoes, setTetrominoes] = useState([]);
+  const [pending, setPending] = useState(false);
 
   let roomPlusNickname = window.location.href.split('/')[5]; // Assuming window.location.href.split('/')[5] is 'zzz[TestUser]'
   const regex = /\[(.*?)\]/; // Regular expression to extract text within square brackets
@@ -33,7 +34,6 @@ const GameLayout = () => {
   }
 
   const [gameOver, setGameOver, resetGameOver] = useGameOver();
-  console.log('gameOver =====', gameOver); //todo delete
 
   const start = () => {
     emitEvent('start_game', { roomName });
@@ -43,17 +43,17 @@ const GameLayout = () => {
   const [messages, setMessages] = useState([]);
   useEffect(() => {
     //if (roomData?.mode === 'competition') {
-      const handleNewMessage = ({ message }) => {
-        console.log('Chat message from server:', message);
-        setMessages((prevMessages) => [...prevMessages, message]);
-      };
+    const handleNewMessage = ({ message }) => {
+      console.log('Chat message from server:', message);
+      setMessages((prevMessages) => [...prevMessages, message]);
+    };
 
-      listenEvent('chat', handleNewMessage);
+    listenEvent('chat', handleNewMessage);
 
-      return () => {
-        // Clean up event listener when component unmounts
-        stopListeningEvent('chat', null);
-      };
+    return () => {
+      // Clean up event listener when component unmounts
+      stopListeningEvent('chat', null);
+    };
     //}
   }, []);
 
@@ -84,6 +84,7 @@ const GameLayout = () => {
     });
 
     listenEvent('update_room_data', (data) => {
+      console.log('update_room_data', data); // todo delete
       setRoomData(data);
     });
 
@@ -104,11 +105,16 @@ const GameLayout = () => {
     });
 
     listenEvent('game_started', (data) => {
-      setTetrominoes(createTetrominoes(data));
+      setLoading(true);
+      setTimeout(() => {
+        setTetrominoes(createTetrominoes(data));
+        setPending(false);
 
-      if (gameOver) {
-        resetGameOver();
-      }
+        if (gameOver) {
+          resetGameOver();
+        }
+        setLoading(false);
+      }, [1000]);
     });
 
     return () => {
@@ -122,7 +128,7 @@ const GameLayout = () => {
   }, []);
 
   const popTetromino = () => tetrominoes.pop();
-
+  console.log(loading);
   return (
     <div style={{ marginTop: '21px' }}>
       {loading ? (
@@ -144,16 +150,16 @@ const GameLayout = () => {
                 <TetrisLoader text="Awaiting the start" />
               )}
               {roomData.mode === 'competition' ? (
-                <Messenger messages={messages}/>
+                <Messenger messages={messages} />
               ) : (
                 <span style={{ color: 'var(--TETRIS_WHITE)' }}>
-                  the solo game
+                  the new solo game
                 </span>
               )}
             </div>
           )}
-          <div className={gameOver ? styles.blurContent : ''}>
-            {!gameOver && (
+          <div className={gameOver && pending ? styles.blurContent : ''}>
+            {(!gameOver || (gameOver && pending)) && !loading && (
               <Tetris
                 roomData={roomData}
                 rows={20}
@@ -163,6 +169,7 @@ const GameLayout = () => {
                 initialTetrominoes={tetrominoes}
                 popTetromino={popTetromino}
                 messages={messages}
+                setPending={setPending}
               />
             )}
           </div>

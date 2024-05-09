@@ -27,7 +27,8 @@ const Tetris = ({
   setGameOver,
   initialTetrominoes,
   popTetromino,
-  messages
+  messages,
+  setPending
 }) => {
   const user = useSelector((state) => state.user);
   const nickname = user.nickname;
@@ -79,12 +80,19 @@ const Tetris = ({
       listenEvent('add_penalty', (data) => {
         setPenaltyRows((prev) => prev + data.penaltyRows);
       });
+
+      listenEvent('set_gameover', () => {
+        console.log('set_gameover')
+        setGameOver(true);
+        setPending(true);
+      });
     }
 
     return () => {
       // Clean up event listener when component unmounts
       stopListeningEvent('board_from_back', null);
       stopListeningEvent('add_penalty', null);
+      stopListeningEvent('set_gameover', null);
     };
   }, [gameOver]);
 
@@ -92,7 +100,7 @@ const Tetris = ({
     <div className={styles.tetrisMain}>
       <div className={styles.wrapper}>
         <div style={{ minWidth: '41vh', minHeight: '82vh' }}>
-          <Board board={board} />
+          <Board board={board} gameover={gameOver}/>
         </div>
 
         <div className={styles.infoBlock}>
@@ -101,6 +109,7 @@ const Tetris = ({
         </div>
         {!gameOver && (
           <GameController
+            roomData={roomData}
             board={board}
             gameStats={gameStats}
             player={player}

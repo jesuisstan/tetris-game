@@ -1,7 +1,7 @@
 :root {
   --TETRIS_WHITE: rgb(238, 227, 193);
   --TETRIS_BLACK: rgb(31, 35, 40);
-  --TETRIS_BLACK_TRANS: rgba(31, 35, 40, 0.87);
+  --TETRIS_BLACK_TRANS: rgba(31, 35, 40, 0.9);
   --TETRIS_GRAY: rgb(119, 136, 153);
   --TETRIS_PINK: rgb(199, 97, 100);
   --TETRIS_GREEN: rgb(0, 186, 188);

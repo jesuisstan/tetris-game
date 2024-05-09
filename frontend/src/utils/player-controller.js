@@ -2,6 +2,8 @@ import { hasCollision, isWithinBoard } from './board';
 import { rotate } from './tetrominoes';
 import { Action } from './input';
 
+import { emitEvent } from '../socket/socketMiddleware';
+
 const attemptRotation = ({ board, player, setPlayer }) => {
   const currentShape = player.tetromino.shape;
   const currentPosition = player.position;
@@ -74,7 +76,14 @@ export const movePlayer = ({ delta, position, shape, board }) => {
   return { collided: isHit, nextPosition };
 };
 
-const attemptMovement = ({ board, action, player, setPlayer, setGameOver }) => {
+const attemptMovement = ({
+  board,
+  action,
+  player,
+  setPlayer,
+  setGameOver,
+  roomData
+}) => {
   const delta = { row: 0, column: 0 };
   let isFastDropping = false;
 
@@ -95,10 +104,15 @@ const attemptMovement = ({ board, action, player, setPlayer, setGameOver }) => {
     board
   });
 
-  // Did we collide immediately? If so, game over, man!
+  // Collision happens immediately -> game over
   const isGameOver = collided && player.position.row === 0;
   if (isGameOver) {
-    setGameOver(isGameOver);
+    //setGameOver(isGameOver);
+    emitEvent('game_over', {
+      roomName: roomData.name,
+      roomAdmin: roomData.admin.socketId
+    });
+    console.log('setGameOver(isGameOver)'); // todo delete
   }
 
   setPlayer({
@@ -114,13 +128,21 @@ export const playerController = ({
   board,
   player,
   setPlayer,
-  setGameOver
+  setGameOver,
+  roomData
 }) => {
   if (!action) return;
 
   if (action === Action.Rotate) {
     attemptRotation({ board, player, setPlayer });
   } else {
-    attemptMovement({ board, player, setPlayer, action, setGameOver });
+    attemptMovement({
+      board,
+      player,
+      setPlayer,
+      action,
+      setGameOver,
+      roomData
+    });
   }
 };

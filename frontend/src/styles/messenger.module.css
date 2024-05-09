@@ -8,6 +8,7 @@
   height: 250px;
   text-align: left;
   gap: 21px;
+  background: var(--TETRIS_BLACK_TRANS);
 }
 
 .messagesContainer {

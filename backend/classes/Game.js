@@ -269,8 +269,6 @@ class Game {
           io.to(roomToLeave).emit('update_room_data', roomData);
         } else if (isAdmin && playersInRoom.length >= 1 && roomData?.state) {
           roomData.players -= 1;
-          console.log('----------handleLeavingRoom----------- 2');
-
           playersInRoom[0].setAdminStatus(true);
           roomData.admin.nickname = playersInRoom[0].nickname;
           roomData.admin.socketId = playersInRoom[0].socketId;
@@ -279,7 +277,7 @@ class Game {
             const playerWinner = playersList.find(
               (p) => p.room === roomData.name && !p.gameOver
             );
-            io.to(playerWinner.socketId).emit('game_over', {
+            io.to(playerWinner?.socketId).emit('game_over', {
               // todo was 'Game_finish';
               winner: playerWinner
             });
@@ -377,26 +375,35 @@ class Game {
     });
   };
 
-  handleGameOver = (io, data, playersList, roomsList) => {
+  handleGameOver = (io, socketId, data, playersList, roomsList) => {
     return new Promise((resolve, reject) => {
-      const room = roomsList.find((room) => room?.name === data?.room);
+      const room = roomsList.find((room) => room?.name === data?.roomName);
       const player = playersList.find(
-        (player) => player?.nickname === data?.nickname
+        (player) => player?.socketId === socketId
       );
 
       if (room?.players === 1) {
         room.state = false;
         roomsList.sendRoomsList(io);
+        console.log('if (room?.players === 1)');
+
+        if (player.room === data?.roomName) {
+          io.to(socketId).emit('set_gameover');
+        }
       }
       if (
         room?.mode === 'competition' &&
         player?.room === room?.name &&
         !player.gameOver
       ) {
+        console.log("HANDLover IN  room?.mode === 'competition'")
         player.gameOver = true;
+        if (player.room === data?.roomName) {
+          io.to(socketId).emit('set_gameover');
+        }
         io.to(room.name).emit('chat', {
-          message: `${player?.nickname} lose`,
-          type: 'joined'
+          message: `${player?.nickname} lost this round`,
+          type: 'gameOver'
         });
 
         this.getRoomPlayersDetails(io, room.name, playersList).then((res) => {
@@ -420,7 +427,7 @@ class Game {
               (p) => p.room === room.name && !p.gameOver
             );
 
-            io.to(playerWinner.socketId).emit('game_over', {
+            io.to(playerWinner.socketId).emit('set_gameover', {
               // todo was 'Game_finish';
               winner: playerWinner
             });
@@ -431,8 +438,12 @@ class Game {
 
             room.state = false;
             roomsList.sendRoomsList(io);
+            //io.to(room?.name).emit('update_room_data', room);
             losers.forEach((element) => {
+              console.log('element 1', element)
               element.gameOver = false;
+              console.log('element 2', element)
+
             });
           }
         });

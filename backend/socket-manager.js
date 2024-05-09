@@ -197,8 +197,8 @@ const manageSocket = (server) => {
     });
 
     socket.on('game_over', async (data) => {
-      // todo was "Game_over"
-      gameTetris.handleGameOver(io, data, playersList, roomsList);
+     console.log('game_over from front:', data) // todo delete
+      gameTetris.handleGameOver(io, socket.id, data, playersList, roomsList);
     });
 
     socket.on('penalty_condition', async (data) => {
