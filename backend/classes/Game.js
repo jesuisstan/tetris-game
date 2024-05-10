@@ -339,10 +339,15 @@ class Game {
   startGame = (io, room, tetrominoes) => {
     if (room) {
       return new Promise((resolve, reject) => {
-        //if (!room.state) {
-        room.state = true; // todo
-        io.to(room.name).emit('game_started', tetrominoes);
-        //}
+        if (!room.state) {
+          room.state = true; // todo
+          io.to(room.name).emit('game_started', tetrominoes);
+
+          io.to(room.name).emit('chat', {
+            message: `The game started!`,
+            type: 'status'
+          });
+        }
       });
     }
   };
@@ -385,7 +390,6 @@ class Game {
       if (room?.players === 1) {
         room.state = false;
         roomsList.sendRoomsList(io);
-        console.log('if (room?.players === 1)');
 
         if (player.room === data?.roomName) {
           io.to(socketId).emit('set_gameover');
@@ -396,7 +400,7 @@ class Game {
         player?.room === room?.name &&
         !player.gameOver
       ) {
-        console.log("HANDLover IN  room?.mode === 'competition'")
+        console.log("HANDLover IN  room?.mode === 'competition'");
         player.gameOver = true;
         if (player.room === data?.roomName) {
           io.to(socketId).emit('set_gameover');
@@ -440,10 +444,9 @@ class Game {
             roomsList.sendRoomsList(io);
             //io.to(room?.name).emit('update_room_data', room);
             losers.forEach((element) => {
-              console.log('element 1', element)
+              console.log('element 1', element);
               element.gameOver = false;
-              console.log('element 2', element)
-
+              console.log('element 2', element);
             });
           }
         });

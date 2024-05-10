@@ -7,7 +7,12 @@ import Stack from '@mui/material/Stack';
 import RadioButtonsGroup from '../UI/RadioButtonsGroup';
 import errorAlert from '../../utils/error-alert';
 
-import { initializeSocket, closeSocket, emitEvent, listenEvent } from '../../socket/socketMiddleware';
+import {
+  initializeSocket,
+  closeSocket,
+  emitEvent,
+  listenEvent
+} from '../../socket/socket-middleware';
 
 import * as MUI from '../../styles/MUIstyles';
 import styles from '../../styles/lobby.module.css';
@@ -49,7 +54,6 @@ const CreateRoomBlock = () => {
   //  });
   //}, []);
 
-
   const createRoom = (event) => {
     event.preventDefault();
     setLoading(true);
@@ -65,7 +69,6 @@ const CreateRoomBlock = () => {
     listenEvent('room_already_exists', () => {
       errorAlert('Room with such a name already exists');
       navigate('/lobby');
-
     });
   }, []);
 

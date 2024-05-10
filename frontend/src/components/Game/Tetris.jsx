@@ -15,7 +15,7 @@ import {
   emitEvent,
   listenEvent,
   stopListeningEvent
-} from '../../socket/socketMiddleware';
+} from '../../socket/socket-middleware';
 
 import styles from '../../styles/tetris-styles/tetris.module.css';
 
@@ -82,7 +82,7 @@ const Tetris = ({
       });
 
       listenEvent('set_gameover', () => {
-        console.log('set_gameover')
+        console.log('set_gameover');
         setGameOver(true);
         setPending(true);
       });
@@ -100,7 +100,7 @@ const Tetris = ({
     <div className={styles.tetrisMain}>
       <div className={styles.wrapper}>
         <div style={{ minWidth: '41vh', minHeight: '82vh' }}>
-          <Board board={board} gameover={gameOver}/>
+          <Board board={board} gameover={gameOver} />
         </div>
 
         <div className={styles.infoBlock}>

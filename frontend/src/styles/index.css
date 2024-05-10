@@ -146,3 +146,26 @@ h2 {
     transform: translate(-22px, 5px) skew(21deg);
   }
 }
+
+/* Scrool bar: WebKit (Chrome, Safari) */
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--TETRIS_BLACK);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--TETRIS_WHITE);
+  border-radius: 10px;
+}
+
+/* Scrool bar for Mozilla */
+* {
+  scrollbar-color: var(--TETRIS_WHITE) var(--TETRIS_BLACK);
+  scrollbar-width: thin;
+  scrollbar-face-color: var(--TETRIS_BLACK);
+  scrollbar-track-color: var(--TETRIS_BLACK);
+  scrollbar-arrow-color: var(--TETRIS_WHITE);
+}

@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 
-import { emitEvent } from '../socket/socketMiddleware';
+import { emitEvent } from '../socket/socket-middleware';
 
 const buildPlayer = (roomName, initialTetrominoes, popTetromino) => {
   const tetromino = popTetromino(); // Pop a tetromino from the array
@@ -18,11 +18,7 @@ const buildPlayer = (roomName, initialTetrominoes, popTetromino) => {
   };
 };
 
-export const usePlayer = (
-  roomName,
-  initialTetrominoes,
-  popTetromino
-) => {
+export const usePlayer = (roomName, initialTetrominoes, popTetromino) => {
   const [player, setPlayer] = useState(() =>
     buildPlayer(roomName, initialTetrominoes, popTetromino)
   );

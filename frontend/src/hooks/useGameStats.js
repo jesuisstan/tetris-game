@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 
-import { emitEvent } from '../socket/socketMiddleware';
+import { emitEvent } from '../socket/socket-middleware';
 
 const buildGameStats = () => ({
   level: 1,

@@ -14,7 +14,7 @@ import {
   listenEvent,
   stopListeningEvent,
   checkRoomPresence
-} from '../../socket/socketMiddleware';
+} from '../../socket/socket-middleware';
 
 import styles from '../../styles/game-layout.module.css';
 

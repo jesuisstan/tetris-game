@@ -18,20 +18,18 @@ import {
   closeSocket,
   emitEvent,
   listenEvent
-} from './socket/socketMiddleware';
+} from './socket/socket-middleware';
 import { setSocket } from './store/socket-slice';
-import { getSocket } from './socket/socketMiddleware';
+import { getSocket } from './socket/socket-middleware';
 
 import './styles/index.css';
-
-const baseUrl = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_FRONTEND_PORT}`;
 
 const App = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
 
   useEffect(() => {
-    initializeSocket(baseUrl, dispatch);
+    initializeSocket(dispatch);
     return () => {
       closeSocket();
     };

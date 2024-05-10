@@ -18,7 +18,7 @@ import {
   getSocket,
   emitEvent,
   listenEvent
-} from '../../socket/socketMiddleware';
+} from '../../socket/socket-middleware';
 
 const JoinRoomBlock = () => {
   const navigate = useNavigate();

@@ -2,7 +2,7 @@ import { hasCollision, isWithinBoard } from './board';
 import { rotate } from './tetrominoes';
 import { Action } from './input';
 
-import { emitEvent } from '../socket/socketMiddleware';
+import { emitEvent } from '../socket/socket-middleware';
 
 const attemptRotation = ({ board, player, setPlayer }) => {
   const currentShape = player.tetromino.shape;
