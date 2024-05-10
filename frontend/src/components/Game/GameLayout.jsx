@@ -60,19 +60,20 @@ const GameLayout = () => {
 
   // handling chat messaging:
   const [messages, setMessages] = useState([]);
+  const [losers, setLosers] = useState([]);
   useEffect(() => {
-    //if (roomData?.mode === 'competition') {
-    const handleNewMessage = ({ message }) => {
-      setMessages((prevMessages) => [...prevMessages, message]);
+    const handleNewMessage = (data) => {
+      setMessages((prevMessages) => [...prevMessages, data.message]);
+      if (data.type === "gameOver") {
+        setLosers((prev) => [...prev, data.nickname]);
+      }
     };
 
     listenEvent('chat', handleNewMessage);
 
     return () => {
-      // Clean up event listener when component unmounts
       stopListeningEvent('chat', null);
     };
-    //}
   }, []);
 
   useEffect(() => {
@@ -127,7 +128,7 @@ const GameLayout = () => {
       setTimeout(() => {
         setTetrominoes(createTetrominoes(data));
         setPending(false);
-
+        setLosers([])
         if (gameOver) {
           resetGameOver();
         }
@@ -188,6 +189,7 @@ const GameLayout = () => {
                 popTetromino={popTetromino}
                 messages={messages}
                 setPending={setPending}
+                losers={losers}
               />
             )}
           </div>

@@ -400,14 +400,14 @@ class Game {
         player?.room === room?.name &&
         !player.gameOver
       ) {
-        console.log("HANDLover IN  room?.mode === 'competition'");
         player.gameOver = true;
         if (player.room === data?.roomName) {
           io.to(socketId).emit('set_gameover');
         }
         io.to(room.name).emit('chat', {
           message: `${player?.nickname} lost this round`,
-          type: 'gameOver'
+          type: 'gameOver',
+          nickname: `${player?.nickname}`
         });
 
         this.getRoomPlayersDetails(io, room.name, playersList).then((res) => {
@@ -432,12 +432,11 @@ class Game {
             );
 
             io.to(playerWinner.socketId).emit('set_gameover', {
-              // todo was 'Game_finish';
               winner: playerWinner
             });
             io.to(room.name).emit('chat', {
               message: `${playerWinner?.nickname} wins the game!`,
-              type: 'admin'
+              type: 'winner'
             });
 
             room.state = false;

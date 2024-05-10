@@ -11,16 +11,12 @@ import * as utils from './utils/auth-handlers';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from './store/user-slice';
 
-//import io from 'socket.io-client';
-
 import {
   initializeSocket,
   closeSocket,
   emitEvent,
   listenEvent
 } from './socket/socket-middleware';
-import { setSocket } from './store/socket-slice';
-import { getSocket } from './socket/socket-middleware';
 
 import './styles/index.css';
 

@@ -28,7 +28,8 @@ const Tetris = ({
   initialTetrominoes,
   popTetromino,
   messages,
-  setPending
+  setPending,
+  losers
 }) => {
   const user = useSelector((state) => state.user);
   const nickname = user.nickname;
@@ -82,7 +83,6 @@ const Tetris = ({
       });
 
       listenEvent('set_gameover', () => {
-        console.log('set_gameover');
         setGameOver(true);
         setPending(true);
       });
@@ -95,7 +95,7 @@ const Tetris = ({
       stopListeningEvent('set_gameover', null);
     };
   }, [gameOver]);
-
+console.log('losers', losers)
   return (
     <div className={styles.tetrisMain}>
       <div className={styles.wrapper}>
@@ -139,7 +139,10 @@ const Tetris = ({
                       {playerName}
                     </p>
                     <div className={styles.eachOtherBoard}>
-                      <Board board={board} />
+                      <Board
+                        board={board}
+                        gameover={losers?.includes(playerName)}
+                      />
                     </div>
                   </div>
                 ))}
