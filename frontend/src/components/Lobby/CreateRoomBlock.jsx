@@ -5,14 +5,9 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import FormInput from '../../components/UI/FormInput';
 import Stack from '@mui/material/Stack';
 import RadioButtonsGroup from '../UI/RadioButtonsGroup';
-import errorAlert from '../../utils/error-alert';
+import { errorAlert } from '../../utils/alerts';
 
-import {
-  initializeSocket,
-  closeSocket,
-  emitEvent,
-  listenEvent
-} from '../../socket/socket-middleware';
+import { emitEvent, listenEvent } from '../../socket/socket-middleware';
 
 import * as MUI from '../../styles/MUIstyles';
 import styles from '../../styles/lobby.module.css';

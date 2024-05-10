@@ -9,7 +9,7 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TetrisLoader from '../UI/TetrisLoader';
-import errorAlert from '../../utils/error-alert';
+import { errorAlert } from '../../utils/alerts';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 
 import { useSelector } from 'react-redux';

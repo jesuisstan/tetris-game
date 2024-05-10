@@ -4,7 +4,7 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import SignUpModal from './SignUpModal';
 import Stack from '@mui/material/Stack';
 import FormInput from '../UI/FormInput';
-import errorAlert from '../../utils/error-alert';
+import { errorAlert } from '../../utils/alerts';
 import axios from 'axios';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { useDispatch } from 'react-redux';

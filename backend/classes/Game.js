@@ -436,7 +436,8 @@ class Game {
             });
             io.to(room.name).emit('chat', {
               message: `${playerWinner?.nickname} wins the game!`,
-              type: 'winner'
+              type: 'winner',
+              nickname: `${playerWinner?.nickname}`
             });
 
             room.state = false;

@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 import { useBoard } from '../../hooks/useBoard';
 import { useGameStats } from '../../hooks/useGameStats';
 import { usePlayer } from '../../hooks/usePlayer';
-import { useSelector } from 'react-redux';
-
 import Messenger from './Messenger';
 import Board from './Board';
 import GameStats from './GameStats';
@@ -20,6 +18,7 @@ import {
 import styles from '../../styles/tetris-styles/tetris.module.css';
 
 const Tetris = ({
+  nickname,
   roomData,
   rows,
   columns,
@@ -31,9 +30,6 @@ const Tetris = ({
   setPending,
   losers
 }) => {
-  const user = useSelector((state) => state.user);
-  const nickname = user.nickname;
-
   const [othersBoards, setOthersBoards] = useState({});
   const [penaltyRows, setPenaltyRows] = useState(0);
 
@@ -95,7 +91,7 @@ const Tetris = ({
       stopListeningEvent('set_gameover', null);
     };
   }, [gameOver]);
-console.log('losers', losers)
+
   return (
     <div className={styles.tetrisMain}>
       <div className={styles.wrapper}>

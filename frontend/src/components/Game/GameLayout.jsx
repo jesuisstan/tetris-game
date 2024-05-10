@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import Tetris from './Tetris';
 import Messenger from './Messenger';
 import { useGameOver } from '../../hooks/useGameOver';
-import errorAlert from '../../utils/error-alert';
+import { errorAlert } from '../../utils/alerts';
 import { createTetrominoes } from '../../utils/tetrominoes';
 import TetrisLoader from '../UI/TetrisLoader';
 import MagicButton from '../UI/MagicButton';
+import TetrisConfetti from '../UI/TetrisConfetti';
 
 import {
   getSocket,
@@ -20,11 +22,16 @@ import styles from '../../styles/game-layout.module.css';
 
 const GameLayout = () => {
   const navigate = useNavigate();
+  const nickname = useSelector((state) => state.user)?.nickname;
   const socketId = getSocket().id;
   const [loading, setLoading] = useState(true);
   const [roomData, setRoomData] = useState({});
   const [tetrominoes, setTetrominoes] = useState([]);
   const [pending, setPending] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [losers, setLosers] = useState([]);
+  const [gameOver, setGameOver, resetGameOver] = useGameOver();
 
   let roomPlusNickname = window.location.href.split('/')[5]; // Assuming window.location.href.split('/')[5] is 'zzz[TestUser]'
   const regex = /\[(.*?)\]/; // Regular expression to extract text within square brackets
@@ -34,9 +41,8 @@ const GameLayout = () => {
     roomName = roomPlusNickname.split('[')[0]; // Extract characters before '[' as room
   }
 
-  const [gameOver, setGameOver, resetGameOver] = useGameOver();
-
   const start = () => {
+    setShowConfetti(false);
     emitEvent('start_game', { roomName });
   };
 
@@ -59,13 +65,15 @@ const GameLayout = () => {
   }, [roomName]);
 
   // handling chat messaging:
-  const [messages, setMessages] = useState([]);
-  const [losers, setLosers] = useState([]);
   useEffect(() => {
     const handleNewMessage = (data) => {
       setMessages((prevMessages) => [...prevMessages, data.message]);
-      if (data.type === "gameOver") {
+      if (data.type === 'gameOver') {
         setLosers((prev) => [...prev, data.nickname]);
+      }
+      if (data.type === 'winner') {
+        if (data.nickname === nickname) setShowConfetti(true);
+        //setGameOver();
       }
     };
 
@@ -124,11 +132,12 @@ const GameLayout = () => {
     });
 
     listenEvent('game_started', (data) => {
+      setShowConfetti(false);
       setLoading(true);
       setTimeout(() => {
         setTetrominoes(createTetrominoes(data));
         setPending(false);
-        setLosers([])
+        setLosers([]);
         if (gameOver) {
           resetGameOver();
         }
@@ -150,6 +159,7 @@ const GameLayout = () => {
   console.log(loading);
   return (
     <div style={{ marginTop: '21px' }}>
+      <TetrisConfetti show={showConfetti} setShow={setShowConfetti} />
       {loading ? (
         <div className={styles.centered}>
           <TetrisLoader />
@@ -180,6 +190,7 @@ const GameLayout = () => {
           <div className={gameOver && pending ? styles.blurContent : ''}>
             {(!gameOver || (gameOver && pending)) && !loading && (
               <Tetris
+                nickname={nickname}
                 roomData={roomData}
                 rows={20}
                 columns={10}

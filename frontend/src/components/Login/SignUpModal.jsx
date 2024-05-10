@@ -8,8 +8,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import FormInput from '../UI/FormInput';
 import axios from 'axios';
-import errorAlert from '../../utils/error-alert';
-import saveAlert from '../../utils/save-alert';
+import { errorAlert, saveAlert } from '../../utils/alerts';
 import * as MUI from '../../styles/MUIstyles';
 import styles from '../../styles/login.module.css';
 

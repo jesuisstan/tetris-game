@@ -1,5 +1,5 @@
 import axios from 'axios';
-import errorAlert from './error-alert';
+import { errorAlert } from './alerts';
 import { initialUserState } from '../store/user-slice';
 
 export const getCookieValue = (name) => {
