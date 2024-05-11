@@ -37,7 +37,6 @@ const manageSocket = (server) => {
         // Create a new Player instance with the received data
         const newPlayer = new Player(nickname, socket.id);
         playersList.addNewPlayer(newPlayer);
-        console.log('A new player added to list:', nickname, playersList);
 
         // Emit a welcome message to the client
         socket.emit('welcome', {
@@ -150,7 +149,6 @@ const manageSocket = (server) => {
     });
 
     socket.on('penalty_condition', async (data) => {
-      console.log('penalty_condition MATCHES', data);
       gameTetris.addPenalty(io, socket.id, data?.roomName, data?.penaltyRows);
     });
   });

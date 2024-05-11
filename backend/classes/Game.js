@@ -124,6 +124,7 @@ class Game {
       players[0]?.setRoom(room);
 
       socket.join(room);
+      console.log('socket JOIN in CREATE'); // todo delete
 
       if (
         players[0]?.nickname &&
@@ -143,6 +144,10 @@ class Game {
     return new Promise((resolve, reject) => {
       const roomData = roomsList.find((rm) => rm.name === room);
       const playerOnSocket = playersList.find((p) => p.socketId === socket.id);
+      console.log(
+        'playerOnSocket in handleJoiningRoom in the BEGINNING',
+        playerOnSocket
+      ); // todo delete
 
       if (roomData?.state === true) {
         io.to(socket.id).emit('join_denied', {
@@ -158,7 +163,6 @@ class Game {
               message: 'You cannot join "solo" room'
             });
       } else if (roomData?.mode === 'competition') {
-        // Use getRoomPlayersDetails to get player objects
         this.getRoomPlayersDetails(io, room, playersList)
           .then((roomPlayers) => {
             if (
@@ -192,7 +196,9 @@ class Game {
 
             // Proceed with joining the room
             playerOnSocket.setRoom(roomData.name);
+            playerOnSocket.setAdminStatus(false);
             socket.join(roomData.name);
+            console.log('socket JOIN in JOIN'); // todo delete
             this.sendRoomPlayersList(io, roomData.name, playersList);
 
             io.to(roomData.name).emit('chat', {
@@ -204,6 +210,11 @@ class Game {
             roomsList.sendRoomsList(io);
             io.to(room).emit('update_room_data', roomData);
             io.to(socket.id).emit('welcome_to_the_room', roomData);
+
+            console.log(
+              'playerOnSocket in handleJoiningRoom in the END',
+              playerOnSocket
+            ); // todo delete
           })
           .catch((error) => {
             console.error('Error fetching room players:', error);
@@ -219,20 +230,21 @@ class Game {
   handleLeavingRoom = (io, socket, playersList, roomsList) => {
     return new Promise((resolve, reject) => {
       const playerToErase = playersList.find((p) => p.socketId === socket.id);
+      console.log('playerToErase in the BEGINNING', playerToErase); // todo delete
       const roomToLeave = playerToErase?.room;
       const isAdmin = playerToErase?.admin;
-      console.log('roomToLeave', roomToLeave);
+      console.log('roomToLeave', roomToLeave); // todo delete
       if (roomToLeave) {
         socket.leave(roomToLeave);
         io.to(playerToErase.socketId).emit('left_room');
         io.to(roomToLeave).emit('chat', {
           // todo Chat ?
           message: `${playerToErase.nickname} left the room "${roomToLeave}"`,
-          type: 'left'
+          type: 'leave'
         });
         io.to(roomToLeave).emit('clearStages', {
           nickname: playerToErase.nickname
-        });
+        }); // todo delete
 
         const playersOnSocket = playersList.filter(
           (p) => p.socketId === socket.id
@@ -444,9 +456,7 @@ class Game {
             roomsList.sendRoomsList(io);
             //io.to(room?.name).emit('update_room_data', room);
             losers.forEach((element) => {
-              console.log('element 1', element);
               element.gameOver = false;
-              console.log('element 2', element);
             });
           }
         });

@@ -13,7 +13,7 @@ class PlayersList extends Array {
     );
 
     if (existingPlayer) {
-      console.log(
+      console.warn(
         `Player "${existingPlayer.nickname}" with socketId "${existingPlayer.socketId}" is already in the list.`
       );
     } else {
