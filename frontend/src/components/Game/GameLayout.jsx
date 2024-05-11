@@ -26,12 +26,13 @@ const GameLayout = () => {
   const socketId = getSocket().id;
   const [loading, setLoading] = useState(true);
   const [roomData, setRoomData] = useState({});
-  const [tetrominoes, setTetrominoes] = useState([]);
   const [pending, setPending] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   const [messages, setMessages] = useState([]);
   const [losers, setLosers] = useState([]);
   const [gameOver, setGameOver, resetGameOver] = useGameOver();
+  const [tetrominoes, setTetrominoes] = useState([]);
+  const popTetromino = () => tetrominoes.pop();
 
   let roomPlusNickname = window.location.href.split('/')[5]; // Assuming window.location.href.split('/')[5] is 'zzz[TestUser]'
   const regex = /\[(.*?)\]/; // Regular expression to extract text within square brackets
@@ -57,6 +58,7 @@ const GameLayout = () => {
         }
       } catch (error) {
         errorAlert('Something went wrong while checking room presence');
+        console.log('Error:', error); // todo delete
         navigate('/lobby');
       }
     };
@@ -73,7 +75,6 @@ const GameLayout = () => {
       }
       if (data.type === 'winner') {
         if (data.nickname === nickname) setShowConfetti(true);
-        //setGameOver();
       }
     };
 
@@ -155,8 +156,6 @@ const GameLayout = () => {
     };
   }, []);
 
-  const popTetromino = () => tetrominoes.pop();
-  console.log(loading);
   return (
     <div style={{ marginTop: '21px' }}>
       <TetrisConfetti show={showConfetti} setShow={setShowConfetti} />

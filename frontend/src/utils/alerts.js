@@ -22,7 +22,7 @@ export const saveAlert = () => {
     background: 'rgba(0, 0, 0, 0)',
     title: 'S A V E D',
     showConfirmButton: false,
-    timer: 700,
+    timer: 1000,
     showClass: {
       popup: 'swal2-show',
       backdrop: 'none'

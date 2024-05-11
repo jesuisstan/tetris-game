@@ -19,7 +19,7 @@
 }
 
 .blurContent {
-  filter: blur(2.5px);
+  filter: blur(2px);
 }
 
 .blurContent .floatingCentered,

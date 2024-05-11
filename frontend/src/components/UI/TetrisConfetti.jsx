@@ -5,7 +5,7 @@ import { congratsAlert } from '../../utils/alerts';
 const TetrisConfetti = ({ show, setShow }) => {
   const [windowSizes, setWindowSizes] = useState({
     width: window.innerWidth - 5,
-    height: window.innerHeight - 21
+    height: window.innerHeight * 1.42
   });
 
   useEffect(() => {
@@ -49,7 +49,7 @@ const TetrisConfetti = ({ show, setShow }) => {
         wind={0.05}
         gravity={0.2}
         width={windowSizes.width - 5}
-        height={windowSizes.height - 21}
+        height={windowSizes.height * 1.42}
       />
     )
   );
