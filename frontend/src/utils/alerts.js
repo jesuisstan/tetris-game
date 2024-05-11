@@ -37,9 +37,9 @@ export const congratsAlert = () => {
     color: 'var(--TETRIS_GREEN)',
     background: 'rgba(0, 0, 0, 0)',
     //title: 'C O N G R A T S !',
-    title: '<div style="margin-top: 84px;">C O N G R A T S ! ! !</div>',
+    title: '<div style="margin-top: 84px;">Y O U   W I N ! ! !</div>',
     showConfirmButton: false,
-    timer: 2500,
+    timer: 4200,
     showClass: {
       popup: 'swal2-show',
       backdrop: 'none'

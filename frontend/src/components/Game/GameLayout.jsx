@@ -155,7 +155,7 @@ const GameLayout = () => {
       stopListeningEvent('welcome_to_the_room', null);
     };
   }, []);
-
+console.log('roomDATAAAAAAAA', roomData) // todo delete
   return (
     <div style={{ marginTop: '21px' }}>
       <TetrisConfetti show={showConfetti} setShow={setShowConfetti} />

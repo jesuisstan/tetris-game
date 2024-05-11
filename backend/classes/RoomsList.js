@@ -16,6 +16,11 @@ class RoomsList extends Array {
     );
   }
 
+  // Method to get a room data from the list by it's name
+  getRoomByName(roomName) {
+    return this.find((room) => room.name === roomName);
+  }
+
   // Method to update rooms in the list based on the provided roomsList
   updateRooms(newRoomsList) {
     // Clear the current list
