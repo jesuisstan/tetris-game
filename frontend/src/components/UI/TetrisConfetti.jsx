@@ -50,8 +50,8 @@ const TetrisConfetti = ({ show, setShow }) => {
           'rgb(199, 97, 100)',
           'rgb(119, 136, 153)'
         ]}
-        wind={0.05}
-        gravity={0.2}
+        wind={0.02}
+        gravity={0.1}
         width={windowSizes.width}
         height={windowSizes.height}
       />
