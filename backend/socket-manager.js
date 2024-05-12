@@ -59,10 +59,12 @@ const manageSocket = (server) => {
               `${res.playerToErase?.nickname} (socket ${res.playerToErase?.socketId}) disconnected`
             );
           }
+        })
+        .catch((error) => {
+          console.error('Error handling disconnect:', error);
         });
     });
 
-    // Listener for 'get_rooms_list' event:
     socket.on('get_rooms_list', () => {
       roomsList.sendRoomsList(io);
     });
@@ -113,6 +115,9 @@ const manageSocket = (server) => {
           if (res?.status) {
             roomsList.updateRooms(res.roomsList);
           }
+        })
+        .catch((error) => {
+          console.error('Error handling "leave room" event:', error);
         });
     });
 
@@ -150,7 +155,13 @@ const manageSocket = (server) => {
 
     socket.on('game_over', async (data) => {
       try {
-        await gameTetris.handleGameOver(io, socket.id, data, playersList, roomsList);
+        await gameTetris.handleGameOver(
+          io,
+          socket.id,
+          data,
+          playersList,
+          roomsList
+        );
       } catch (error) {
         console.error('Error handling "game_over" event:', error);
       }
