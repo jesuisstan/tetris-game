@@ -4,15 +4,19 @@ import { congratsAlert } from '../../utils/alerts';
 
 const TetrisConfetti = ({ show, setShow }) => {
   const [windowSizes, setWindowSizes] = useState({
-    width: window.innerWidth - 5,
-    height: window.innerHeight * 1.42
+    width: window.innerWidth - 10,
+    height:
+      window.innerWidth < 1040 ? window.innerHeight * 1.9 : window.innerHeight
   });
 
   useEffect(() => {
     const handleWindowResize = () => {
       setWindowSizes({
-        width: window.innerWidth,
-        height: window.innerHeight
+        width: window.innerWidth - 10,
+        height:
+          window.innerWidth < 1040
+            ? window.innerHeight * 1.9
+            : window.innerHeight
       });
     };
 
@@ -48,8 +52,8 @@ const TetrisConfetti = ({ show, setShow }) => {
         ]}
         wind={0.05}
         gravity={0.2}
-        width={windowSizes.width - 5}
-        height={windowSizes.height * 1.42}
+        width={windowSizes.width}
+        height={windowSizes.height}
       />
     )
   );

@@ -31,32 +31,32 @@ const JoinRoomBlock = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const columns = [
-    { id: 'roomName', label: 'Name', minWidth: 100 },
+    { id: 'roomName', label: 'Name', minWidth: 120 },
     {
       id: 'mode',
       label: 'Mode',
-      minWidth: 100,
+      minWidth: 120,
       align: 'center',
       format: (value) => value.toLocaleString('en-US')
     },
     {
       id: 'admin',
       label: 'Admin',
-      minWidth: 100,
+      minWidth: 120,
       align: 'center',
       format: (value) => value.toLocaleString('en-US')
     },
     {
       id: 'details',
       label: 'Players / Max',
-      minWidth: 100,
+      minWidth: 80,
       align: 'center',
       format: (value) => value.toLocaleString('en-US')
     },
     {
       id: 'access',
       label: 'Access',
-      minWidth: 100,
+      minWidth: 80,
       align: 'center'
     }
   ];
