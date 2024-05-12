@@ -9,8 +9,9 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TetrisLoader from '../UI/TetrisLoader';
-import { errorAlert } from '../../utils/alerts';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
+import { PersonStanding } from 'lucide-react';
+import Diversity3Icon from '@mui/icons-material/Diversity3';
 
 import { useSelector } from 'react-redux';
 
@@ -35,7 +36,7 @@ const JoinRoomBlock = () => {
     {
       id: 'mode',
       label: 'Mode',
-      minWidth: 120,
+      minWidth: 60,
       align: 'center',
       format: (value) => value.toLocaleString('en-US')
     },
@@ -54,6 +55,13 @@ const JoinRoomBlock = () => {
       format: (value) => value.toLocaleString('en-US')
     },
     {
+      id: 'status',
+      label: 'Status',
+      minWidth: 120,
+      align: 'center',
+      format: (value) => value.toLocaleString('en-US')
+    },
+    {
       id: 'access',
       label: 'Access',
       minWidth: 80,
@@ -67,9 +75,12 @@ const JoinRoomBlock = () => {
     admin,
     maxPlayers,
     players,
-    adminSocketId
+    adminSocketId,
+    state
   ) => {
     const details = `${players} / ${maxPlayers}`;
+    const status = state === true ? 'Playing' : 'Pending';
+
     return {
       roomName,
       mode,
@@ -77,7 +88,8 @@ const JoinRoomBlock = () => {
       details,
       players,
       maxPlayers,
-      adminSocketId
+      adminSocketId,
+      status
     };
   };
 
@@ -92,10 +104,10 @@ const JoinRoomBlock = () => {
 
   const checkAccess = (roomData, socketId) => {
     if (!roomData) return false;
+    if (roomData.status === true) return false;
     if (roomData.mode === 'solo') {
       return roomData.adminSocketId === socketId ? true : false;
-    }
-    if (roomData.mode === 'competition') {
+    } else if (roomData.mode === 'competition') {
       return roomData.maxPlayers === roomData.players || roomData.state === true
         ? false
         : true;
@@ -132,7 +144,8 @@ const JoinRoomBlock = () => {
           item.admin.nickname,
           item.maxPlayers,
           item.players,
-          item.admin.socketId
+          item.admin.socketId,
+          item.state
         )
       );
 
@@ -207,6 +220,21 @@ const JoinRoomBlock = () => {
                                         : 'var(--TETRIS_RED)'
                                     }}
                                   />
+                                </TableCell>
+                              );
+                            }
+                            if (column.id === 'mode') {
+                              return (
+                                <TableCell
+                                  key={column.id}
+                                  align={column.align}
+                                  title={row.mode}
+                                >
+                                  {row.mode === 'solo' ? (
+                                    <PersonStanding />
+                                  ) : (
+                                    <Diversity3Icon />
+                                  )}
                                 </TableCell>
                               );
                             }

@@ -25,30 +25,6 @@ const CreateRoomBlock = () => {
     setRoom(modifiedValue);
   };
 
-  //const createRoom = (event) => {
-  //  event.preventDefault();
-  //  setLoading(true);
-  //  const roomUri = `/tetris/${room}[${user.nickname}]`;
-
-  //  //socket.emit('create_user_room', { ...user, room: room }); // todo
-
-  //  socket.emit('create_room', { room, gameMode }); // todo
-  //  setLoading(false);
-  //  //navigate(roomUri);
-  //};
-
-  //// listen to mesages from server:
-  //useEffect(() => {
-  //  //socket.on('update_rooms', (data) => {
-  //  //  const updatedRoomsList = data.roomsList;
-  //  //  console.log('updated RoomsList', updatedRoomsList);
-  //  //});
-
-  //  socket.on('room_already_exists', () => {
-  //    errorAlert('Room with such a name already exists');
-  //  });
-  //}, []);
-
   const createRoom = (event) => {
     event.preventDefault();
     setLoading(true);

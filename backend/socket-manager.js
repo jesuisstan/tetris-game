@@ -92,30 +92,39 @@ const manageSocket = (server) => {
       }
     });
 
-    socket.on('join_room', (data) => {
-      gameTetris.handleJoiningRoom(
-        io,
-        socket,
-        data.roomName,
-        playersList,
-        roomsList
-      );
+    socket.on('join_room', async (data) => {
+      try {
+        await gameTetris.handleJoiningRoom(
+          io,
+          socket,
+          data.roomName,
+          playersList,
+          roomsList
+        );
+      } catch (error) {
+        console.error('Error joining room:', error);
+      }
     });
 
     socket.on('leave_room', () => {
       gameTetris
         .handleLeavingRoom(io, socket, playersList, roomsList)
         .then((res) => {
-          if (res.status) {
+          if (res?.status) {
             roomsList.updateRooms(res.roomsList);
           }
         });
     });
 
     socket.on('start_game', async (data) => {
-      const room = roomsList.find((room) => room.name === data.roomName);
-      const tetrominoes = await tetromino.getTetrominoes();
-      gameTetris.startGame(io, room, tetrominoes);
+      try {
+        const room = roomsList.find((room) => room.name === data.roomName);
+        const tetrominoes = await tetromino.getTetrominoes();
+        await gameTetris.startGame(io, room, tetrominoes);
+        roomsList.sendRoomsList(io);
+      } catch (error) {
+        console.error('Error handling start game:', error);
+      }
     });
 
     socket.on('get_tetrominoes', async (data) => {
@@ -139,13 +148,12 @@ const manageSocket = (server) => {
       roomsList.checkRoomPresence(io, socket.id, data.roomName);
     });
 
-    socket.on('toggle_game_mode', async (data) => {
-      // todo was "updateroomMode"
-      gameTetris.toggleGameMode(io, data, roomsList);
-    });
-
     socket.on('game_over', async (data) => {
-      gameTetris.handleGameOver(io, socket.id, data, playersList, roomsList);
+      try {
+        await gameTetris.handleGameOver(io, socket.id, data, playersList, roomsList);
+      } catch (error) {
+        console.error('Error handling "game_over" event:', error);
+      }
     });
 
     socket.on('penalty_condition', async (data) => {

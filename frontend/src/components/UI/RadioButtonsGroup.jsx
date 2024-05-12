@@ -3,6 +3,8 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+import { PersonStanding } from 'lucide-react';
+import Diversity3Icon from '@mui/icons-material/Diversity3';
 
 export default function RadioButtonsGroup({ value, setValue }) {
   const handleChange = (event) => {
@@ -35,7 +37,12 @@ export default function RadioButtonsGroup({ value, setValue }) {
               }}
             />
           }
-          label="Solo"
+          label={
+            <div style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
+              Solo
+              <PersonStanding color="var(--TETRIS_WHITE)" />
+            </div>
+          }
           sx={{
             color: 'var(--TETRIS_WHITE)'
           }}
@@ -52,7 +59,16 @@ export default function RadioButtonsGroup({ value, setValue }) {
               }}
             />
           }
-          label="Competition"
+          label={
+            <div style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
+              Competition
+              <Diversity3Icon
+                sx={{
+                  color: 'var(--TETRIS_WHITE)'
+                }}
+              />
+            </div>
+          }
           sx={{
             color: 'var(--TETRIS_WHITE)'
           }}
