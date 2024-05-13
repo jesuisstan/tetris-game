@@ -19,10 +19,22 @@
 }
 
 .blurContent {
-  filter: blur(2px);
+  filter: blur(3px);
 }
 
 .blurContent .floatingCentered,
 .blurContent .floatingCentered * {
   filter: none; /* Exclude MagicButton and its children from blur */
+}
+
+.infoBlock {
+  display: flex;
+  flex-direction: row;
+  gap: 21px;
+}
+
+@media (width < 1000px) {
+  .infoBlock {
+    flex-direction: column;
+  }
 }

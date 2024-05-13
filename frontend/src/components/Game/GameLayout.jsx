@@ -9,6 +9,7 @@ import { createTetrominoes } from '../../utils/tetrominoes';
 import TetrisLoader from '../UI/TetrisLoader';
 import MagicButton from '../UI/MagicButton';
 import TetrisConfetti from '../UI/TetrisConfetti';
+import Rules from './Rules';
 
 import {
   getSocket,
@@ -170,13 +171,12 @@ const GameLayout = () => {
               ) : (
                 <TetrisLoader text="Awaiting the start" />
               )}
-              {roomData.mode === 'competition' ? (
-                <Messenger messages={messages} />
-              ) : (
-                <span style={{ color: 'var(--TETRIS_WHITE)' }}>
-                  the new solo game
-                </span>
-              )}
+              <div className={styles.infoBlock}>
+                {roomData.mode === 'competition' && (
+                  <Messenger messages={messages} />
+                )}
+                <Rules />
+              </div>
             </div>
           )}
           <div className={gameOver && pending ? styles.blurContent : ''}>
