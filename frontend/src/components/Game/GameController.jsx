@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { Action, actionForKey, actionIsDrop } from '../../utils/input';
 import { playerController } from '../../utils/player-controller';
 
@@ -5,7 +6,7 @@ import { useDropTime } from '../../hooks/useDropTime';
 import { useInterval } from '../../hooks/useInterval';
 
 import '../../styles/tetris-styles/game-controller.css';
-import { useRef } from 'react';
+import { emitEvent } from '../../socket/socket-middleware';
 
 const GameController = ({
   roomData,
@@ -47,7 +48,11 @@ const GameController = ({
         resumeDropTime();
       }
     } else if (action === Action.Quit) {
-      setGameOver(true);
+      console.log('Q quit pressed'); // todo delete
+      emitEvent('game_over', {
+        roomName: roomData.name,
+        roomAdmin: roomData.admin.socketId
+      });
     } else {
       if (actionIsDrop(action)) pauseDropTime();
       if (!dropTime) {

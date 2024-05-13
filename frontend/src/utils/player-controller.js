@@ -106,13 +106,12 @@ const attemptMovement = ({
 
   // Collision happens immediately -> game over
   const isGameOver = collided && player.position.row === 0;
+
   if (isGameOver) {
-    //setGameOver(isGameOver);
     emitEvent('game_over', {
       roomName: roomData.name,
       roomAdmin: roomData.admin.socketId
     });
-    console.log('setGameOver(isGameOver)'); // todo delete
   }
 
   setPlayer({
