@@ -18,7 +18,10 @@ const Rules = () => {
           Press "Q" to quit the game round
         </li>
         <li key={5} className={styles.message}>
-          Leave the game page = Quit the game
+          Press "Escape" to leave the room
+        </li>
+        <li key={6} className={styles.message}>
+          Leave the game page = Leave the room
         </li>
       </ul>
     </div>
