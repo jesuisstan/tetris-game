@@ -16,7 +16,7 @@
     "start:frontend": "npm run copy-env:frontend && cd frontend && npm install && npm start",
     "start": "concurrently -n 'backend,frontend' -c 'blue,magenta' \"npm run start:backend\" \"npm run start:frontend\"",
     "clean:backend": "rimraf ./backend/node_modules && rimraf ./backend/package-lock.json && rimraf ./backend/.env",
-    "clean:frontend": "rimraf ./frontend/node_modules && rimraf ./frontend/package-lock.json && rimraf ./frontend/.env",
+    "clean:frontend": "rimraf ./frontend/node_modules && rimraf ./frontend/package-lock.json && rimraf ./frontend/.env && rimraf ./frontend/coverage",
     "postinstall": "npm install -g rimraf",
     "clean:all": "rimraf node_modules && rimraf package-lock.json && npm run clean:backend && npm run clean:frontend",
     "install:all": "npm install && npm run copy-env:backend && npm run copy-env:frontend && cd backend && npm install && cd ../frontend && npm install",
