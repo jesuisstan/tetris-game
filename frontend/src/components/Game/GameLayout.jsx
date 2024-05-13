@@ -147,6 +147,7 @@ const GameLayout = () => {
       stopListeningEvent('join_denied', null);
       stopListeningEvent('update_room_data', null);
       stopListeningEvent('welcome_to_the_room', null);
+      emitEvent('leave_room', null);
     };
   }, []);
 
