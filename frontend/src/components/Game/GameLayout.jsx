@@ -148,6 +148,7 @@ const GameLayout = () => {
       stopListeningEvent('update_room_data', null);
       stopListeningEvent('welcome_to_the_room', null);
       emitEvent('leave_room', null);
+      console.log("emitEvent('leave_room', null) on UNMOUNT") // todo delete
     };
   }, []);
 

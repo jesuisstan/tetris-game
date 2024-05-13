@@ -37,7 +37,11 @@ const GameController = ({ roomData, board, gameStats, player, setPlayer }) => {
     const action = actionForKey(code);
 
     if (action === Action.Exit) {
-      emitEvent('leave_room', null);
+      //emitEvent('leave_room', null);
+      emitEvent('game_over', {
+        roomName: roomData.name,
+        roomAdmin: roomData.admin.socketId
+      });
       navigate('/lobby');
     } else if (action === Action.Quit) {
       emitEvent('game_over', {

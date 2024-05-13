@@ -109,6 +109,7 @@ const manageSocket = (server) => {
     });
 
     socket.on('leave_room', () => {
+      console.log('leave_room from front') // todo delete
       gameTetris
         .handleLeavingRoom(io, socket, playersList, roomsList)
         .then((res) => {

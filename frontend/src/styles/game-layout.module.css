@@ -16,6 +16,7 @@
   flex-direction: column;
   gap: 42px;
   align-items: center;
+  margin-top: 21px;
 }
 
 .blurContent {

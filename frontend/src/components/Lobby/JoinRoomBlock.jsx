@@ -104,11 +104,13 @@ const JoinRoomBlock = () => {
 
   const checkAccess = (roomData, socketId) => {
     if (!roomData) return false;
-    if (roomData.status === true) return false;
-    if (roomData.mode === 'solo') {
+    if (roomData.status === 'Playing') {
+      return false;
+    } else if (roomData.mode === 'solo') {
       return roomData.adminSocketId === socketId ? true : false;
     } else if (roomData.mode === 'competition') {
-      return roomData.maxPlayers === roomData.players || roomData.state === true
+      return roomData.maxPlayers === roomData.players ||
+        roomData.status === 'Playing'
         ? false
         : true;
     }
@@ -136,7 +138,7 @@ const JoinRoomBlock = () => {
   useEffect(() => {
     // Listening for update_rooms event
     listenEvent('update_rooms', (data) => {
-      console.log('data-------------', data);
+      console.log('data-------------', data); // todo delete
       const roomsData = data?.roomsList?.map((item) =>
         createData(
           item.name,
