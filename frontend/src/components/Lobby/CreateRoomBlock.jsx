@@ -28,7 +28,7 @@ const CreateRoomBlock = () => {
   const createRoom = (event) => {
     event.preventDefault();
     setLoading(true);
-    const roomUri = `/tetris/${room}[${user.nickname}]`;
+    const roomUri = `/${room}/${user.nickname}`;
 
     emitEvent('create_room', { room, gameMode, nickname: user.nickname }); // Emitting create_room event
 

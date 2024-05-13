@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Tetris from './Tetris';
 import Messenger from './Messenger';
@@ -22,6 +22,8 @@ import styles from '../../styles/game-layout.module.css';
 
 const GameLayout = () => {
   const navigate = useNavigate();
+  const { room, player_name } = useParams();
+  console.log('room, player_name', room, player_name) // todo delete
   const nickname = useSelector((state) => state.user)?.nickname;
   const socketId = getSocket().id;
   const [loading, setLoading] = useState(true);
@@ -34,24 +36,24 @@ const GameLayout = () => {
   const [tetrominoes, setTetrominoes] = useState([]);
   const popTetromino = () => tetrominoes.pop();
 
-  let roomPlusNickname = window.location.href.split('/')[5]; // Assuming window.location.href.split('/')[5] is 'zzz[TestUser]'
-  const regex = /\[(.*?)\]/; // Regular expression to extract text within square brackets
-  const matches = roomPlusNickname?.match(regex); // Match the regex against the string
-  let roomName = '';
-  if (matches && matches.length > 1) {
-    roomName = roomPlusNickname.split('[')[0]; // Extract characters before '[' as room
-  }
+  //let roomPlusNickname = window.location.href.split('/')[5]; // Assuming window.location.href.split('/')[5] is 'zzz[TestUser]'
+  //const regex = /\[(.*?)\]/; // Regular expression to extract text within square brackets
+  //const matches = roomPlusNickname?.match(regex); // Match the regex against the string
+  //let roomName = '';
+  //if (matches && matches.length > 1) {
+  //  roomName = roomPlusNickname.split('[')[0]; // Extract characters before '[' as room
+  //}
 
   const start = () => {
     setShowConfetti(false);
-    emitEvent('start_game', { roomName });
+    emitEvent('start_game', { roomName: room });
   };
 
   // check the presence of a room in case user enters with a link:
   useEffect(() => {
     const checkRoom = async () => {
       try {
-        let res = await checkRoomPresence(roomName);
+        let res = await checkRoomPresence(room);
         if (res?.presence === false) {
           errorAlert('No such a room exists');
           navigate('/lobby');
@@ -64,7 +66,7 @@ const GameLayout = () => {
     };
 
     checkRoom();
-  }, [roomName]);
+  }, [room, navigate]);
 
   // handling chat messaging:
   useEffect(() => {
@@ -103,7 +105,7 @@ const GameLayout = () => {
   }, [roomData]);
 
   useEffect(() => {
-    if (roomName) emitEvent('join_room', { roomName });
+    if (room) emitEvent('join_room', { roomName: room });
 
     // Listen for welcoming event
     listenEvent('welcome_to_the_room', (roomData) => {

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './components/Home.page';
 import NotFound from './components/NotFound.page';
 import Lobby from './components/Lobby/Lobby.page';
@@ -52,7 +52,7 @@ const App = () => {
   }, []);
 
   return (
-    <HashRouter>
+    <BrowserRouter>
       <div className="App">
         <Routes>
           <Route path="/" element={<MainLayout />}>
@@ -67,11 +67,11 @@ const App = () => {
               element={user.nickname ? <Lobby /> : <PleaseLogin />}
             />
 
-            <Route path="/tetris/:room?" element={<GameLayout />} />
+            <Route path=":room/:player_name" element={<GameLayout />} />
           </Route>
         </Routes>
       </div>
-    </HashRouter>
+    </BrowserRouter>
   );
 };
 

@@ -118,7 +118,7 @@ const JoinRoomBlock = () => {
     if (!checkAccess(roomData, socketId)) return;
 
     setLoading(true);
-    const newRoomURI = `/tetris/${roomData.roomName}[${user.nickname}]`;
+    const newRoomURI = `/${roomData.roomName}/${user.nickname}`;
     setRoomURI(newRoomURI);
   };
 
