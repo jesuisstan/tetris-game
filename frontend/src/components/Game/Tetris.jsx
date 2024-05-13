@@ -109,7 +109,6 @@ const Tetris = ({
             board={board}
             gameStats={gameStats}
             player={player}
-            setGameOver={setGameOver}
             setPlayer={setPlayer}
           />
         )}

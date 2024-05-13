@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Action, actionForKey, actionIsDrop } from '../../utils/input';
 import { playerController } from '../../utils/player-controller';
 
@@ -8,14 +9,8 @@ import { useInterval } from '../../hooks/useInterval';
 import '../../styles/tetris-styles/game-controller.css';
 import { emitEvent } from '../../socket/socket-middleware';
 
-const GameController = ({
-  roomData,
-  board,
-  gameStats,
-  player,
-  setGameOver,
-  setPlayer
-}) => {
+const GameController = ({ roomData, board, gameStats, player, setPlayer }) => {
+  const navigate = useNavigate();
   const [dropTime, pauseDropTime, resumeDropTime] = useDropTime({
     gameStats
   });
@@ -41,14 +36,10 @@ const GameController = ({
   const onKeyDown = ({ code }) => {
     const action = actionForKey(code);
 
-    if (action === Action.Pause) {
-      if (dropTime) {
-        pauseDropTime();
-      } else {
-        resumeDropTime();
-      }
+    if (action === Action.Exit) {
+      emitEvent('leave_room', null);
+      navigate('/lobby');
     } else if (action === Action.Quit) {
-      console.log('Q quit pressed'); // todo delete
       emitEvent('game_over', {
         roomName: roomData.name,
         roomAdmin: roomData.admin.socketId
@@ -68,7 +59,6 @@ const GameController = ({
       board,
       player,
       setPlayer,
-      setGameOver,
       roomData
     });
   };

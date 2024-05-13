@@ -81,7 +81,6 @@ const attemptMovement = ({
   action,
   player,
   setPlayer,
-  setGameOver,
   roomData
 }) => {
   const delta = { row: 0, column: 0 };
@@ -127,7 +126,6 @@ export const playerController = ({
   board,
   player,
   setPlayer,
-  setGameOver,
   roomData
 }) => {
   if (!action) return;
@@ -140,7 +138,6 @@ export const playerController = ({
       player,
       setPlayer,
       action,
-      setGameOver,
       roomData
     });
   }
