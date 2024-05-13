@@ -23,7 +23,6 @@ import styles from '../../styles/game-layout.module.css';
 const GameLayout = () => {
   const navigate = useNavigate();
   const { room, player_name } = useParams();
-  console.log('room, player_name', room, player_name) // todo delete
   const nickname = useSelector((state) => state.user)?.nickname;
   const socketId = getSocket().id;
   const [loading, setLoading] = useState(true);
@@ -35,14 +34,6 @@ const GameLayout = () => {
   const [gameOver, setGameOver, resetGameOver] = useGameOver();
   const [tetrominoes, setTetrominoes] = useState([]);
   const popTetromino = () => tetrominoes.pop();
-
-  //let roomPlusNickname = window.location.href.split('/')[5]; // Assuming window.location.href.split('/')[5] is 'zzz[TestUser]'
-  //const regex = /\[(.*?)\]/; // Regular expression to extract text within square brackets
-  //const matches = roomPlusNickname?.match(regex); // Match the regex against the string
-  //let roomName = '';
-  //if (matches && matches.length > 1) {
-  //  roomName = roomPlusNickname.split('[')[0]; // Extract characters before '[' as room
-  //}
 
   const start = () => {
     setShowConfetti(false);
@@ -157,7 +148,7 @@ const GameLayout = () => {
       stopListeningEvent('welcome_to_the_room', null);
     };
   }, []);
-console.log('roomDATAAAAAAAA', roomData) // todo delete
+
   return (
     <div style={{ marginTop: '21px' }}>
       <TetrisConfetti show={showConfetti} setShow={setShowConfetti} />
