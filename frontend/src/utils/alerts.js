@@ -32,14 +32,14 @@ export const saveAlert = () => {
 
 export const congratsAlert = () => {
   Swal.fire({
-    position: 'top',
+    position: 'center',
     width: 'auto',
     color: 'var(--TETRIS_GREEN)',
     background: 'rgba(0, 0, 0, 0)',
-    //title: 'C O N G R A T S !',
-    title: '<div style="margin-top: 84px;">Y O U   W I N ! ! !</div>',
+    title:
+      '<div style="text-align: center; font-size: 12vw;">Y O U &nbsp;&nbsp; W I N</div>',
     showConfirmButton: false,
-    timer: 4200,
+    timer: 3000,
     showClass: {
       popup: 'swal2-show',
       backdrop: 'none'

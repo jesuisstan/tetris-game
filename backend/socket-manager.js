@@ -22,6 +22,8 @@ const manageSocket = (server) => {
     pingTimeout: 40000 // Set the time which server awaits the answer from Client
   });
 
+  io.sockets.setMaxListeners(42);
+
   io.on('connection', async (socket) => {
     try {
       // Initialize an empty send buffer for each socket connection:
@@ -31,6 +33,26 @@ const manageSocket = (server) => {
       // Catch and log any errors that might occur during initialization:
       console.error(error.message);
     }
+
+    socket.on('disconnect', () => {
+      // Clean up all event listeners specific to this socket:
+      socket.removeAllListeners();
+
+      // Adjust game objects:
+      gameTetris
+        .handleLeavingRoom(io, socket, playersList, roomsList)
+        .then((res) => {
+          if (res.status) {
+            playersList.erasePlayer(res.playerToErase);
+            console.log(
+              `${res.playerToErase?.nickname} (socket ${res.playerToErase?.socketId}) disconnected`
+            );
+          }
+        })
+        .catch((error) => {
+          console.error('Error handling disconnect:', error);
+        });
+    });
 
     socket.on('player_arrived', async (nickname) => {
       try {
@@ -46,23 +68,6 @@ const manageSocket = (server) => {
         console.error('Error creating new player:', error);
         socket.emit('welcome_error');
       }
-    });
-
-    // Handle 'disconnect' event
-    socket.on('disconnect', () => {
-      gameTetris
-        .handleLeavingRoom(io, socket, playersList, roomsList)
-        .then((res) => {
-          if (res.status) {
-            playersList.erasePlayer(res.playerToErase);
-            console.log(
-              `${res.playerToErase?.nickname} (socket ${res.playerToErase?.socketId}) disconnected`
-            );
-          }
-        })
-        .catch((error) => {
-          console.error('Error handling disconnect:', error);
-        });
     });
 
     socket.on('get_rooms_list', () => {
@@ -109,7 +114,7 @@ const manageSocket = (server) => {
     });
 
     socket.on('leave_room', () => {
-      console.log('leave_room from front') // todo delete
+      console.log('leave_room from front'); // todo delete
       gameTetris
         .handleLeavingRoom(io, socket, playersList, roomsList)
         .then((res) => {

@@ -37,7 +37,7 @@
     "start": "cross-env PORT=4040 react-scripts start",
     "build": "react-scripts build",
     "build:serve": "react-scripts build && serve -s build -l 4444",
-    "test": "react-scripts test",
+    "test": "jest --coverage",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -59,9 +59,14 @@
     ]
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.24.5",
+    "@babel/preset-react": "^7.24.1",
     "@types/js-cookie": "^3.0.3",
     "@types/uuid": "^9.0.2",
+    "babel-jest": "^29.7.0",
     "cross-env": "^7.0.3",
+    "jest": "^27.5.1",
+    "react-test-renderer": "^18.3.1",
     "serve": "^14.2.0",
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4"
