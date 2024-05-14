@@ -10,15 +10,14 @@ import TetrisLoader from '../UI/TetrisLoader';
 import MagicButton from '../UI/MagicButton';
 import TetrisConfetti from '../UI/TetrisConfetti';
 import Rules from './Rules';
-import { emitSocketEventtt } from '../../store/socket-slice';
+import { useDispatch } from 'react-redux';
+import { emitSocketEvent } from '../../store/socket-slice';
 import {
   getSocket,
-  emitEvent,
   listenEvent,
   stopListeningEvent,
   checkRoomPresence
 } from '../../socket/socket-middleware';
-import { useDispatch } from 'react-redux';
 import styles from '../../styles/game-layout.module.css';
 
 const GameLayout = () => {
@@ -39,9 +38,7 @@ const GameLayout = () => {
 
   const start = () => {
     setShowConfetti(false);
-    //emitSocketEvent('start_game', { roomName: room });
-    dispatch(emitSocketEventtt({ eventName: 'start_game', data: { roomName: room } }));
-    console.log('aaa')
+    dispatch(emitSocketEvent({ eventName: 'start_game', data: { roomName: room } }));
   };
 
   // check the presence of a room in case user enters with a link:
@@ -100,7 +97,7 @@ const GameLayout = () => {
   }, [roomData]);
 
   useEffect(() => {
-    if (room) emitEvent('join_room', { roomName: room });
+    if (room) dispatch(emitSocketEvent({ eventName: 'join_room', data: { roomName: room } }));
 
     // Listen for welcoming event
     listenEvent('welcome_to_the_room', (roomData) => {
@@ -150,7 +147,7 @@ const GameLayout = () => {
       stopListeningEvent('join_denied', null);
       stopListeningEvent('update_room_data', null);
       stopListeningEvent('welcome_to_the_room', null);
-      emitEvent('leave_room', null);
+      dispatch(emitSocketEvent({ eventName: 'leave_room', data: null }))
       console.log("emitEvent('leave_room', null) on UNMOUNT") // todo delete
     };
   }, []);

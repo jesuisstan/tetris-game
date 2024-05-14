@@ -14,10 +14,10 @@ const socketSlice = createSlice({
     closeSocket(state) {
       if (state.socket) {
         state.socket.disconnect();
-        state.socket = null; // Сбрасываем сокет после отключения
+        state.socket = null;
       }
     },
-    emitSocketEventtt(state, action) {
+    emitSocketEvent(state, action) {
       console.log('emitSocketEventtt', action)
       const { eventName, data } = action.payload;
       console.log('eventName, data', action.payload, data)
@@ -31,6 +31,6 @@ const socketSlice = createSlice({
   }
 });
 
-export const { setSocket, closeSocket, emitSocketEventtt } = socketSlice.actions;
+export const { setSocket, closeSocket, emitSocketEvent } = socketSlice.actions;
 
 export default socketSlice.reducer;
