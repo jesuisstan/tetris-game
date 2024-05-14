@@ -1,13 +1,13 @@
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Action, actionForKey, actionIsDrop } from '../../utils/input';
-import { playerController } from '../../utils/player-controller';
-
-import { useDropTime } from '../../hooks/useDropTime';
-import { useInterval } from '../../hooks/useInterval';
 
 import { useDispatch } from 'react-redux';
 import { emitSocketEvent } from '../../store/socket-slice';
+
+import { Action, actionForKey, actionIsDrop } from '../../utils/input';
+import { playerController } from '../../utils/player-controller';
+import { useDropTime } from '../../hooks/useDropTime';
+import { useInterval } from '../../hooks/useInterval';
 
 import '../../styles/tetris-styles/game-controller.css';
 

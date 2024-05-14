@@ -54,10 +54,10 @@ const manageSocket = (server) => {
         });
     });
 
-    socket.on('player_arrived', async (nickname) => {
+    socket.on('player_arrived', async (data) => {
       try {
         // Create a new Player instance with the received data
-        const newPlayer = new Player(nickname, socket.id);
+        const newPlayer = new Player(data.nickname, socket.id);
         playersList.addNewPlayer(newPlayer);
 
         // Emit a welcome message to the client

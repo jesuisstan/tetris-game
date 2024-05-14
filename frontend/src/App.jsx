@@ -10,14 +10,13 @@ import * as utils from './utils/auth-handlers';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from './store/user-slice';
-
 import {
-  initializeSocket,
-  closeSocket,
-  emitEvent,
-  listenEvent
-} from './socket/socket-middleware';
+  //initializeSocket,
+  emitSocketEvent,
+  closeSocket
+} from './store/socket-slice';
 
+import { initializeSocket } from './socket/socket-middleware'; // todo delete
 import './styles/index.css';
 
 const App = () => {
@@ -25,9 +24,10 @@ const App = () => {
   const user = useSelector((state) => state.user);
 
   useEffect(() => {
-    initializeSocket(dispatch);
+    //dispatch(initializeSocket()); // todo
+    initializeSocket(dispatch); // todo delete
     return () => {
-      closeSocket();
+      dispatch(closeSocket());
     };
   }, [dispatch]);
 
@@ -38,18 +38,19 @@ const App = () => {
         const userData = await utils.getUserData();
         dispatch(setUser(userData));
       } else {
-        emitEvent('player_arrived', user?.nickname);
+        dispatch(
+          emitSocketEvent({
+            eventName: 'player_arrived',
+            data: {
+              nickname: user?.nickname
+            }
+          })
+        );
       }
     };
 
     fetchUserData();
   }, [dispatch, user._id]);
-
-  useEffect(() => {
-    listenEvent('welcome', ({ message }) => {
-      console.log('message from server:', message);
-    });
-  }, []);
 
   return (
     <BrowserRouter>

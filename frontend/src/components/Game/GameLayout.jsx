@@ -1,6 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import {
+  emitSocketEvent,
+  listenSocketEvent,
+  stopListeningSocketEvent
+} from '../../store/socket-slice';
+
 import Tetris from './Tetris';
 import Messenger from './Messenger';
 import { useGameOver } from '../../hooks/useGameOver';
@@ -10,14 +18,11 @@ import TetrisLoader from '../UI/TetrisLoader';
 import MagicButton from '../UI/MagicButton';
 import TetrisConfetti from '../UI/TetrisConfetti';
 import Rules from './Rules';
-import { useDispatch } from 'react-redux';
-import { emitSocketEvent } from '../../store/socket-slice';
 import {
   getSocket,
-  listenEvent,
-  stopListeningEvent,
   checkRoomPresence
 } from '../../socket/socket-middleware';
+
 import styles from '../../styles/game-layout.module.css';
 
 const GameLayout = () => {
@@ -38,7 +43,9 @@ const GameLayout = () => {
 
   const start = () => {
     setShowConfetti(false);
-    dispatch(emitSocketEvent({ eventName: 'start_game', data: { roomName: room } }));
+    dispatch(
+      emitSocketEvent({ eventName: 'start_game', data: { roomName: room } })
+    );
   };
 
   // check the presence of a room in case user enters with a link:
@@ -52,7 +59,6 @@ const GameLayout = () => {
         }
       } catch (error) {
         errorAlert('Something went wrong while checking room presence');
-        console.log('Error:', error); // todo delete
         navigate('/lobby');
       }
     };
@@ -72,10 +78,12 @@ const GameLayout = () => {
       }
     };
 
-    listenEvent('chat', handleNewMessage);
+    dispatch(
+      listenSocketEvent({ eventName: 'chat', callback: handleNewMessage })
+    );
 
     return () => {
-      stopListeningEvent('chat', null);
+      dispatch(stopListeningSocketEvent({ eventName: 'chat', callback: null }));
     };
   }, []);
 
@@ -97,58 +105,104 @@ const GameLayout = () => {
   }, [roomData]);
 
   useEffect(() => {
-    if (room) dispatch(emitSocketEvent({ eventName: 'join_room', data: { roomName: room } }));
+    if (room)
+      dispatch(
+        emitSocketEvent({ eventName: 'join_room', data: { roomName: room } })
+      );
 
-    // Listen for welcoming event
-    listenEvent('welcome_to_the_room', (roomData) => {
-      setRoomData(roomData);
-      setLoading(false);
-    });
+    dispatch(
+      listenSocketEvent({
+        eventName: 'welcome_to_the_room',
+        callback: (roomData) => {
+          setRoomData(roomData);
+          setLoading(false);
+        }
+      })
+    );
 
-    listenEvent('update_room_data', (data) => {
-      console.log('update_room_data', data); // todo delete
-      setRoomData(data);
-    });
+    dispatch(
+      listenSocketEvent({
+        eventName: 'update_room_data',
+        callback: (data) => {
+          setRoomData(data);
+        }
+      })
+    );
 
     // Listen for "join_denied" events
-    listenEvent('join_denied', (data) => {
-      setLoading(false);
-      errorAlert(data?.message ?? 'Something went wrong');
-      setTimeout(() => {
-        navigate('/lobby');
-      }, 500);
-    });
-
-    listenEvent('new_tetrominoes', (data) => {
-      setTetrominoes((prevTetrominoes) => [
-        ...createTetrominoes(data),
-        ...prevTetrominoes
-      ]);
-    });
-
-    listenEvent('game_started', (data) => {
-      setShowConfetti(false);
-      setLoading(true);
-      setTimeout(() => {
-        setTetrominoes(createTetrominoes(data));
-        setPending(false);
-        setLosers([]);
-        if (gameOver) {
-          resetGameOver();
+    dispatch(
+      listenSocketEvent({
+        eventName: 'join_denied',
+        callback: (data) => {
+          setLoading(false);
+          errorAlert(data?.message ?? 'Something went wrong');
+          setTimeout(() => {
+            navigate('/lobby');
+          }, 500);
         }
-        setLoading(false);
-      }, [1000]);
-    });
+      })
+    );
+
+    dispatch(
+      listenSocketEvent({
+        eventName: 'new_tetrominoes',
+        callback: (data) => {
+          setTetrominoes((prevTetrominoes) => [
+            ...createTetrominoes(data),
+            ...prevTetrominoes
+          ]);
+        }
+      })
+    );
+
+    dispatch(
+      listenSocketEvent({
+        eventName: 'game_started',
+        callback: (data) => {
+          setShowConfetti(false);
+          setLoading(true);
+          setTimeout(() => {
+            setTetrominoes(createTetrominoes(data));
+            setPending(false);
+            setLosers([]);
+            if (gameOver) {
+              resetGameOver();
+            }
+            setLoading(false);
+          }, [1000]);
+        }
+      })
+    );
 
     return () => {
       // Clean up event listener when component unmounts
-      stopListeningEvent('game_started', null);
-      stopListeningEvent('new_tetrominoes', null);
-      stopListeningEvent('join_denied', null);
-      stopListeningEvent('update_room_data', null);
-      stopListeningEvent('welcome_to_the_room', null);
-      dispatch(emitSocketEvent({ eventName: 'leave_room', data: null }))
-      console.log("emitEvent('leave_room', null) on UNMOUNT") // todo delete
+      dispatch(
+        stopListeningSocketEvent({ eventName: 'game_started', callback: null })
+      );
+      dispatch(
+        stopListeningSocketEvent({
+          eventName: 'new_tetrominoes',
+          callback: null
+        })
+      );
+      dispatch(
+        stopListeningSocketEvent({ eventName: 'join_denied', callback: null })
+      );
+      dispatch(
+        stopListeningSocketEvent({
+          eventName: 'update_room_data',
+          callback: null
+        })
+      );
+      dispatch(
+        stopListeningSocketEvent({
+          eventName: 'welcome_to_the_room',
+          callback: null
+        })
+      );
+
+      dispatch(emitSocketEvent({ eventName: 'leave_room', data: null }));
+      console.log("emitEvent('leave_room', null) on UNMOUNT"); // todo delete
     };
   }, []);
 

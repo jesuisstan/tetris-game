@@ -75,13 +75,6 @@ const PleaseLogin = () => {
     });
   };
 
-  //// listen to mesages from server:
-  //useEffect(() => {
-  //  socket.on('welcome', ({ message }) => {
-  //    console.log('message from server:', message);
-  //  });
-  //}, []);
-
   return (
     <div
       style={{
@@ -143,7 +136,7 @@ const PleaseLogin = () => {
                     name: 'password',
                     type: 'password',
                     placeholder: 'Password',
-                    errorMessage: '3-20 chars, 1 letter, 1 number, 1 symbol',
+                    errorMessage: '3-20: 1 letter, 1 number, 1 symbol',
                     label: 'Password',
                     pattern: `^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{3,20}$`,
                     required: true

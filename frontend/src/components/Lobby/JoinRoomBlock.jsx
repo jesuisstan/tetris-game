@@ -23,7 +23,7 @@ import {
 
 const JoinRoomBlock = () => {
   const navigate = useNavigate();
-  const socketId = getSocket().id;
+  const socketId = useSelector((state) => state.socket.socket).id;
   const user = useSelector((state) => state.user);
   const [roomsList, setRoomsList] = useState(null);
   const [roomURI, setRoomURI] = useState('');
