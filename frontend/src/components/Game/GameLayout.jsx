@@ -10,7 +10,7 @@ import TetrisLoader from '../UI/TetrisLoader';
 import MagicButton from '../UI/MagicButton';
 import TetrisConfetti from '../UI/TetrisConfetti';
 import Rules from './Rules';
-
+import { emitSocketEventtt } from '../../store/socket-slice';
 import {
   getSocket,
   emitEvent,
@@ -18,10 +18,11 @@ import {
   stopListeningEvent,
   checkRoomPresence
 } from '../../socket/socket-middleware';
-
+import { useDispatch } from 'react-redux';
 import styles from '../../styles/game-layout.module.css';
 
 const GameLayout = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { room, player_name } = useParams();
   const nickname = useSelector((state) => state.user)?.nickname;
@@ -38,7 +39,9 @@ const GameLayout = () => {
 
   const start = () => {
     setShowConfetti(false);
-    emitEvent('start_game', { roomName: room });
+    //emitSocketEvent('start_game', { roomName: room });
+    dispatch(emitSocketEventtt({ eventName: 'start_game', data: { roomName: room } }));
+    console.log('aaa')
   };
 
   // check the presence of a room in case user enters with a link:
