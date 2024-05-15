@@ -41,7 +41,26 @@ const socketSlice = createSlice({
       if (state.socket) {
         state.socket.off(eventName, callback);
       }
-    }
+    },
+    //checkRoomPresence(state, action) {
+    //  const { roomName, successCallback, errorCallback } = action.payload;
+    //  if (state.socket) {
+    //    state.socket.emit('check_room_presence', { roomName });
+
+    //    const timeoutId = setTimeout(() => {
+    //      errorCallback('Room presence check timed out');
+    //    }, 5000);
+
+    //    state.socket.once('room_exists', (presence) => {
+    //      clearTimeout(timeoutId); // Clear timeout if response received before timeout
+    //      if (presence) {
+    //        successCallback();
+    //      } else {
+    //        errorCallback('No such a room exists');
+    //      }
+    //    });
+    //  }
+    //},
   }
 });
 

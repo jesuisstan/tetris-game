@@ -1,22 +1,22 @@
 import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from './store/user-slice';
+import {
+  initializeSocket,
+  emitSocketEvent,
+  closeSocket
+} from './store/socket-slice';
+
 import Home from './components/Home.page';
 import NotFound from './components/NotFound.page';
 import Lobby from './components/Lobby/Lobby.page';
 import MainLayout from './components/UI/MainLayout';
 import PleaseLogin from './components/Login/PleaseLogin';
 import GameLayout from './components/Game/GameLayout';
-import * as utils from './utils/auth-handlers';
+import * as authUtils from './utils/auth-handlers';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { setUser } from './store/user-slice';
-import {
-  //initializeSocket,
-  emitSocketEvent,
-  closeSocket
-} from './store/socket-slice';
-
-import { initializeSocket } from './socket/socket-middleware'; // todo delete
 import './styles/index.css';
 
 const App = () => {
@@ -24,18 +24,17 @@ const App = () => {
   const user = useSelector((state) => state.user);
 
   useEffect(() => {
-    //dispatch(initializeSocket()); // todo
-    initializeSocket(dispatch); // todo delete
+    dispatch(initializeSocket());
     return () => {
       dispatch(closeSocket());
     };
   }, [dispatch]);
 
-  //fetch user data from database
+  // fetch user data from database:
   useEffect(() => {
     const fetchUserData = async () => {
       if (!user._id) {
-        const userData = await utils.getUserData();
+        const userData = await authUtils.getUserData();
         dispatch(setUser(userData));
       } else {
         dispatch(

@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   emitSocketEvent,
   listenSocketEvent,
   stopListeningSocketEvent
 } from '../../store/socket-slice';
+import { checkRoomPresence } from '../../utils/check-room-presence';
 
 import Tetris from './Tetris';
 import Messenger from './Messenger';
@@ -18,7 +18,6 @@ import TetrisLoader from '../UI/TetrisLoader';
 import MagicButton from '../UI/MagicButton';
 import TetrisConfetti from '../UI/TetrisConfetti';
 import Rules from './Rules';
-import { checkRoomPresence } from '../../socket/socket-middleware';
 
 import styles from '../../styles/game-layout.module.css';
 
@@ -35,6 +34,7 @@ const GameLayout = () => {
   const [messages, setMessages] = useState([]);
   const [losers, setLosers] = useState([]);
   const [gameOver, setGameOver, resetGameOver] = useGameOver();
+
   const [tetrominoes, setTetrominoes] = useState([]);
   const popTetromino = () => tetrominoes.pop();
 
@@ -49,7 +49,7 @@ const GameLayout = () => {
   useEffect(() => {
     const checkRoom = async () => {
       try {
-        let res = await checkRoomPresence(room);
+        let res = await checkRoomPresence(room, dispatch);
         if (res?.presence === false) {
           errorAlert('No such a room exists');
           navigate('/lobby');
