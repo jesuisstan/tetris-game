@@ -11,6 +11,10 @@ const socketSlice = createSlice({
   name: 'socket',
   initialState: initialSocketState,
   reducers: {
+    initializeSocket(state, action) {
+      const socket = io.connect(BASE_URL, { closeOnBeforeunload: true });
+      state.socket = socket;
+    },
     setSocket(state, action) {
       state.socket = action.payload;
     },
@@ -19,10 +23,6 @@ const socketSlice = createSlice({
         state.socket.disconnect();
         state.socket = null;
       }
-    },
-    initializeSocket(state, action) {
-      const socket = io.connect(BASE_URL, { closeOnBeforeunload: true });
-      state.socket = socket;
     },
     emitSocketEvent(state, action) {
       const { eventName, data } = action.payload;
@@ -41,26 +41,7 @@ const socketSlice = createSlice({
       if (state.socket) {
         state.socket.off(eventName, callback);
       }
-    },
-    //checkRoomPresence(state, action) {
-    //  const { roomName, successCallback, errorCallback } = action.payload;
-    //  if (state.socket) {
-    //    state.socket.emit('check_room_presence', { roomName });
-
-    //    const timeoutId = setTimeout(() => {
-    //      errorCallback('Room presence check timed out');
-    //    }, 5000);
-
-    //    state.socket.once('room_exists', (presence) => {
-    //      clearTimeout(timeoutId); // Clear timeout if response received before timeout
-    //      if (presence) {
-    //        successCallback();
-    //      } else {
-    //        errorCallback('No such a room exists');
-    //      }
-    //    });
-    //  }
-    //},
+    }
   }
 });
 
