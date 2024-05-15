@@ -1,18 +1,25 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import {
+  emitSocketEvent,
+  listenSocketEvent,
+  stopListeningSocketEvent
+} from '../../store/socket-slice';
+
 import LoadingButton from '@mui/lab/LoadingButton';
 import FormInput from '../../components/UI/FormInput';
 import Stack from '@mui/material/Stack';
 import RadioButtonsGroup from '../UI/RadioButtonsGroup';
 import { errorAlert } from '../../utils/alerts';
 
-import { emitEvent, listenEvent } from '../../socket/socket-middleware';
-
 import * as MUI from '../../styles/MUIstyles';
 import styles from '../../styles/lobby.module.css';
 
 const CreateRoomBlock = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
@@ -30,17 +37,36 @@ const CreateRoomBlock = () => {
     setLoading(true);
     const roomUri = `/${room}/${user.nickname}`;
 
-    emitEvent('create_room', { room, gameMode, nickname: user.nickname }); // Emitting create_room event
+    dispatch(
+      emitSocketEvent({
+        eventName: 'create_room',
+        data: { room, gameMode, nickname: user.nickname }
+      })
+    );
 
     setLoading(false);
     navigate(roomUri);
   };
 
   useEffect(() => {
-    listenEvent('room_already_exists', () => {
-      errorAlert('Room with such a name already exists');
-      navigate('/lobby');
-    });
+    dispatch(
+      listenSocketEvent({
+        eventName: 'room_already_exists',
+        callback: () => {
+          errorAlert('Room with such a name already exists');
+          navigate('/lobby');
+        }
+      })
+    );
+
+    return () => {
+      dispatch(
+        stopListeningSocketEvent({
+          eventName: 'room_already_exists',
+          callback: null
+        })
+      );
+    };
   }, []);
 
   return (

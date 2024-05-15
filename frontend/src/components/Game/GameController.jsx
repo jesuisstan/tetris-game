@@ -71,6 +71,7 @@ const GameController = ({ roomData, board, gameStats, player, setPlayer }) => {
 
   const handleInput = ({ action }) => {
     playerController({
+      dispatch,
       action,
       board,
       player,

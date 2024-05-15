@@ -156,6 +156,7 @@ const manageSocket = (server) => {
     });
 
     socket.on('check_room_presence', async (data) => {
+      console.log('check_room_presence') // todo delete
       roomsList.checkRoomPresence(io, socket.id, data.roomName);
     });
 

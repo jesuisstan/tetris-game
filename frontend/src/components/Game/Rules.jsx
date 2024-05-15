@@ -12,13 +12,16 @@ const Rules = () => {
           Press ⬆️ to rotate a tetromino
         </li>{' '}
         <li key={3} className={styles.message}>
-          Press "Space" to fast drop a tetromino
+          Press <strong style={{ color: 'var(--TETRIS_GREEN)' }}>Space</strong>{' '}
+          to fast drop a tetromino
         </li>{' '}
         <li key={4} className={styles.message}>
-          Press "Q" to quit the game round
+          Press <strong style={{ color: 'var(--TETRIS_GREEN)' }}>Q</strong> to
+          quit the game round
         </li>
         <li key={5} className={styles.message}>
-          Press "Escape" to leave the room
+          Press <strong style={{ color: 'var(--TETRIS_GREEN)' }}>Escape</strong>{' '}
+          to leave the room
         </li>
         <li key={6} className={styles.message}>
           Leave the game page = Leave the room

@@ -2,7 +2,7 @@ import { hasCollision, isWithinBoard } from './board';
 import { rotate } from './tetrominoes';
 import { Action } from './input';
 
-import { emitEvent } from '../socket/socket-middleware';
+import { emitSocketEvent } from '../store/socket-slice';
 
 const attemptRotation = ({ board, player, setPlayer }) => {
   const currentShape = player.tetromino.shape;
@@ -77,6 +77,7 @@ export const movePlayer = ({ delta, position, shape, board }) => {
 };
 
 const attemptMovement = ({
+  dispatch,
   board,
   action,
   player,
@@ -107,10 +108,15 @@ const attemptMovement = ({
   const isGameOver = collided && player.position.row === 0;
 
   if (isGameOver) {
-    emitEvent('game_over', {
-      roomName: roomData.name,
-      roomAdmin: roomData.admin.socketId
-    });
+    dispatch(
+      emitSocketEvent({
+        eventName: 'game_over',
+        data: {
+          roomName: roomData.name,
+          roomAdmin: roomData.admin.socketId
+        }
+      })
+    );
   }
 
   setPlayer({
@@ -122,6 +128,7 @@ const attemptMovement = ({
 };
 
 export const playerController = ({
+  dispatch,
   action,
   board,
   player,
@@ -134,6 +141,7 @@ export const playerController = ({
     attemptRotation({ board, player, setPlayer });
   } else {
     attemptMovement({
+      dispatch,
       board,
       player,
       setPlayer,

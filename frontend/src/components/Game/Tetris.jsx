@@ -1,4 +1,12 @@
 import { useEffect, useState } from 'react';
+
+import { useDispatch } from 'react-redux';
+import {
+  emitSocketEvent,
+  listenSocketEvent,
+  stopListeningSocketEvent
+} from '../../store/socket-slice';
+
 import { useBoard } from '../../hooks/useBoard';
 import { useGameStats } from '../../hooks/useGameStats';
 import { usePlayer } from '../../hooks/usePlayer';
@@ -8,12 +16,6 @@ import GameStats from './GameStats';
 import Previews from './Previews';
 import GameController from './GameController';
 import TetrisLoader from '../UI/TetrisLoader';
-
-import {
-  emitEvent,
-  listenEvent,
-  stopListeningEvent
-} from '../../socket/socket-middleware';
 
 import styles from '../../styles/tetris-styles/tetris.module.css';
 
@@ -30,6 +32,7 @@ const Tetris = ({
   setPending,
   losers
 }) => {
+  const dispatch = useDispatch();
   const [othersBoards, setOthersBoards] = useState({});
   const [penaltyRows, setPenaltyRows] = useState(0);
 
@@ -54,11 +57,16 @@ const Tetris = ({
   useEffect(() => {
     if (roomData.mode === 'competition') {
       if (!gameOver) {
-        emitEvent('board_from_front', {
-          board,
-          roomName: roomData.name,
-          nickname
-        });
+        dispatch(
+          emitSocketEvent({
+            eventName: 'board_from_front',
+            data: {
+              board,
+              roomName: roomData.name,
+              nickname
+            }
+          })
+        );
       }
     }
   }, [gameOver, board]);
@@ -72,23 +80,53 @@ const Tetris = ({
     };
 
     if (!gameOver) {
-      listenEvent('board_from_back', handleGetBoard);
+      dispatch(
+        listenSocketEvent({
+          eventName: 'board_from_back',
+          callback: handleGetBoard
+        })
+      );
 
-      listenEvent('add_penalty', (data) => {
-        setPenaltyRows((prev) => prev + data.penaltyRows);
-      });
+      dispatch(
+        listenSocketEvent({
+          eventName: 'add_penalty',
+          callback: (data) => {
+            setPenaltyRows((prev) => prev + data.penaltyRows);
+          }
+        })
+      );
 
-      listenEvent('set_gameover', () => {
-        setGameOver(true);
-        setPending(true);
-      });
+      dispatch(
+        listenSocketEvent({
+          eventName: 'set_gameover',
+          callback: () => {
+            setGameOver(true);
+            setPending(true);
+          }
+        })
+      );
     }
 
     return () => {
       // Clean up event listener when component unmounts
-      stopListeningEvent('board_from_back', null);
-      stopListeningEvent('add_penalty', null);
-      stopListeningEvent('set_gameover', null);
+      dispatch(
+        stopListeningSocketEvent({
+          eventName: 'board_from_back',
+          callback: null
+        })
+      );
+      dispatch(
+        stopListeningSocketEvent({
+          eventName: 'add_penalty',
+          callback: null
+        })
+      );
+      dispatch(
+        stopListeningSocketEvent({
+          eventName: 'set_gameover',
+          callback: null
+        })
+      );
     };
   }, [gameOver]);
 

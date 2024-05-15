@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 
-import { emitEvent } from '../socket/socket-middleware';
+import { useDispatch } from 'react-redux';
+import { emitSocketEvent } from '../store/socket-slice';
 
 const buildGameStats = () => ({
   level: 1,
@@ -10,6 +11,7 @@ const buildGameStats = () => ({
 });
 
 export const useGameStats = (roomMode, roomName) => {
+  const dispatch = useDispatch();
   const [gameStats, setGameStats] = useState(buildGameStats());
 
   const addLinesCleared = useCallback((lines) => {
@@ -26,7 +28,12 @@ export const useGameStats = (roomMode, roomName) => {
       if (roomMode === 'competition') {
         if (lines >= 2) {
           const penaltyRows = lines - 1;
-          emitEvent('penalty_condition', { roomName, penaltyRows });
+          dispatch(
+            emitSocketEvent({
+              eventName: 'penalty_condition',
+              data: { roomName, penaltyRows }
+            })
+          );
         }
       }
 

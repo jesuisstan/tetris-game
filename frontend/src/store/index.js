@@ -14,7 +14,7 @@ export default configureStore({
         // Ignore socket actions and the socket instance
         ignoredActions: [setSocket.type],
         // Ignore the 'socket' field in actions and state
-        ignoredActionPaths: ['payload.socket'],
+        ignoredActionPaths: ['payload.socket', 'payload.callback'],
         ignoredPaths: ['socket']
       }
     })

@@ -18,10 +18,7 @@ import TetrisLoader from '../UI/TetrisLoader';
 import MagicButton from '../UI/MagicButton';
 import TetrisConfetti from '../UI/TetrisConfetti';
 import Rules from './Rules';
-import {
-  getSocket,
-  checkRoomPresence
-} from '../../socket/socket-middleware';
+import { checkRoomPresence } from '../../socket/socket-middleware';
 
 import styles from '../../styles/game-layout.module.css';
 
@@ -30,7 +27,7 @@ const GameLayout = () => {
   const navigate = useNavigate();
   const { room, player_name } = useParams();
   const nickname = useSelector((state) => state.user)?.nickname;
-  const socketId = getSocket().id;
+  const socketId = useSelector((state) => state.socket.socket).id;
   const [loading, setLoading] = useState(true);
   const [roomData, setRoomData] = useState({});
   const [pending, setPending] = useState(false);
@@ -201,8 +198,8 @@ const GameLayout = () => {
         })
       );
 
-      dispatch(emitSocketEvent({ eventName: 'leave_room', data: null }));
-      console.log("emitEvent('leave_room', null) on UNMOUNT"); // todo delete
+      //dispatch(emitSocketEvent({ eventName: 'leave_room', data: null }));
+      //console.log("emitEvent('leave_room', null) on UNMOUNT"); // todo delete
     };
   }, []);
 

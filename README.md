@@ -91,13 +91,13 @@ b) with NPM:
 - install all the application dependencies according to 'package.json' file from the root dir:
 
 ```sh
-npm install
+npm run install:all
 ```
 
 - Start Tetris App:
 
 ```sh
-npm start
+npm run start:all
 ```
 
 ##### 5. Open the App link in browser ([http://localhost:4040](http://localhost:4040) by default).

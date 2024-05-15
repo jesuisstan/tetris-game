@@ -1,12 +1,18 @@
 import { useState, useCallback } from 'react';
 
-import { emitEvent } from '../socket/socket-middleware';
+import { useDispatch } from 'react-redux';
+import { emitSocketEvent } from '../store/socket-slice';
 
-const buildPlayer = (roomName, initialTetrominoes, popTetromino) => {
+const buildPlayer = (dispatch, roomName, initialTetrominoes, popTetromino) => {
   const tetromino = popTetromino(); // Pop a tetromino from the array
 
   if (initialTetrominoes.length === 4) {
-    emitEvent('get_tetrominoes', { roomName });
+    dispatch(
+      emitSocketEvent({
+        eventName: 'get_tetrominoes',
+        data: { roomName: roomName }
+      })
+    );
   }
 
   return {
@@ -19,13 +25,14 @@ const buildPlayer = (roomName, initialTetrominoes, popTetromino) => {
 };
 
 export const usePlayer = (roomName, initialTetrominoes, popTetromino) => {
+  const dispatch = useDispatch();
   const [player, setPlayer] = useState(() =>
-    buildPlayer(roomName, initialTetrominoes, popTetromino)
+    buildPlayer(dispatch, roomName, initialTetrominoes, popTetromino)
   );
 
   const resetPlayer = useCallback(() => {
     setPlayer((prev) =>
-      buildPlayer(roomName, [...initialTetrominoes], popTetromino)
+      buildPlayer(dispatch, roomName, [...initialTetrominoes], popTetromino)
     ); // Pass a copy of initialTetrominoes
   }, [roomName, initialTetrominoes]);
 

@@ -1,5 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import {
+  emitSocketEvent,
+  listenSocketEvent,
+  stopListeningSocketEvent
+} from '../../store/socket-slice';
+
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -13,15 +22,8 @@ import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import { PersonStanding } from 'lucide-react';
 import Diversity3Icon from '@mui/icons-material/Diversity3';
 
-import { useSelector } from 'react-redux';
-
-import {
-  getSocket,
-  emitEvent,
-  listenEvent
-} from '../../socket/socket-middleware';
-
 const JoinRoomBlock = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const socketId = useSelector((state) => state.socket.socket).id;
   const user = useSelector((state) => state.user);
@@ -132,28 +134,40 @@ const JoinRoomBlock = () => {
   }, [roomURI, navigate]);
 
   useEffect(() => {
-    emitEvent('get_rooms_list', null);
+    dispatch(emitSocketEvent({ eventName: 'get_rooms_list' }));
+
+    return () => {
+      dispatch(
+        stopListeningSocketEvent({
+          eventName: 'get_rooms_list',
+          callback: null
+        })
+      );
+    };
   }, []);
 
   useEffect(() => {
-    // Listening for update_rooms event
-    listenEvent('update_rooms', (data) => {
-      console.log('data-------------', data); // todo delete
-      const roomsData = data?.roomsList?.map((item) =>
-        createData(
-          item.name,
-          item.mode,
-          item.admin.nickname,
-          item.maxPlayers,
-          item.players,
-          item.admin.socketId,
-          item.state
-        )
-      );
+    dispatch(
+      listenSocketEvent({
+        eventName: 'update_rooms',
+        callback: (data) => {
+          const roomsData = data?.roomsList?.map((item) =>
+            createData(
+              item.name,
+              item.mode,
+              item.admin.nickname,
+              item.maxPlayers,
+              item.players,
+              item.admin.socketId,
+              item.state
+            )
+          );
 
-      // Reverse the roomsData array before setting it to state
-      setRoomsList(roomsData?.reverse() || []);
-    });
+          // Reverse the roomsData array before setting it to state
+          setRoomsList(roomsData?.reverse() || []);
+        }
+      })
+    );
   }, []);
 
   return (
