@@ -7,6 +7,7 @@
   align-items: flex-start;
   gap: 42px;
   padding-left: 21px;
+  transition: transform 0.5s ease-in-out, margin-top 0.5s ease-in-out;
 }
 
 .wrapper {
@@ -33,6 +34,11 @@
   padding-right: 21px;
 }
 
+.boardContainer {
+  min-width: 41vh;
+  min-height: 82vh;
+}
+
 .observation {
   display: flex;
   flex-direction: column;
@@ -45,7 +51,6 @@
 
 .others {
   text-align: center;
-
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -68,5 +73,12 @@
     justify-content: center;
     margin-bottom: 21px;
     /*align-self: center;*/
+  }
+}
+
+@media (max-width: 768px) {
+  .tetrisMain {
+    transform: scale(0.7);
+    margin-top: -227px;
   }
 }

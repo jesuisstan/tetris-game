@@ -32,10 +32,18 @@
   display: flex;
   flex-direction: row;
   gap: 21px;
+  transition: transform 0.5s ease-in-out, margin-top 0.5s ease-in-out;
 }
 
 @media (width < 1000px) {
   .infoBlock {
     flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  .infoBlock {
+    transform: scale(0.7);
+    margin-top: -75px;
   }
 }

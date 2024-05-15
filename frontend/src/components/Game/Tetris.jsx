@@ -133,7 +133,7 @@ const Tetris = ({
   return (
     <div className={styles.tetrisMain}>
       <div className={styles.wrapper}>
-        <div style={{ minWidth: '41vh', minHeight: '82vh' }}>
+        <div className={styles.boardContainer}>
           <Board board={board} gameover={gameOver} />
         </div>
 
