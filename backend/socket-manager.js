@@ -131,7 +131,7 @@ const manageSocket = (server) => {
       try {
         const room = roomsList.find((room) => room.name === data.roomName);
         const tetrominoes = await tetromino.getTetrominoes();
-        await gameTetris.startGame(io, room, tetrominoes);
+        await gameTetris.startGame(io, room, tetrominoes, data.roomName, socket.id);
         roomsList.sendRoomsList(io);
       } catch (error) {
         console.error('Error handling start game:', error);

@@ -350,9 +350,12 @@ class Game {
     }
   };
 
-  startGame = async (io, room, tetrominoes) => {
+  startGame = async (io, room, tetrominoes, requestedRoomName, socketId) => {
     try {
       if (!room) {
+        io.to(socketId).emit('game_start_error', {
+          message: `Room "${requestedRoomName}" not found`
+        });
         throw new Error('Room not found');
       }
 

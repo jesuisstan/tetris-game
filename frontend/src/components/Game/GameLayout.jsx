@@ -60,7 +60,12 @@ const GameLayout = () => {
       }
     };
 
-    checkRoom();
+    if (player_name !== nickname) {
+      errorAlert('Incorrect link. Please, enter the game from the lobby.');
+      navigate('/lobby');
+    } else {
+      checkRoom();
+    }
   }, [room, navigate]);
 
   // handling chat messaging:
@@ -171,6 +176,18 @@ const GameLayout = () => {
       })
     );
 
+    dispatch(
+      listenSocketEvent({
+        eventName: 'game_start_error',
+        callback: (data) => {
+          setShowConfetti(false);
+          setLoading(true);
+          errorAlert(data.message);
+          navigate('/lobby');
+        }
+      })
+    );
+
     return () => {
       // Clean up event listener when component unmounts
       dispatch(
@@ -197,9 +214,14 @@ const GameLayout = () => {
           callback: null
         })
       );
-
-      //dispatch(emitSocketEvent({ eventName: 'leave_room', data: null }));
-      //console.log("emitEvent('leave_room', null) on UNMOUNT"); // todo delete
+      dispatch(
+        stopListeningSocketEvent({
+          eventName: 'game_start_error',
+          callback: null
+        })
+      );
+      dispatch(emitSocketEvent({ eventName: 'leave_room', data: null }));
+      console.log("emitEvent('leave_room', null) on UNMOUNT"); // todo delete
     };
   }, []);
 
