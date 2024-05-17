@@ -22,6 +22,8 @@ import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import { PersonStanding } from 'lucide-react';
 import Diversity3Icon from '@mui/icons-material/Diversity3';
 
+import styles from '../../styles/lobby.module.css';
+
 const JoinRoomBlock = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -151,6 +153,7 @@ const JoinRoomBlock = () => {
       listenSocketEvent({
         eventName: 'update_rooms',
         callback: (data) => {
+          console.log('data', data);
           const roomsData = data?.roomsList?.map((item) =>
             createData(
               item.name,
@@ -162,7 +165,7 @@ const JoinRoomBlock = () => {
               item.state
             )
           );
-
+          console.log('roomsData', roomsData);
           // Reverse the roomsData array before setting it to state
           setRoomsList(roomsData?.reverse() || []);
         }
@@ -182,106 +185,111 @@ const JoinRoomBlock = () => {
       {!roomsList && <TetrisLoader text="Room list is loading..." />}
       {loading && <TetrisLoader text="Joining the room in progress..." />}
       {roomsList && !loading && (
-        <Paper sx={{ width: '100%' }}>
-          <TableContainer sx={{ maxHeight: 600 }}>
-            <Table stickyHeader aria-label="sticky table">
-              <TableHead>
-                <TableRow>
-                  {columns.map((column) => (
-                    <TableCell
-                      key={column.id}
-                      align={column.align}
-                      style={{
-                        minWidth: column.minWidth,
-                        backgroundColor: 'var(--TETRIS_WHITE)'
-                      }}
-                    >
-                      {column.label}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {roomsList?.length === 0 ? (
+        <div className={styles.table}>
+          <Paper sx={{ width: '100%' }}>
+            <TableContainer sx={{ maxHeight: 600 }}>
+              <Table stickyHeader aria-label="sticky table">
+                <TableHead>
                   <TableRow>
-                    <TableCell colSpan={columns.length} align="center">
-                      No rooms available
-                    </TableCell>
+                    {columns.map((column) => (
+                      <TableCell
+                        key={column.id}
+                        align={column.align}
+                        style={{
+                          minWidth: column.minWidth,
+                          backgroundColor: 'var(--TETRIS_WHITE)'
+                        }}
+                      >
+                        {column.label}
+                      </TableCell>
+                    ))}
                   </TableRow>
-                ) : (
-                  roomsList
-                    ?.slice(
-                      page * rowsPerPage,
-                      page * rowsPerPage + rowsPerPage
-                    )
-                    .map((row) => {
-                      return (
-                        <TableRow
-                          hover
-                          role="checkbox"
-                          tabIndex={-1}
-                          key={row.roomName}
-                          onClick={() => joinRoom(row)}
-                          style={{ cursor: 'pointer' }}
-                        >
-                          {columns.map((column) => {
-                            const value = row[column.id];
-                            if (column.id === 'access') {
+                </TableHead>
+                <TableBody>
+                  {roomsList?.length === 0 ? (
+                    <TableRow>
+                      <TableCell colSpan={columns.length} align="center">
+                        No rooms available
+                      </TableCell>
+                    </TableRow>
+                  ) : (
+                    roomsList
+                      ?.slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((row) => {
+                        return (
+                          <TableRow
+                            hover
+                            role="checkbox"
+                            tabIndex={-1}
+                            key={row.roomName}
+                            onClick={() => joinRoom(row)}
+                            style={{ cursor: 'pointer' }}
+                          >
+                            {columns.map((column) => {
+                              const value = row[column.id];
+                              if (column.id === 'access') {
+                                return (
+                                  <TableCell
+                                    key={column.id}
+                                    align={column.align}
+                                  >
+                                    <SportsEsportsIcon
+                                      sx={{
+                                        color: checkAccess(row, socketId)
+                                          ? 'var(--TETRIS_GREEN)'
+                                          : 'var(--TETRIS_RED)'
+                                      }}
+                                    />
+                                  </TableCell>
+                                );
+                              }
+                              if (column.id === 'mode') {
+                                return (
+                                  <TableCell
+                                    key={column.id}
+                                    align={column.align}
+                                    title={row.mode}
+                                  >
+                                    {row.mode === 'solo' ? (
+                                      <PersonStanding />
+                                    ) : (
+                                      <Diversity3Icon />
+                                    )}
+                                  </TableCell>
+                                );
+                              }
                               return (
                                 <TableCell key={column.id} align={column.align}>
-                                  <SportsEsportsIcon
-                                    sx={{
-                                      color: checkAccess(row, socketId)
-                                        ? 'var(--TETRIS_GREEN)'
-                                        : 'var(--TETRIS_RED)'
-                                    }}
-                                  />
+                                  {column.format && typeof value === 'number'
+                                    ? column.format(value)
+                                    : value}
                                 </TableCell>
                               );
-                            }
-                            if (column.id === 'mode') {
-                              return (
-                                <TableCell
-                                  key={column.id}
-                                  align={column.align}
-                                  title={row.mode}
-                                >
-                                  {row.mode === 'solo' ? (
-                                    <PersonStanding />
-                                  ) : (
-                                    <Diversity3Icon />
-                                  )}
-                                </TableCell>
-                              );
-                            }
-                            return (
-                              <TableCell key={column.id} align={column.align}>
-                                {column.format && typeof value === 'number'
-                                  ? column.format(value)
-                                  : value}
-                              </TableCell>
-                            );
-                          })}
-                        </TableRow>
-                      );
-                    })
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 15]}
-            component="div"
-            count={roomsList?.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            style={{
-              backgroundColor: 'var(--TETRIS_WHITE)'
-            }}
-          />
-        </Paper>
+                            })}
+                          </TableRow>
+                        );
+                      })
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 15]}
+              component="div"
+              count={roomsList?.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              style={{
+                backgroundColor: 'var(--TETRIS_WHITE)'
+              }}
+            />
+          </Paper>
+        </div>
       )}
     </div>
   );

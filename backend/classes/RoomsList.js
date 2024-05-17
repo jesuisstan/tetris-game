@@ -21,7 +21,6 @@ class RoomsList extends Array {
     return this.find((room) => room.name === roomName);
   }
 
-  // Method to update rooms in the list based on the provided roomsList
   updateRooms(newRoomsList) {
     // Clear the current list
     this.length = 0;
@@ -45,10 +44,7 @@ class RoomsList extends Array {
   sendRoomsList(io) {
     const roomsList = this.getRooms(io);
     this.updateRooms(roomsList);
-    //return new Promise((resolve, reject) => {
     io.emit('update_rooms', { roomsList });
-    //  resolve(true);
-    //});
   }
 
   // Method to get rooms associated with a given socket ID

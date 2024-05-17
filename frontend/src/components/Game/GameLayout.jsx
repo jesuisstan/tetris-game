@@ -51,7 +51,7 @@ const GameLayout = () => {
       try {
         let res = await checkRoomPresence(room, dispatch);
         if (res?.presence === false) {
-          errorAlert('No such a room exists');
+          errorAlert('Room not found');
           navigate('/lobby');
         }
       } catch (error) {

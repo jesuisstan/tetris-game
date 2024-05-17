@@ -43,9 +43,9 @@ const manageSocket = (server) => {
         .handleLeavingRoom(io, socket, playersList, roomsList)
         .then((res) => {
           if (res.status) {
-            playersList.erasePlayer(res.playerToErase);
+            playersList.erasePlayer(res.playerOnSocket);
             console.log(
-              `${res.playerToErase?.nickname} (socket ${res.playerToErase?.socketId}) disconnected`
+              `${res.playerOnSocket?.nickname} (socket ${res.playerOnSocket?.socketId}) disconnected`
             );
           }
         })
@@ -99,6 +99,8 @@ const manageSocket = (server) => {
       }
     });
 
+    //setInterval(() => {console.log(roomsList)}, 5000) // todo delete
+
     socket.on('join_room', async (data) => {
       try {
         await gameTetris.handleJoiningRoom(
@@ -114,14 +116,8 @@ const manageSocket = (server) => {
     });
 
     socket.on('leave_room', () => {
-      console.log('leave_room from front'); // todo delete
       gameTetris
         .handleLeavingRoom(io, socket, playersList, roomsList)
-        .then((res) => {
-          if (res?.status) {
-            roomsList.updateRooms(res.roomsList);
-          }
-        })
         .catch((error) => {
           console.error('Error handling "leave room" event:', error);
         });
@@ -131,7 +127,13 @@ const manageSocket = (server) => {
       try {
         const room = roomsList.find((room) => room.name === data.roomName);
         const tetrominoes = await tetromino.getTetrominoes();
-        await gameTetris.startGame(io, room, tetrominoes, data.roomName, socket.id);
+        await gameTetris.startGame(
+          io,
+          room,
+          tetrominoes,
+          data.roomName,
+          socket.id
+        );
         roomsList.sendRoomsList(io);
       } catch (error) {
         console.error('Error handling start game:', error);

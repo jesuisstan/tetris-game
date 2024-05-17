@@ -1,0 +1,31 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 1px solid var(--TETRIS_WHITE);
+  padding: 21px;
+  width: 500px;
+  height: 250px;
+  text-align: left;
+  gap: 21px;
+  background: var(--TETRIS_BLACK_TRANS);
+}
+
+.rulesContainer {
+  width: 100%;
+  padding-left: 21px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+}
+
+.rule {
+  color: var(--TETRIS_WHITE);
+  font-size: 15px;
+}
+
+.comment {
+  font-size: 11px;
+} 
