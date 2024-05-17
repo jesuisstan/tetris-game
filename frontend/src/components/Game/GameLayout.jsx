@@ -20,6 +20,7 @@ import TetrisConfetti from '../UI/TetrisConfetti';
 import Rules from './Rules';
 
 import styles from '../../styles/game-layout.module.css';
+import FloatingButton from '../UI/FloatingButton';
 
 const GameLayout = () => {
   const dispatch = useDispatch();
@@ -71,7 +72,7 @@ const GameLayout = () => {
   // handling chat messaging:
   useEffect(() => {
     const handleNewMessage = (data) => {
-      setMessages((prevMessages) => [...prevMessages, data.message]);
+      setMessages((prevMessages) => [...prevMessages, data]);
       if (data.type === 'gameOver') {
         setLosers((prev) => [...prev, data.nickname]);
       }
@@ -80,9 +81,10 @@ const GameLayout = () => {
       }
     };
 
-    dispatch(
-      listenSocketEvent({ eventName: 'chat', callback: handleNewMessage })
-    );
+    if (player_name === nickname)
+      dispatch(
+        listenSocketEvent({ eventName: 'chat', callback: handleNewMessage })
+      );
 
     return () => {
       dispatch(stopListeningSocketEvent({ eventName: 'chat', callback: null }));
@@ -107,86 +109,86 @@ const GameLayout = () => {
   }, [roomData]);
 
   useEffect(() => {
-    if (room)
+    if (room && player_name === nickname) {
       dispatch(
         emitSocketEvent({ eventName: 'join_room', data: { roomName: room } })
       );
 
-    dispatch(
-      listenSocketEvent({
-        eventName: 'welcome_to_the_room',
-        callback: (roomData) => {
-          setRoomData(roomData);
-          setLoading(false);
-        }
-      })
-    );
-
-    dispatch(
-      listenSocketEvent({
-        eventName: 'update_room_data',
-        callback: (data) => {
-          setRoomData(data);
-        }
-      })
-    );
-
-    // Listen for "join_denied" events
-    dispatch(
-      listenSocketEvent({
-        eventName: 'join_denied',
-        callback: (data) => {
-          setLoading(false);
-          errorAlert(data?.message ?? 'Something went wrong');
-          setTimeout(() => {
-            navigate('/lobby');
-          }, 500);
-        }
-      })
-    );
-
-    dispatch(
-      listenSocketEvent({
-        eventName: 'new_tetrominoes',
-        callback: (data) => {
-          setTetrominoes((prevTetrominoes) => [
-            ...createTetrominoes(data),
-            ...prevTetrominoes
-          ]);
-        }
-      })
-    );
-
-    dispatch(
-      listenSocketEvent({
-        eventName: 'game_started',
-        callback: (data) => {
-          setShowConfetti(false);
-          setLoading(true);
-          setTimeout(() => {
-            setTetrominoes(createTetrominoes(data));
-            setPending(false);
-            setLosers([]);
-            if (gameOver) {
-              resetGameOver();
-            }
+      dispatch(
+        listenSocketEvent({
+          eventName: 'welcome_to_the_room',
+          callback: (roomData) => {
+            setRoomData(roomData);
             setLoading(false);
-          }, [1000]);
-        }
-      })
-    );
+          }
+        })
+      );
 
-    dispatch(
-      listenSocketEvent({
-        eventName: 'game_start_error',
-        callback: (data) => {
-          setShowConfetti(false);
-          setLoading(true);
-          errorAlert(data.message);
-          navigate('/lobby');
-        }
-      })
-    );
+      dispatch(
+        listenSocketEvent({
+          eventName: 'update_room_data',
+          callback: (data) => {
+            setRoomData(data);
+          }
+        })
+      );
+
+      dispatch(
+        listenSocketEvent({
+          eventName: 'join_denied',
+          callback: (data) => {
+            setLoading(false);
+            errorAlert(data?.message ?? 'Something went wrong');
+            setTimeout(() => {
+              navigate('/lobby');
+            }, 500);
+          }
+        })
+      );
+
+      dispatch(
+        listenSocketEvent({
+          eventName: 'new_tetrominoes',
+          callback: (data) => {
+            setTetrominoes((prevTetrominoes) => [
+              ...createTetrominoes(data),
+              ...prevTetrominoes
+            ]);
+          }
+        })
+      );
+
+      dispatch(
+        listenSocketEvent({
+          eventName: 'game_started',
+          callback: (data) => {
+            setShowConfetti(false);
+            setLoading(true);
+            setTimeout(() => {
+              setTetrominoes(createTetrominoes(data));
+              setPending(false);
+              setLosers([]);
+              if (gameOver) {
+                resetGameOver();
+              }
+              setLoading(false);
+            }, [1000]);
+          }
+        })
+      );
+
+      dispatch(
+        listenSocketEvent({
+          eventName: 'game_start_error',
+          callback: (data) => {
+            setShowConfetti(false);
+            setLoading(true);
+            errorAlert(data.message);
+            navigate('/lobby');
+          }
+        })
+      );
+    }
 
     return () => {
       // Clean up event listener when component unmounts
@@ -228,6 +230,7 @@ const GameLayout = () => {
   return (
     <div style={{ marginTop: '21px' }}>
       <TetrisConfetti show={showConfetti} setShow={setShowConfetti} />
+      <FloatingButton onClick={() => navigate('/lobby')} />
       {loading ? (
         <div className={styles.centered}>
           <TetrisLoader />

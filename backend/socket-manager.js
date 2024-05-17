@@ -59,14 +59,8 @@ const manageSocket = (server) => {
         // Create a new Player instance with the received data
         const newPlayer = new Player(data.nickname, socket.id);
         playersList.addNewPlayer(newPlayer);
-
-        // Emit a welcome message to the client
-        socket.emit('welcome', {
-          message: `Welcome, ${newPlayer.nickname}!`
-        });
       } catch (error) {
         console.error('Error creating new player:', error);
-        socket.emit('welcome_error');
       }
     });
 

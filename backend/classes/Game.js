@@ -75,27 +75,6 @@ class Game {
     });
   };
 
-  // Get a room's admin:
-  getRoomAdmin = (io, socketId, room, playersList) => {
-    return new Promise((resolve, reject) => {
-      const socketIds = [];
-      const clientsList = io.sockets.adapter.rooms.get(room?.name);
-      let admin;
-
-      if (clientsList) {
-        for (const clientId of clientsList) {
-          socketIds.push(clientId);
-        }
-        for (let i = 0; i < socketIds.length; i++) {
-          if (socketIds[i] === socketId)
-            admin = playersList.find((p) => p.socketId === socketId);
-        }
-
-        resolve(admin);
-      }
-    });
-  };
-
   sendMessageToRoom = (io, data) => {
     return new Promise((resolve, reject) => {
       try {
@@ -128,7 +107,7 @@ class Game {
       const messageData = {
         room: roomName,
         nickname: players[0]?.nickname,
-        message: `${players[0]?.nickname} joined the room "${roomName}"`,
+        message: `joined the room "${roomName}".`,
         type: 'joined'
       };
 
@@ -152,14 +131,14 @@ class Game {
 
       if (roomData?.state === true) {
         io.to(socket.id).emit('join_denied', {
-          message: 'You cannot join a room while active game. Try later'
+          message: 'You cannot join a room while active game. Try later.'
         });
         return;
       } else if (roomData?.mode === 'solo') {
         socket.id === playerOnSocket?.socketId
           ? io.to(socket.id).emit('welcome_to_the_room', roomData)
           : io.to(socket.id).emit('join_denied', {
-              message: 'You cannot join "solo" room'
+              message: 'You cannot join "solo" room.'
             });
       } else if (roomData?.mode === 'competition') {
         const roomPlayers = await this.getRoomPlayersDetails(
@@ -204,7 +183,7 @@ class Game {
         const messageData = {
           room: roomData.name,
           nickname: playerOnSocket.nickname,
-          message: `${playerOnSocket.nickname} joined the room "${roomData.name}"`,
+          message: `joined the room "${roomData.name}".`,
           type: 'access'
         };
 
@@ -219,7 +198,7 @@ class Game {
     } catch (error) {
       console.error('Error joining room:', error);
       io.to(socket.id).emit('join_denied', {
-        message: 'Something went wrong... Refresh the page and try again'
+        message: 'Something went wrong... Refresh the page and try again.'
       });
       throw error;
     }
@@ -241,7 +220,7 @@ class Game {
         await this.sendMessageToRoom(io, {
           room: roomToLeaveName,
           nickname: playerOnSocket.nickname,
-          message: `${playerOnSocket.nickname} left the room "${roomToLeaveName}"`,
+          message: `left the room "${roomToLeaveName}". ❌`,
           type: 'leave'
         });
 
@@ -264,7 +243,7 @@ class Game {
             await this.sendMessageToRoom(io, {
               room: roomToLeaveName,
               nickname: playerWinner?.nickname,
-              message: `${playerWinner?.nickname} wins the game!`,
+              message: `wins the game! 🏆`,
               type: 'winner'
             });
             roomToLeave.state = false;
@@ -274,7 +253,8 @@ class Game {
             playerWinner?.setGameOver(true);
             await this.sendMessageToRoom(io, {
               room: roomToLeaveName,
-              message: `${playerWinner?.nickname} gets admin status in "${roomToLeaveName}" room.`,
+              nickname: playerWinner?.nickname,
+              message: `gets admin status in "${roomToLeaveName}" room.`,
               type: 'admin'
             });
           }
@@ -296,7 +276,7 @@ class Game {
             await this.sendMessageToRoom(io, {
               room: roomToLeaveName,
               nickname: playerWinner?.nickname,
-              message: `${playerWinner?.nickname} wins the game!`,
+              message: `wins the game! 🏆`,
               type: 'winner'
             });
             roomToLeave.state = false;
@@ -305,7 +285,8 @@ class Game {
 
           await this.sendMessageToRoom(io, {
             room: roomToLeaveName,
-            message: `${playersInRoom[0].nickname} gets admin status in "${roomToLeaveName}" room.`,
+            nickname: playersInRoom[0]?.nickname,
+            message: `gets admin status in "${roomToLeaveName}" room.`,
             type: 'admin'
           });
           roomsList.sendRoomsList(io);
@@ -328,7 +309,8 @@ class Game {
           io.to(roomToLeaveName).emit('update_room_data', roomToLeave);
           await this.sendMessageToRoom(io, {
             room: roomToLeaveName,
-            message: `${playersInRoom[0].nickname} gets admin status in "${roomToLeaveName}" room.`,
+            nickname: playersInRoom[0]?.nickname,
+            message: `gets admin status in "${roomToLeaveName}" room.`,
             type: 'admin'
           });
         } else {
@@ -346,7 +328,7 @@ class Game {
     try {
       if (!room) {
         io.to(socketId).emit('game_start_error', {
-          message: `Room "${requestedRoomName}" not found`
+          message: `Room "${requestedRoomName}" not found.`
         });
         throw new Error('Room not found');
       }
@@ -385,6 +367,7 @@ class Game {
       const player = playersList.find(
         (player) => player?.socketId === socketId
       );
+      const isAdmin = socketId === room?.admin.socketId;
 
       if (room?.players === 1) {
         room.state = false;
@@ -408,7 +391,7 @@ class Game {
         await this.sendMessageToRoom(io, {
           room: room.name,
           nickname: player?.nickname,
-          message: `${player?.nickname} lost this round`,
+          message: `lost this round. 🚩`,
           type: 'gameOver'
         });
 
@@ -438,7 +421,7 @@ class Game {
             await this.sendMessageToRoom(io, {
               room: room.name,
               nickname: playerWinner?.nickname,
-              message: `${playerWinner?.nickname} wins the game!`,
+              message: `wins the game! 🏆`,
               type: 'winner'
             });
 
@@ -450,28 +433,33 @@ class Game {
             roomsList.sendRoomsList(io);
             await this.sendMessageToRoom(io, {
               room: room.name,
-              message: `${playerWinner.nickname} has admin status in "${room.name}" room.`,
+              nickname: playerWinner?.nickname,
+              message: `has admin status in "${room.name}" room.`,
               type: 'admin'
             });
             losers.forEach((element) => {
               element.gameOver = false;
             });
           } else if (roomPlayers.length - 1 > losers.length) {
-            console.log('game over, not all players lost'); // todo delete
-            // find 1st not-admin playing player and make him be admin:
-            const nonAdminActivePlayer = roomPlayers.find(
-              (p) => p.gameOver === false && p.socketId !== room.admin.socketId
-            );
-            nonAdminActivePlayer.setAdminStatus(true);
-            room.admin.nickname = nonAdminActivePlayer?.nickname;
-            room.admin.socketId = nonAdminActivePlayer?.socketId;
-            io.to(room.name).emit('update_room_data', room);
-            roomsList.sendRoomsList(io);
-            await this.sendMessageToRoom(io, {
-              room: room.name,
-              message: `${nonAdminActivePlayer.nickname} gets admin status in "${room.name}" room.`,
-              type: 'admin'
-            });
+            // case: there are at least 2 players who didn't lose
+            if (isAdmin) {
+              // find 1st not-admin playing player and make him be admin:
+              const nonAdminActivePlayer = roomPlayers.find(
+                (p) =>
+                  p.gameOver === false && p.socketId !== room.admin.socketId
+              );
+              nonAdminActivePlayer.setAdminStatus(true);
+              room.admin.nickname = nonAdminActivePlayer?.nickname;
+              room.admin.socketId = nonAdminActivePlayer?.socketId;
+              io.to(room.name).emit('update_room_data', room);
+              roomsList.sendRoomsList(io);
+              await this.sendMessageToRoom(io, {
+                room: room.name,
+                nickname: nonAdminActivePlayer?.nickname,
+                message: `gets admin status in "${room.name}" room.`,
+                type: 'admin'
+              });
+            }
           }
         }
       }

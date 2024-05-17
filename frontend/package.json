@@ -36,8 +36,9 @@
   "scripts": {
     "start": "cross-env PORT=4040 react-scripts start",
     "build": "react-scripts build",
-    "build:serve": "react-scripts build && serve -s build -l 4444",
-    "test": "jest --coverage",
+    "build:serve": "react-scripts build && serve -s build -l 4040",
+    "test": "jest",
+    "coverage": "jest --coverage",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

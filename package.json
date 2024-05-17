@@ -21,6 +21,7 @@
     "clean:all": "rimraf node_modules && rimraf package-lock.json && npm run clean:backend && npm run clean:frontend",
     "install:all": "npm install && npm run copy-env:backend && npm run copy-env:frontend && cd backend && npm install && cd ../frontend && npm install",
     "start:all": "concurrently -n 'backend,frontend' -c 'blue,magenta' \"cd backend && npm start\" \"cd frontend && npm start\"",
-    "test": "cd frontend && npm run test"
+    "test": "cd frontend && npm run test",
+    "coverage": "cd frontend && npm run coverage"
   }
 }
