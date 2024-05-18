@@ -107,8 +107,8 @@ class Game {
       const messageData = {
         room: roomName,
         nickname: players[0]?.nickname,
-        message: `joined the room "${roomName}".`,
-        type: 'joined'
+        message: `joined the room "${roomName}". ✅`,
+        type: 'admin'
       };
 
       await this.sendMessageToRoom(io, messageData);
@@ -183,8 +183,8 @@ class Game {
         const messageData = {
           room: roomData.name,
           nickname: playerOnSocket.nickname,
-          message: `joined the room "${roomData.name}".`,
-          type: 'access'
+          message: `joined the room "${roomData.name}". ✅`,
+          type: 'admin'
         };
 
         await this.sendMessageToRoom(io, messageData);

@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
-import ClearIcon from '@mui/icons-material/Clear';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const FloatingButton = ({ onClick }) => {
   return (
@@ -25,7 +25,7 @@ const FloatingButton = ({ onClick }) => {
         onClick={onClick}
         title="Exit the room"
       >
-        <ClearIcon />
+        <LogoutIcon />
       </Fab>
     </Box>
   );

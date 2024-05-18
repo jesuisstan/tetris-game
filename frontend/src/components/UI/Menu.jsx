@@ -5,7 +5,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import IconButton from '@mui/material/IconButton';
 import MenuDrawer from './MenuDrawer';
 import LoginIcon from '@mui/icons-material/Login';
-import LogoutIcon from '@mui/icons-material/Logout';
+import CancelIcon from '@mui/icons-material/Cancel';
 import MenuUI from '@mui/material/Menu';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
@@ -138,7 +138,7 @@ const Menu = () => {
                     gap: '15px'
                   }}
                 >
-                  <LogoutIcon />
+                  <CancelIcon />
                   Logout
                 </div>
               ) : (

@@ -18,9 +18,9 @@ import TetrisLoader from '../UI/TetrisLoader';
 import MagicButton from '../UI/MagicButton';
 import TetrisConfetti from '../UI/TetrisConfetti';
 import Rules from './Rules';
+import FloatingButton from '../UI/FloatingButton';
 
 import styles from '../../styles/game-layout.module.css';
-import FloatingButton from '../UI/FloatingButton';
 
 const GameLayout = () => {
   const dispatch = useDispatch();
@@ -227,10 +227,23 @@ const GameLayout = () => {
     };
   }, []);
 
+  const handleLeave = () => {
+    dispatch(
+      emitSocketEvent({
+        eventName: 'game_over',
+        data: {
+          roomName: roomData.name,
+          roomAdmin: roomData.admin.socketId
+        }
+      })
+    );
+    navigate('/lobby');
+  };
+
   return (
     <div style={{ marginTop: '21px' }}>
       <TetrisConfetti show={showConfetti} setShow={setShowConfetti} />
-      <FloatingButton onClick={() => navigate('/lobby')} />
+      <FloatingButton onClick={handleLeave} />
       {loading ? (
         <div className={styles.centered}>
           <TetrisLoader />

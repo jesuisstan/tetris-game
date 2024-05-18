@@ -1,4 +1,5 @@
 .wrapper {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -9,6 +10,8 @@
   text-align: left;
   gap: 21px;
   background: var(--TETRIS_BLACK_TRANS);
+  opacity: 1; /* Default state */
+  transition: opacity 0.5s ease-in-out;
 }
 
 .rulesContainer {
@@ -28,4 +31,30 @@
 
 .comment {
   font-size: 11px;
-} 
+}
+
+.transparent {
+  opacity: 0.3;
+  transition: opacity 0.3s ease;
+}
+
+.hideButton {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 10;
+
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: transform 1s ease-in-out;
+}
+
+.hideButtonMoved {
+  transform: translate(-465px);
+}
+
+.transparent {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
