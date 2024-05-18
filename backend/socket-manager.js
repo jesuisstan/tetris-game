@@ -12,7 +12,9 @@ import {
 const manageSocket = (server) => {
   const io = new Server(server, {
     cors: {
-      origin: [`${process.env.REACT_APP_HOST}:*`, 'localhost:*'],
+      //origin: [`${process.env.REACT_APP_HOST}:*`, 'localhost:*'],
+      origin: 'http://localhost:4040',
+
       methods: ['GET', 'POST', 'PUT', 'DELETE'],
       credentials: true
     },

@@ -44,8 +44,9 @@ const connectToDatabase = () => {
 app.use(
   cors({
     origin: [
-      `${process.env.REACT_APP_HOST}:*`,
-      'localhost:*'
+      //`${process.env.REACT_APP_HOST}:*`,
+      //'localhost:*'
+      'http://localhost:4040'
     ],
     //methods: 'GET,POST,PUT,DELETE',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],

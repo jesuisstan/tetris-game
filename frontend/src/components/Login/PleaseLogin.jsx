@@ -39,9 +39,13 @@ const PleaseLogin = () => {
     e.preventDefault();
     setLoadingLogin(true);
     try {
-      const response = await axios.post(`/api/auth/signin`, values, {
-        withCredentials: true
-      });
+      const response = await axios.post(
+        `http://localhost:4444/api/auth/signin`,
+        values,
+        {
+          withCredentials: true
+        }
+      );
       dispatch(setUser(response.data)); // Dispatch setUser action with the fetched user data
       socket?.emit('user_logged_in', response.data); // todo socket
       navigate('/lobby');

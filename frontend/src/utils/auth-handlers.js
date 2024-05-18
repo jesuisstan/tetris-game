@@ -17,7 +17,7 @@ export const getCookieValue = (name) => {
 
 export const getUserData = async () => {
   try {
-    const response = await axios.get(`/api/users/getuser`, {
+    const response = await axios.get(`http://localhost:4444/api/users/getuser`, {
       withCredentials: true
     });
     return response.data;
