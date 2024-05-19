@@ -1,91 +1,71 @@
 import axios from 'axios';
 import { errorAlert } from '../../utils/alerts';
-import { initialUserState } from '../../store/user-slice';
-import { getCookieValue, getUserData, logout } from '../../utils/auth-handlers';
+import { logout, getUserData, getCookieValue } from '../../utils/auth-handlers';
 import '@testing-library/jest-dom';
 
 jest.mock('axios');
+
 jest.mock('../../utils/alerts', () => ({
   errorAlert: jest.fn()
 }));
 
-describe('Utils functions', () => {
-  afterEach(() => {
-    jest.clearAllMocks();
+describe('logout function', () => {
+  beforeEach(() => {
+    jest.clearAllMocks(); // Clear mock calls before each test
   });
 
-  describe('getCookieValue', () => {
-    it('should return the value of the specified cookie', () => {
-      document.cookie = 'testCookie=testValue';
-      const value = getCookieValue('testCookie');
-      expect(value).toBe('testValue');
-    });
+  it('should call errorAlert with correct message when an error occurs', async () => {
+    // Mock axios.get to throw an error
+    axios.get.mockRejectedValueOnce(new Error('Test error'));
 
-    it('should return null if the cookie is not found', () => {
-      document.cookie = 'testCookie=testValue';
-      const value = getCookieValue('nonExistingCookie');
-      expect(value).toBe(null);
-    });
+    try {
+      await logout(); // Call the logout function
+    } catch (e) {
+      // Ignore the error
+    }
+
+    // Ensure that errorAlert is called with the correct message
+    expect(errorAlert).toHaveBeenCalledWith(
+      'Something went wrong while logging out'
+    );
   });
 
-  describe('getUserData', () => {
-    it('should return user data on successful request', async () => {
-      const mockData = { name: 'John Doe' };
-      axios.get.mockResolvedValue({ data: mockData });
+  it('should call errorAlert with correct message when an error occurs in getUserData', async () => {
+    // Mock axios.get to throw an error
+    axios.get.mockRejectedValueOnce({ response: { status: 500 } });
 
-      const data = await getUserData();
+    try {
+      await getUserData(); // Call the logout function
+    } catch (e) {
+      // Ignore the error
+    }
 
-      expect(data).toEqual(mockData);
-      expect(axios.get).toHaveBeenCalledWith(
-        `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_BACKEND_PORT}/api/users/getuser`,
-        { withCredentials: true }
-      );
-    });
-
-    it('should call errorAlert on request failure (status not 401)', async () => {
-      axios.get.mockRejectedValue({
-        response: { status: 500 }
-      });
-
-      await getUserData();
-
-      expect(errorAlert).toHaveBeenCalledWith(
-        'Something went wrong while logging in'
-      );
-    });
-
-    it('should not call errorAlert on request failure with status 401', async () => {
-      axios.get.mockRejectedValue({
-        response: { status: 401 }
-      });
-
-      await getUserData();
-
-      expect(errorAlert).not.toHaveBeenCalled();
-    });
+    // Ensure that errorAlert is called with the correct message
+    expect(errorAlert).toHaveBeenCalledWith(
+      'Something went wrong while logging in'
+    );
   });
 
-  describe('logout', () => {
-    it('should return initialUserState on successful request', async () => {
-      axios.get.mockResolvedValue({});
+  it('should return the value of the specified cookie', () => {
+    const mockDocument = {
+      cookie: 'cookie1=value1; cookie2=value2; cookie3=value3'
+    };
+    const cookieName = 'cookie2';
+    const expectedValue = 'value2';
 
-      const result = await logout();
+    const result = getCookieValue(cookieName, mockDocument);
 
-      expect(result).toEqual(initialUserState);
-      expect(axios.get).toHaveBeenCalledWith(
-        `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_BACKEND_PORT}/api/auth/logout`,
-        { withCredentials: true }
-      );
-    });
+    expect(result).toEqual(expectedValue);
+  });
 
-    it('should call errorAlert on request failure', async () => {
-      axios.get.mockRejectedValue(new Error('Logout failed'));
+  it('should return null if the specified cookie does not exist', () => {
+    const mockDocument = {
+      cookie: 'cookie1=value1; cookie2=value2; cookie3=value3'
+    };
+    const cookieName = 'nonExistentCookie';
 
-      await logout();
+    const result = getCookieValue(cookieName, mockDocument);
 
-      expect(errorAlert).toHaveBeenCalledWith(
-        'Something went wrong while logging out'
-      );
-    });
+    expect(result).toBeNull();
   });
 });

@@ -2,8 +2,8 @@ import axios from 'axios';
 import { errorAlert } from './alerts';
 import { initialUserState } from '../store/user-slice';
 
-export const getCookieValue = (name) => {
-  const cookies = document.cookie.split('; ');
+export const getCookieValue = (name, documentObj = document) => {
+  const cookies = documentObj.cookie.split('; ');
 
   for (const cookie of cookies) {
     const [cookieName, cookieValue] = cookie.split('=');
