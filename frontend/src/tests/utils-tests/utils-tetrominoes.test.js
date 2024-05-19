@@ -4,7 +4,7 @@ import {
   createTetrominoes,
   rotate,
   transferToBoard
-} from '../utils/tetrominoes';
+} from '../../utils/tetrominoes';
 
 describe('Tetromino tests', () => {
   test('randomTetromino returns a valid tetromino', () => {

@@ -1,6 +1,14 @@
 module.exports = {
   // Other Jest configuration settings...
 
+  transform: {
+    '^.+\\.jsx?$': 'babel-jest',
+  },
+
+  moduleNameMapper: {
+    "^axios$": "<rootDir>/node_modules/axios/dist/axios.min.js"
+  },
+  
   collectCoverage: true,
   collectCoverageFrom: [
     'src/components/**/*.{js,jsx}',  // Specify folders and file types to collect coverage from

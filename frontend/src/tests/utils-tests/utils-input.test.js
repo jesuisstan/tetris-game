@@ -1,4 +1,4 @@
-import { Action, Key, actionIsDrop, actionForKey } from '../utils/input';
+import { Action, Key, actionIsDrop, actionForKey } from '../../utils/input';
 
 describe('Action tests', () => {
   test('Action constants are defined correctly', () => {
