@@ -33,7 +33,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "cross-env PORT=4040 react-scripts start",
+    "dev": "cross-env PORT=4040 react-scripts start",
     "build": "react-scripts build",
     "build:serve": "react-scripts build && serve -s build -l 4040",
     "test": "jest",

@@ -14,11 +14,17 @@ import manageSocket from './socket-manager.js';
 
 dotenv.config();
 
+const parsedMaxPlayers = Number(process.env.REACT_APP_MAX_PLAYERS_IN_ROOM);
 export const MAX_PLAYERS_IN_ROOM =
-  Number(process.env.REACT_APP_MAX_PLAYERS_IN_ROOM) || 3;
+  parsedMaxPlayers > 0 && parsedMaxPlayers <= 10 ? parsedMaxPlayers : 3;
 
+const parsedTetrominoesAmount = Number(
+  process.env.REACT_APP_TETROMINOES_AMOUNT
+);
 export const TETROMINOES_AMOUNT =
-  Number(process.env.REACT_APP_TETROMINOES_AMOUNT) || 20;
+  parsedTetrominoesAmount >= 10 && parsedTetrominoesAmount <= 142
+    ? parsedTetrominoesAmount
+    : 42;
 
 // Declare and export basic game vars:
 export let roomsList = new RoomsList();
@@ -44,11 +50,9 @@ const connectToDatabase = () => {
 app.use(
   cors({
     origin: [
-      //`${process.env.REACT_APP_HOST}:*`,
-      //'localhost:*'
-      'http://localhost:4040'
+      `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_FRONTEND_PORT}`,
+      `http://localhost:${process.env.REACT_APP_FRONTEND_PORT}`
     ],
-    //methods: 'GET,POST,PUT,DELETE',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
   })
@@ -84,7 +88,10 @@ app.get('/rooms', (req, res) => {
   res.send(roomsList);
 });
 
-server.listen(process.env.SERVER_PORT, () => {
-  console.log('Server is running on port ' + process.env.SERVER_PORT);
+server.listen(process.env.REACT_APP_BACKEND_PORT, () => {
+  console.log(
+    'BACKEND IS READY: server is running on port ' +
+      process.env.REACT_APP_BACKEND_PORT
+  );
   connectToDatabase();
 });

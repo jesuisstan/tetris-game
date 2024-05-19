@@ -10,17 +10,17 @@
     "rimraf": "^5.0.5"
   },
   "scripts": {
+    "postinstall": "npm install -g rimraf",
     "copy-env:backend": "node -e \"require('fs').copyFileSync('.env', 'backend/.env')\"",
     "copy-env:frontend": "node -e \"require('fs').copyFileSync('.env', 'frontend/.env')\"",
-    "start:backend": "npm run copy-env:backend && cd backend && npm install && npm start",
-    "start:frontend": "npm run copy-env:frontend && cd frontend && npm install && npm start",
-    "start": "concurrently -n 'backend,frontend' -c 'blue,magenta' \"npm run start:backend\" \"npm run start:frontend\"",
-    "clean:backend": "rimraf ./backend/node_modules && rimraf ./backend/package-lock.json && rimraf ./backend/.env",
-    "clean:frontend": "rimraf ./frontend/node_modules && rimraf ./frontend/package-lock.json && rimraf ./frontend/.env && rimraf ./frontend/coverage",
-    "postinstall": "npm install -g rimraf",
-    "clean:all": "rimraf node_modules && rimraf package-lock.json && npm run clean:backend && npm run clean:frontend",
     "install:all": "npm install && npm run copy-env:backend && npm run copy-env:frontend && cd backend && npm install && cd ../frontend && npm install",
-    "start:all": "concurrently -n 'backend,frontend' -c 'blue,magenta' \"cd backend && npm start\" \"cd frontend && npm start\"",
+    "clean:backend": "rimraf ./backend/node_modules && rimraf ./backend/package-lock.json && rimraf ./backend/.env",
+    "clean:frontend": "rimraf ./frontend/node_modules && rimraf ./frontend/package-lock.json && rimraf ./frontend/.env && rimraf ./frontend/coverage && rimraf ./frontend/build",
+    "clean:all": "rimraf node_modules && rimraf package-lock.json && npm run clean:backend && npm run clean:frontend",
+    "start:backend": "cd backend && npm start",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev": "concurrently -n 'backend,frontend' -c 'blue,magenta' \"npm run start:backend\" \"npm run dev:frontend\"",
+    "start": "concurrently -n 'backend,frontend' -c 'blue,magenta' \"cd backend && npm start\" \"cd frontend && npm run build:serve\"",
     "test": "cd frontend && npm run test",
     "coverage": "cd frontend && npm run coverage"
   }

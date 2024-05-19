@@ -12,9 +12,10 @@ import {
 const manageSocket = (server) => {
   const io = new Server(server, {
     cors: {
-      //origin: [`${process.env.REACT_APP_HOST}:*`, 'localhost:*'],
-      origin: 'http://localhost:4040',
-
+      origin: [
+        `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_FRONTEND_PORT}`,
+        `http://localhost:${process.env.REACT_APP_FRONTEND_PORT}`
+      ],
       methods: ['GET', 'POST', 'PUT', 'DELETE'],
       credentials: true
     },
@@ -94,8 +95,6 @@ const manageSocket = (server) => {
         io.to(socket.id).emit('room_already_exists');
       }
     });
-
-    //setInterval(() => {console.log(roomsList)}, 5000) // todo delete
 
     socket.on('join_room', async (data) => {
       try {
