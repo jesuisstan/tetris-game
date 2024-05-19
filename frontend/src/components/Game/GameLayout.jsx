@@ -68,7 +68,7 @@ const GameLayout = () => {
       checkRoom();
     }
   }, [room, navigate]);
-console.log("loser",losers)// todo delete
+
   // handling chat messaging:
   useEffect(() => {
     const handleNewMessage = (data) => {
@@ -225,18 +225,6 @@ console.log("loser",losers)// todo delete
           callback: null
         })
       );
-      //if (roomData?.state === true) {
-      //  dispatch(
-      //    emitSocketEvent({
-      //      eventName: 'game_over',
-      //      data: {
-      //        roomName: roomData.name,
-      //        roomAdmin: roomData.admin.socketId
-      //      }
-      //    })
-      //  );
-      //}
-      setGameOver(true)
       dispatch(emitSocketEvent({ eventName: 'leave_room', data: null }));
     };
   }, []);
