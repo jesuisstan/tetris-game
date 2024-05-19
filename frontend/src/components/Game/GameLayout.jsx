@@ -266,7 +266,7 @@ const GameLayout = () => {
               )}
               <div className={styles.infoBlock}>
                 {roomData.mode === 'competition' && (
-                  <Messenger messages={messages} />
+                  <Messenger messages={messages} roomData={roomData} />
                 )}
                 <Rules />
               </div>

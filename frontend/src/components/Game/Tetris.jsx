@@ -153,7 +153,7 @@ const Tetris = ({
       </div>
       {roomData.mode === 'competition' && (
         <div className={styles.right}>
-          <Messenger messages={messages} />
+          <Messenger messages={messages} roomData={roomData} />
 
           {Object.keys(othersBoards).length === 0 ? (
             <TetrisLoader text="Loading observation bar..." />

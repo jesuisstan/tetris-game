@@ -20,7 +20,7 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 5px;
-  scroll-behavior: smooth; 
+  scroll-behavior: smooth;
 }
 
 .message {
@@ -33,6 +33,16 @@
   color: var(--TETRIS_WHITE);
 }
 
+.playersInRoom {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 10;
+  border: none;
+  padding: 5px 10px;
+  font-size: x-small;
+}
+
 @keyframes typingAnimation {
   from {
     opacity: 0;
@@ -40,6 +50,8 @@
   }
   to {
     opacity: 1;
-    transform: translateY(0); /* Move the message back to its original position */
+    transform: translateY(
+      0
+    ); /* Move the message back to its original position */
   }
 }

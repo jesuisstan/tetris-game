@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 
 import styles from '../../styles/messenger.module.css';
 
-const Messenger = ({ messages }) => {
+const Messenger = ({ messages, roomData }) => {
   const messagesContainerRef = useRef(null);
 
   useEffect(() => {
@@ -25,17 +25,33 @@ const Messenger = ({ messages }) => {
     }
   };
 
+  const playersStyle = {
+    color:
+      roomData.players === roomData.maxPlayers
+        ? 'var(--TETRIS_GREEN)'
+        : 'inherit'
+  };
+
   return (
-    <div className={styles.wrapper}>
-      <p>Last updates:</p>
-      {messages.length === 0 && <p className={styles.singleMessage}>No news</p>}
-      <ul className={styles.messagesContainer} ref={messagesContainerRef}>
-        {messages.map((messageData, index) => (
-          <li key={index} className={styles.message}>
-            {parseMessage(messageData, index)}
-          </li>
-        ))}
-      </ul>
+    <div style={{ position: 'relative' }}>
+      {' '}
+      {/* This ensures the button can be positioned relative to this container */}
+      <div className={styles.playersInRoom} style={playersStyle}>
+        Players: {roomData.players} / {roomData.maxPlayers}
+      </div>
+      <div className={styles.wrapper}>
+        <p>Last updates:</p>
+        {messages.length === 0 && (
+          <p className={styles.singleMessage}>No news</p>
+        )}
+        <ul className={styles.messagesContainer} ref={messagesContainerRef}>
+          {messages.map((messageData, index) => (
+            <li key={index} className={styles.message}>
+              {parseMessage(messageData, index)}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
