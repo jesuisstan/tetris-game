@@ -98,7 +98,7 @@ npm run dev
 in production mode:
 
 ```sh
-npm run start
+npm start
 ```
 
 ##### 4. Open the App link in browser ([http://localhost:4040](http://localhost:4040) by default).
