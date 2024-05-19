@@ -6,6 +6,11 @@ WORKDIR /app/frontend
 
 # Copy the frontend package.json and package-lock.json
 COPY frontend/package.json ./
+COPY frontend/package-lock.json ./
+COPY frontend/babel.config.js ./
+COPY frontend/jest.config.js ./
+COPY frontend/start-dev.js ./
+COPY frontend/start-build.js ./
 
 # Install frontend dependencies
 RUN npm install
@@ -16,5 +21,5 @@ COPY frontend ./
 # Expose the port for the frontend development server
 EXPOSE 4040
 
-# Start the frontend application in development mode
-CMD ["npm", "start"]
+# Start the frontend application in production mode
+CMD ["npm", "build:serve"]
