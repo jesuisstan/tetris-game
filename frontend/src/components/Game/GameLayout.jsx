@@ -80,6 +80,7 @@ const GameLayout = () => {
         setLosers((prev) => [...prev, data.nickname]);
       }
       if (data.type === 'winner') {
+        setPending(true);
         if (data.nickname === nickname) setShowConfetti(true);
       }
     };

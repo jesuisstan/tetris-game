@@ -153,7 +153,6 @@ const JoinRoomBlock = () => {
       listenSocketEvent({
         eventName: 'update_rooms',
         callback: (data) => {
-          console.log('data', data);
           const roomsData = data?.roomsList?.map((item) =>
             createData(
               item.name,
@@ -165,7 +164,7 @@ const JoinRoomBlock = () => {
               item.state
             )
           );
-          console.log('roomsData', roomsData);
+
           // Reverse the roomsData array before setting it to state
           setRoomsList(roomsData?.reverse() || []);
         }
