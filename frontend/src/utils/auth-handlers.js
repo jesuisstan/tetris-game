@@ -17,9 +17,12 @@ export const getCookieValue = (name) => {
 
 export const getUserData = async () => {
   try {
-    const response = await axios.get(`/api/users/getuser`, {
-      withCredentials: true
-    });
+    const response = await axios.get(
+      `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_BACKEND_PORT}/api/users/getuser`,
+      {
+        withCredentials: true
+      }
+    );
     return response.data;
   } catch (error) {
     if (error.response && error.response.status !== 401) {
@@ -30,9 +33,12 @@ export const getUserData = async () => {
 
 export const logout = async () => {
   try {
-    await axios.get(`/api/auth/logout`, {
-      withCredentials: true
-    });
+    await axios.get(
+      `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_BACKEND_PORT}/api/auth/logout`,
+      {
+        withCredentials: true
+      }
+    );
     return initialUserState;
   } catch (error) {
     errorAlert('Something went wrong while logging out');

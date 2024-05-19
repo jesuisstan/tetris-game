@@ -2,7 +2,6 @@
   "name": "red-tetris",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:4444",
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
@@ -34,7 +33,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "cross-env PORT=4040 react-scripts start",
+    "dev": "cross-env PORT=4040 react-scripts start",
     "build": "react-scripts build",
     "build:serve": "react-scripts build && serve -s build -l 4040",
     "test": "jest",

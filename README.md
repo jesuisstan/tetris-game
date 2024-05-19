@@ -67,14 +67,7 @@ npm install -g npm@latest
 
 ##### 2. Adjust .env file if you need other HOST, PORT, MONGO variables.
 
-##### 3. Adjust "proxy" line in frontend/package.json file so that it points to your Server (to avoid CORS errors)
-
-For example:
-
-- "proxy": "http://backend:4444" (if you use docker compose to run the App)
-- "proxy": "http://localhost:4444" (if you use npm)
-
-##### 4. Run the App:
+##### 3. Run the App:
 
 a) with Docker:
 
@@ -88,7 +81,7 @@ OR
 
 b) with NPM:
 
-- install all the application dependencies according to 'package.json' file from the root dir:
+- install all the application dependencies according to 'package.json' files from the root, /frontend & /backend dirs:
 
 ```sh
 npm run install:all
@@ -96,13 +89,21 @@ npm run install:all
 
 - Start Tetris App:
 
+in development mode:
+
 ```sh
-npm run start:all
+npm run dev
 ```
 
-##### 5. Open the App link in browser ([http://localhost:4040](http://localhost:4040) by default).
+in production mode:
 
-##### 6. Additional commands:
+```sh
+npm run start
+```
+
+##### 4. Open the App link in browser ([http://localhost:4040](http://localhost:4040) by default).
+
+##### 5. Additional commands:
 
 - to list all Docker container:
 

@@ -12,7 +12,7 @@ import { errorAlert, saveAlert } from '../../utils/alerts';
 import * as MUI from '../../styles/MUIstyles';
 import styles from '../../styles/login.module.css';
 
-const baseUrl = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_FRONTEND_PORT}`;
+const baseUrl = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_BACKEND_PORT}`;
 
 const SignUpModal = ({ open, setOpen }) => {
   const navigate = useNavigate();
@@ -153,7 +153,7 @@ const SignUpModal = ({ open, setOpen }) => {
                   name: 'password',
                   type: 'password',
                   placeholder: 'Password',
-                  errorMessage: '3-20 chars, 1 letter, 1 number, 1 symbol',
+                  errorMessage: '3-20: 1 letter, 1 number, 1 symbol',
                   label: 'Password',
                   pattern: `^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{3,20}$`,
                   required: true

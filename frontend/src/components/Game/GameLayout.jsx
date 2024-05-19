@@ -228,15 +228,17 @@ const GameLayout = () => {
   }, []);
 
   const handleLeave = () => {
-    dispatch(
-      emitSocketEvent({
-        eventName: 'game_over',
-        data: {
-          roomName: roomData.name,
-          roomAdmin: roomData.admin.socketId
-        }
-      })
-    );
+    if (roomData?.state === true) {
+      dispatch(
+        emitSocketEvent({
+          eventName: 'game_over',
+          data: {
+            roomName: roomData.name,
+            roomAdmin: roomData.admin.socketId
+          }
+        })
+      );
+    }
     navigate('/lobby');
   };
 
