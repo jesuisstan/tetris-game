@@ -68,12 +68,15 @@ const GameLayout = () => {
       checkRoom();
     }
   }, [room, navigate]);
-
+console.log("loser",losers)// todo delete
   // handling chat messaging:
   useEffect(() => {
     const handleNewMessage = (data) => {
       setMessages((prevMessages) => [...prevMessages, data]);
       if (data.type === 'gameOver') {
+        setLosers((prev) => [...prev, data.nickname]);
+      }
+      if (data.type === 'leave') {
         setLosers((prev) => [...prev, data.nickname]);
       }
       if (data.type === 'winner') {
@@ -222,8 +225,19 @@ const GameLayout = () => {
           callback: null
         })
       );
+      //if (roomData?.state === true) {
+      //  dispatch(
+      //    emitSocketEvent({
+      //      eventName: 'game_over',
+      //      data: {
+      //        roomName: roomData.name,
+      //        roomAdmin: roomData.admin.socketId
+      //      }
+      //    })
+      //  );
+      //}
+      setGameOver(true)
       dispatch(emitSocketEvent({ eventName: 'leave_room', data: null }));
-      console.log("emitEvent('leave_room', null) on UNMOUNT"); // todo delete
     };
   }, []);
 
