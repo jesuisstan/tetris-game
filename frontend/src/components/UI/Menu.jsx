@@ -1,6 +1,10 @@
-import { NavLink, useNavigate } from 'react-router-dom';
-import Avatar from '@mui/material/Avatar';
 import { useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { emitSocketEvent } from '../../store/socket-slice';
+
+import Avatar from '@mui/material/Avatar';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import IconButton from '@mui/material/IconButton';
 import MenuDrawer from './MenuDrawer';
@@ -10,7 +14,6 @@ import MenuUI from '@mui/material/Menu';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import * as utils from '../../utils/auth-handlers';
-import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../../store/user-slice';
 import Divider from '@mui/material/Divider';
 
@@ -21,7 +24,6 @@ const Menu = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const isSmallScreen = useMediaQuery('(max-width:600px)');
-  //const isUltraSmallScreen = useMediaQuery('(max-width:350px)');
   const [menuDrawerOpen, setMenuDrawerOpen] = useState(false);
   const [anchorElUser, setAnchorElUser] = useState(null);
 
@@ -38,6 +40,7 @@ const Menu = () => {
   const authenticate = async () => {
     if (user._id) {
       const userData = await utils.logout();
+      dispatch(emitSocketEvent({ eventName: 'logout' }));
       dispatch(setUser(userData));
       navigate('/');
     } else {

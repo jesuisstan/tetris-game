@@ -33,7 +33,6 @@ const manageSocket = (server) => {
       socket.sendBuffer = [];
       console.log('A new client connected. Socket id:', socket.id);
     } catch (error) {
-      // Catch and log any errors that might occur during initialization:
       console.error(error.message);
     }
 
@@ -54,6 +53,22 @@ const manageSocket = (server) => {
         })
         .catch((error) => {
           console.error('Error handling disconnect:', error);
+        });
+    });
+
+    socket.on('logout', () => {
+      gameTetris
+        .handleLeavingRoom(io, socket, playersList, roomsList)
+        .then((res) => {
+          if (res.status) {
+            playersList.erasePlayer(res.playerOnSocket);
+            console.log(
+              `${res.playerOnSocket?.nickname} (socket ${res.playerOnSocket?.socketId}) logged out.`
+            );
+          }
+        })
+        .catch((error) => {
+          console.error('Error handling player logout:', error);
         });
     });
 

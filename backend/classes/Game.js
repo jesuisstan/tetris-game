@@ -92,11 +92,6 @@ class Game {
 
   // Create a new room:
   handleCreatingRoom = async (io, socket, playersList, roomName) => {
-    console.log(
-      'rooms on socket handleCreatingRoom START case',
-      io.sockets.adapter.rooms
-    ); // todo delete
-
     try {
       const players = playersList.filter((p) => p.socketId === socket.id);
       players[0]?.setAdminStatus(true);
@@ -113,10 +108,6 @@ class Game {
 
       await this.sendMessageToRoom(io, messageData);
       this.sendRoomPlayersList(io, roomName, playersList);
-      console.log(
-        'rooms on socket handleCreatingRoom END case',
-        io.sockets.adapter.rooms
-      ); // todo delete
       return;
     } catch (error) {
       throw error;
@@ -212,7 +203,7 @@ class Game {
       const roomToLeave = roomsList.getRoomByName(roomToLeaveName);
       const isAdmin = playerOnSocket?.socketId === roomToLeave?.admin.socketId;
 
-      if (!roomToLeave) return { status: false, error: "Room doesn't exist" };
+      if (!roomToLeave) return { status: true, playerOnSocket, roomsList };
 
       if (roomToLeave) {
         socket.leave(roomToLeaveName);
@@ -299,8 +290,6 @@ class Game {
           roomsList.sendRoomsList(io);
           io.to(roomToLeaveName).emit('update_room_data', roomToLeave);
         } else if (isAdmin && playersInRoom.length >= 1 && !roomToLeave.state) {
-          console.log('LEAVE: admin, NOT playing, length >=1'); // todo delete
-
           playersInRoom[0].setAdminStatus(true);
           roomToLeave.admin.nickname = playersInRoom[0].nickname;
           roomToLeave.admin.socketId = playersInRoom[0].socketId;
