@@ -39,7 +39,7 @@ export const congratsAlert = () => {
     title:
       '<div style="text-align: center; font-size: 12vw;">Y O U &nbsp;&nbsp; W I N</div>',
     showConfirmButton: false,
-    timer: 3000,
+    timer: 2000,
     showClass: {
       popup: 'swal2-show',
       backdrop: 'none'

@@ -5,6 +5,7 @@ module.exports = {
   collectCoverageFrom: [
     'src/components/**/*.{js,jsx}',  // Specify folders and file types to collect coverage from
     'src/utils/**/*.{js,jsx}',
+    '!**/node_modules/**', // Exclude node_modules
     '!src/components/**/*.test.{js,jsx}',  // Exclude test files from coverage
     '!src/utils/**/*.test.{js,jsx}',
   ],

@@ -81,14 +81,13 @@ app.use((err, req, res, next) => {
 
 // Set up socket connection
 const server = http.createServer(app);
-//server.keepAliveTimeout = 1000
 manageSocket(server);
 
 app.get('/rooms', (req, res) => {
   res.send(roomsList);
 });
 
-server.listen(process.env.REACT_APP_BACKEND_PORT, () => {
+server.listen(process.env.REACT_APP_BACKEND_PORT || 4444, () => {
   console.log(
     'BACKEND IS READY: server is running on port ' +
       process.env.REACT_APP_BACKEND_PORT

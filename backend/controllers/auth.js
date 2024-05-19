@@ -32,7 +32,6 @@ export const signup = async (req, res, next) => {
 
 export const signin = async (req, res, next) => {
   try {
-    console.log("LOLOLOLOLOL");
     const user = await User.findOne({ email: req.body.email });
 
     if (!user) return next(createError(451, 'User not found!'));
