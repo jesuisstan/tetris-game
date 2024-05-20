@@ -110,7 +110,6 @@ export const transferToBoard = ({
         const occupied = isOccupied;
         const _y = y + position.row;
         const _x = x + position.column;
-        //rows[_y][_x] = { occupied, className };
         if (rows.length > _y && rows[_y]) {
           rows[_y][_x] = { occupied, className };
         }

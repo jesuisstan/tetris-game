@@ -35,7 +35,6 @@ const Tetris = ({
   const dispatch = useDispatch();
   const [othersBoards, setOthersBoards] = useState({});
   const [penaltyRows, setPenaltyRows] = useState(0);
-
   const [gameStats, addLinesCleared] = useGameStats(
     roomData.mode,
     roomData.name
@@ -155,33 +154,34 @@ const Tetris = ({
         <div className={styles.right}>
           <Messenger messages={messages} roomData={roomData} />
 
-          {Object.keys(othersBoards).length === 0 ? (
-            <TetrisLoader text="Loading observation bar..." />
-          ) : (
-            <div className={styles.observation}>
-              <p>Observation:</p>
-              <div className={styles.others}>
-                {Object.entries(othersBoards).map(([playerName, board]) => (
-                  <div key={playerName}>
-                    <p
-                      style={{
-                        marginBottom: '7px',
-                        color: 'var(--TETRIS_WHITE)'
-                      }}
-                    >
-                      {playerName}
-                    </p>
-                    <div className={styles.eachOtherBoard}>
-                      <Board
-                        board={board}
-                        gameover={losers?.includes(playerName)}
-                      />
+          {roomData.players > 1 &&
+            (Object.keys(othersBoards).length === 0 ? (
+              <TetrisLoader text="Loading observation bar..." />
+            ) : (
+              <div className={styles.observation}>
+                <p>Observation:</p>
+                <div className={styles.others}>
+                  {Object.entries(othersBoards).map(([playerName, board]) => (
+                    <div key={playerName}>
+                      <p
+                        style={{
+                          marginBottom: '7px',
+                          color: 'var(--TETRIS_WHITE)'
+                        }}
+                      >
+                        {playerName}
+                      </p>
+                      <div className={styles.eachOtherBoard}>
+                        <Board
+                          board={board}
+                          gameover={losers?.includes(playerName)}
+                        />
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            ))}
         </div>
       )}
     </div>

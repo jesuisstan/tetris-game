@@ -23,7 +23,7 @@ const FloatingButton = ({ onClick }) => {
         color="inherit"
         aria-label="edit"
         onClick={onClick}
-        title="Exit the room"
+        title="Leave the room"
       >
         <LogoutIcon />
       </Fab>
