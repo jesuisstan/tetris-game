@@ -61,7 +61,6 @@ const GameController = ({ roomData, board, gameStats, player, setPlayer }) => {
         })
       );
     } else {
-      if (actionIsDrop(action)) pauseDropTime();
       if (!dropTime) {
         return;
       }

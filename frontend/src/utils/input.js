@@ -1,11 +1,11 @@
 export const Action = {
-  Left: "Left",
-  FastDrop: "FastDrop",
-  Exit: "Exit",
-  Quit: "Quit",
-  Right: "Right",
-  Rotate: "Rotate",
-  SlowDrop: "SlowDrop"
+  Left: 'Left',
+  FastDrop: 'FastDrop',
+  Exit: 'Exit',
+  Quit: 'Quit',
+  Right: 'Right',
+  Rotate: 'Rotate',
+  SlowDrop: 'SlowDrop'
 };
 
 export const Key = {
