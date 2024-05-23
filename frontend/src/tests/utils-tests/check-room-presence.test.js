@@ -1,5 +1,12 @@
-import { checkRoomPresence } from '../../utils/check-room-presence';
-import { listenSocketEvent, stopListeningSocketEvent } from '../../store/socket-slice'
+import {
+  checkRoomPresence
+} from '../../utils/check-room-presence';
+import {
+  emitSocketEvent,
+  listenSocketEvent,
+  stopListeningSocketEvent
+} from '../../store/socket-slice';
+import { jest } from '@jest/globals';
 
 jest.useFakeTimers();
 
@@ -11,7 +18,16 @@ describe('checkRoomPresence', () => {
   });
 
   it('should dispatch listenSocketEvent and stopListeningSocketEvent', async () => {
-    const promise = checkRoomPresence()(dispatch);
+    const roomName = 'test-room';
+
+    const promise = checkRoomPresence(roomName, dispatch);
+
+    expect(dispatch).toHaveBeenCalledWith(
+      emitSocketEvent({
+        eventName: 'check_room_presence',
+        data: { roomName }
+      })
+    );
 
     expect(dispatch).toHaveBeenCalledWith(
       listenSocketEvent({
