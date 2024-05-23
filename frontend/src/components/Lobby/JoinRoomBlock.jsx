@@ -206,7 +206,7 @@ const JoinRoomBlock = () => {
                 </TableHead>
                 <TableBody>
                   {roomsList?.length === 0 ? (
-                    <TableRow>
+                    <TableRow data-testid="no-rooms-available">
                       <TableCell colSpan={columns.length} align="center">
                         No rooms available
                       </TableCell>

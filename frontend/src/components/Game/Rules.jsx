@@ -33,7 +33,7 @@ const Rules = () => {
         )}
       </div>
       <div className={`${styles.wrapper} ${hidden ? styles.transparent : ''}`}>
-        <p>Notes*:</p>
+        <p>Notes:</p>
         <ul className={styles.rulesContainer}>
           <li key={1} className={styles.rule}>
             Press ⬅️/⬇️/➡️ to move a tetromino.
@@ -47,14 +47,14 @@ const Rules = () => {
           </li>
           <li key={4} className={styles.rule}>
             Press <span style={{ color: 'var(--TETRIS_GREEN)' }}>Q</span> to
-            quit the game round.
+            quit the game round.*
           </li>
           <li key={5} className={styles.rule}>
             Press <span style={{ color: 'var(--TETRIS_GREEN)' }}>Escape</span>{' '}
-            to leave the room.
+            to leave the room.*
           </li>
           <li key={6} className={styles.rule}>
-            Leave the game page = Leave the room.
+            Leave/refresh the page = Leave the room.
           </li>
         </ul>
         <span className={styles.comment}>* during the game</span>

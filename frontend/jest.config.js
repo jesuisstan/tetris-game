@@ -9,7 +9,11 @@ module.exports = {
   testEnvironment: 'jest-environment-jsdom', // Explicitly specify the environment
   collectCoverage: true,
   collectCoverageFrom: [
-    'src/components/**/*.{js,jsx}', // Specify folders and file types to collect coverage from
+    'src/components/*.{js,jsx}',
+    'src/components/UI/*.{js,jsx}',
+    'src/components/Game/*.{js,jsx}',
+    'src/components/Lobby/Lobby.page.jsx',
+    'src/components/Login/*.{js,jsx}',
     'src/utils/**/*.{js,jsx}',
     'src/hooks/**/*.{js,jsx}',
     'src/store/**/*.{js,jsx}',
