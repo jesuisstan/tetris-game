@@ -119,7 +119,7 @@ const PleaseLogin = () => {
                 justifyContent: 'center'
               }}
             >
-              <form onSubmit={handleLogin} className={styles.formList}>
+              <form onSubmit={handleLogin} className={styles.formList}  data-testid="login-form">
                 <FormInput
                   {...{
                     id: 1,
@@ -133,6 +133,7 @@ const PleaseLogin = () => {
                   }}
                   value={values.email}
                   onChange={onChange}
+                  data-testid="email" 
                 />
                 <FormInput
                   {...{
@@ -147,6 +148,7 @@ const PleaseLogin = () => {
                   }}
                   value={values.password}
                   onChange={onChange}
+                  data-testid="password" 
                 />
                 <LoadingButton
                   type="submit"

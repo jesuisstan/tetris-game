@@ -1,8 +1,6 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import Lobby from '../../components/Lobby/Lobby.page';
-import CreateRoomBlock from '../../components/Lobby/CreateRoomBlock';
-import JoinRoomBlock from '../../components/Lobby/JoinRoomBlock';
 
 jest.mock('../../components/Lobby/CreateRoomBlock', () => () => <div>CreateRoomBlock</div>);
 jest.mock('../../components/Lobby/JoinRoomBlock', () => () => <div>JoinRoomBlock</div>);
