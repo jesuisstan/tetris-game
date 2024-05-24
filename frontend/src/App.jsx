@@ -12,7 +12,7 @@ import {
 import Home from './components/Home.page';
 import NotFound from './components/NotFound.page';
 import Lobby from './components/Lobby/Lobby.page';
-import MainLayout from './components/UI/MainLayout';
+import MainLayout from './components/Layout/MainLayout';
 import PleaseLogin from './components/Login/PleaseLogin';
 import GameLayout from './components/Game/GameLayout';
 import * as authUtils from './utils/auth-handlers';

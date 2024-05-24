@@ -12,8 +12,11 @@ const FormInput = (props) => {
 
   return (
     <div className={styles.formInput}>
-      <label className={styles.label}>{label}:</label>
+      <label htmlFor={id} className={styles.label}>
+        {label}:
+      </label>
       <input
+        id={id}
         {...inputProps}
         onChange={onChange}
         onBlur={handleFocus}

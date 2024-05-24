@@ -40,6 +40,7 @@ const TetrisConfetti = ({ show, setShow }) => {
   return (
     show && (
       <Confetti
+        data-testid="confetti"
         size={8}
         shape="circle"
         colors={[
