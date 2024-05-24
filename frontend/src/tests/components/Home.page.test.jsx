@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import Home from '../../components/Home.page';
+import Home from '../../components/Layout/Home.page';
 import { TETROMINOES } from '../../utils/tetrominoes';
 import Preview from '../../components/Game/Preview';
 

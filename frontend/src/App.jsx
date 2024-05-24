@@ -9,8 +9,8 @@ import {
   closeSocket
 } from './store/socket-slice';
 
-import Home from './components/Home.page';
-import NotFound from './components/NotFound.page';
+import Home from './components/Layout/Home.page';
+import NotFound from './components/Layout/NotFound.page';
 import Lobby from './components/Lobby/Lobby.page';
 import MainLayout from './components/Layout/MainLayout';
 import PleaseLogin from './components/Login/PleaseLogin';

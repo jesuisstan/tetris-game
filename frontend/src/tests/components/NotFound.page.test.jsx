@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import NotFound from '../../components/NotFound.page';
+import NotFound from '../../components/Layout/NotFound.page';
 
 describe('NotFound component', () => {
   it('should render the NotFound component with "404" and "Not Found" text', () => {
