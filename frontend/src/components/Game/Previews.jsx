@@ -16,7 +16,7 @@ const Previews = ({ tetrominoes }) => {
   const previewTetrominoes = tetrominoes.slice(-4, -1).reverse();
 
   return (
-    <div className="previewMain">
+    <div data-testid="preview" className="previewMain">
       <p>Next tetromino:</p>
       {isFirstRender.current ? (
         <div>
@@ -29,7 +29,7 @@ const Previews = ({ tetrominoes }) => {
         </div>
       ) : (
         previewTetrominoes.map((tetromino, index) => (
-          <Preview tetromino={tetromino} index={index} key={index} />
+          <Preview data-testid="preview-single" tetromino={tetromino} index={index} key={index} />
         ))
       )}
     </div>

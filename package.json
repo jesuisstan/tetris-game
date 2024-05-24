@@ -23,6 +23,7 @@
     "dev": "concurrently -n 'backend,frontend' -c 'blue,magenta' \"npm run start:backend\" \"npm run dev:frontend\"",
     "start": "concurrently -n 'backend,frontend' -c 'blue,magenta' \"npm run start:backend\" \"npm run copy-env:frontend && cd frontend && npm run build:serve\"",
     "test": "cd frontend && npm run test",
-    "coverage": "cd frontend && npm run coverage"
+    "coverage": "cd frontend && npm run coverage",
+    "test:clean": "npx rimraf ./frontend/coverage && cd frontend && npm run test"
   }
 }

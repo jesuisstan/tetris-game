@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
-import { buildBoard } from "../../utils/board";
-import { transferToBoard } from "../../utils/tetrominoes";
+import { buildBoard } from '../../utils/board';
+import { transferToBoard } from '../../utils/tetrominoes';
 
-import BoardCell from "./BoardCell";
+import BoardCell from './BoardCell';
 
 import '../../styles/tetris-styles/preview.css';
 

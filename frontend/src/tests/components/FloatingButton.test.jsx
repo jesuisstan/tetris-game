@@ -1,5 +1,5 @@
 import React from 'react';
-import '@testing-library/jest-dom'; // Import jest-dom to use its matchers
+import '@testing-library/jest-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
 import FloatingButton from '../../components/UI/FloatingButton';
 

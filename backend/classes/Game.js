@@ -469,17 +469,6 @@ class Game {
         }
       }
 
-      //// first implementation:
-      //const socketIds = Array.from(
-      //  io.sockets.adapter.rooms.get(roomName) || []
-      //);
-
-      //socketIds.forEach((socketId) => {
-      //  if (socketId !== exceptSocketId) {
-      //    io.to(socketId).emit('board_from_back', { board, playerName });
-      //  }
-      //});
-
       resolve(true);
     });
   };
