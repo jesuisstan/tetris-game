@@ -16,7 +16,10 @@ const Previews = ({ tetrominoes }) => {
   const previewTetrominoes = tetrominoes.slice(-4, -1).reverse();
 
   return (
-    <div data-testid="preview" className="previewMain">
+    <div
+      data-testid="preview"
+      className={`previewMain ${!isFirstRender.current ? 'overflow' : ''}`}
+    >
       <p>Next tetromino:</p>
       {isFirstRender.current ? (
         <div>
@@ -29,7 +32,14 @@ const Previews = ({ tetrominoes }) => {
         </div>
       ) : (
         previewTetrominoes.map((tetromino, index) => (
-          <Preview data-testid="preview-single" tetromino={tetromino} index={index} key={index} />
+          <div className="previewAnimated">
+            <Preview
+              data-testid="preview-single"
+              tetromino={tetromino}
+              index={index}
+              key={index}
+            />
+          </div>
         ))
       )}
     </div>
