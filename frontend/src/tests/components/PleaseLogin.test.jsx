@@ -7,12 +7,12 @@ import {
   waitFor,
   act
 } from '@testing-library/react';
-import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import PleaseLogin from '../../components/Login/PleaseLogin';
 import userSlice from '../../store/user-slice';
 import socketSlice from '../../store/socket-slice';
+import PleaseLogin from '../../components/Login/PleaseLogin';
 import axios from 'axios';
 
 // Mock the socket.io-client module

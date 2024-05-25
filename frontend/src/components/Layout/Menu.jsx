@@ -99,12 +99,6 @@ const Menu = () => {
 
           <MenuUI
             sx={{ mt: '42px' }}
-            PaperProps={{
-              style: {
-                backgroundColor: 'var(--TETRIS_WHITE)',
-                opacity: '0.95'
-              }
-            }}
             id="menu-appbar"
             anchorEl={anchorElUser}
             anchorOrigin={{
