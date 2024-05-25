@@ -32,12 +32,11 @@ const Previews = ({ tetrominoes }) => {
         </div>
       ) : (
         previewTetrominoes.map((tetromino, index) => (
-          <div className="previewAnimated">
+          <div className="previewAnimated" key={index}>
             <Preview
               data-testid="preview-single"
               tetromino={tetromino}
               index={index}
-              key={index}
             />
           </div>
         ))
