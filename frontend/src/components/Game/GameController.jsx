@@ -82,6 +82,7 @@ const GameController = ({ roomData, board, gameStats, player, setPlayer }) => {
   return (
     <div>
       <input
+        data-testid="game-controller"
         ref={inputRef}
         className="GameController"
         type="text"
