@@ -25,5 +25,8 @@ module.exports = {
   ],
   coverageDirectory: 'coverage', // Output directory for coverage reports
   coverageReporters: ['html', 'text'], // Formats for the coverage reports
-  setupFiles: ['jest-canvas-mock'] // jest-canvas-mock setup
+  setupFiles: ['jest-canvas-mock'], // jest-canvas-mock setup
+  fakeTimers: {
+    enableGlobally: true
+  }
 };

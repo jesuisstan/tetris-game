@@ -1,6 +1,8 @@
 import { act, renderHook } from '@testing-library/react';
 import { useBoard } from '../../hooks/useBoard';
 
+jest.useFakeTimers();
+
 describe('useBoard hook', () => {
   test('should initialize board state correctly', async () => {
     const rows = 20;
@@ -17,13 +19,13 @@ describe('useBoard hook', () => {
         player,
         resetPlayer,
         addLinesCleared,
-        penaltyRows,
+        penaltyRows
       })
     );
 
-    // Wait for the next render cycle
-    await act(async () => {
-      await new Promise((resolve) => setTimeout(resolve, 0));
+    // Fast forward the timer to ensure loading state is false
+    act(() => {
+      jest.advanceTimersByTime(1000);
     });
 
     const [board] = result.current;

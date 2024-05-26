@@ -83,7 +83,14 @@ describe('Tetris Component', () => {
         <Router>
           <Tetris
             nickname={'nickname'}
-            roomData={{ mode: 'competition', name: 'testRoom' }}
+            roomData={{
+              mode: 'competition',
+              name: 'testRoom',
+              players: 1,
+              maxPlayers: 3,
+              state: false,
+              admin: { socketId: 'Jq1PN2NwNOqKHnZ5AAAF', nickname: 'acaren' }
+            }}
             rows={20}
             columns={10}
             gameOver={false}
@@ -112,7 +119,14 @@ describe('Tetris Component', () => {
         <Router>
           <Tetris
             nickname={'nickname'}
-            roomData={{ mode: 'competition', name: 'testRoom', players: 1 }}
+            roomData={{
+              mode: 'competition',
+              name: 'testRoom',
+              players: 1,
+              maxPlayers: 3,
+              state: false,
+              admin: { socketId: 'Jq1PN2NwNOqKHnZ5AAAF', nickname: 'acaren' }
+            }}
             rows={20}
             columns={10}
             gameOver={false}
