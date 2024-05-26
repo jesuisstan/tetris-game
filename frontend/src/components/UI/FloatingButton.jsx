@@ -5,6 +5,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 const FloatingButton = ({ onClick }) => {
   return (
     <Box
+      data-testid="floating-button"
       sx={{
         position: 'fixed',
         bottom: '42px',
