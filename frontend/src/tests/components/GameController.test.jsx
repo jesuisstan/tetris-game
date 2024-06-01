@@ -6,7 +6,6 @@ import { MemoryRouter } from 'react-router-dom';
 import { configureStore } from '@reduxjs/toolkit';
 import GameController from '../../components/Game/GameController';
 import socketSlice, { emitSocketEvent } from '../../store/socket-slice';
-import { Action } from '../../utils/input';
 
 // Mock dependencies
 const mockDispatch = jest.fn();
@@ -81,7 +80,7 @@ describe('GameController Component', () => {
     const player = { position: { row: 0, col: 0 } }; // Provide a valid player position
     const setPlayer = jest.fn();
 
-    const { getByTestId } = render(
+    render(
       <Provider store={store}>
         <MemoryRouter>
           <GameController
@@ -96,7 +95,7 @@ describe('GameController Component', () => {
     );
 
     // Ensure the input is focused to receive the keydown event
-    const inputElement = getByTestId('game-controller');
+    const inputElement = screen.getByTestId('game-controller');
     inputElement.focus();
 
     // Simulate key press event with Q key code
@@ -109,8 +108,8 @@ describe('GameController Component', () => {
           eventName: 'game_over',
           data: {
             roomName: roomData.name,
-            roomAdmin: roomData.admin.socketId,
-          },
+            roomAdmin: roomData.admin.socketId
+          }
         })
       )
     );
@@ -124,7 +123,7 @@ describe('GameController Component', () => {
     const setPlayer = jest.fn();
     const dropTime = 1000; // Ensure dropTime is set
 
-    const { getByTestId } = render(
+    render(
       <Provider store={store}>
         <MemoryRouter>
           <GameController
@@ -139,7 +138,7 @@ describe('GameController Component', () => {
     );
 
     // Ensure the input is focused to receive the keydown event
-    const inputElement = getByTestId('game-controller');
+    const inputElement = screen.getByTestId('game-controller');
     inputElement.focus();
 
     // Simulate key press event with a key code that corresponds to a general action
