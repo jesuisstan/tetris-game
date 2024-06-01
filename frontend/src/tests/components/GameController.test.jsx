@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import { configureStore } from '@reduxjs/toolkit';
 import GameController from '../../components/Game/GameController';
-import socketSlice from '../../store/socket-slice';
+import socketSlice, { emitSocketEvent } from '../../store/socket-slice';
 
 // Mock dependencies
 const mockDispatch = jest.fn();
@@ -71,5 +71,47 @@ describe('GameController Component', () => {
     // Assertions
     await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith('/lobby'));
     expect(mockNavigate).toHaveBeenCalledWith('/lobby');
+  });
+
+  test('dispatches game_over event on Quit action', async () => {
+    const gameStats = { level: 1 }; // Define gameStats object with necessary properties
+    const roomData = { name: 'testRoom', admin: { socketId: 'adminId' } }; // Provide necessary roomData
+    const board = {}; // Define board object as needed
+    const player = { position: { row: 0, col: 0 } }; // Provide a valid player position
+    const setPlayer = jest.fn();
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <GameController
+            roomData={roomData}
+            board={board}
+            gameStats={gameStats}
+            player={player}
+            setPlayer={setPlayer}
+          />
+        </MemoryRouter>
+      </Provider>
+    );
+
+    // Ensure the input is focused to receive the keydown event
+    const inputElement = getByTestId('game-controller');
+    inputElement.focus();
+
+    // Simulate key press event with Q key code
+    fireEvent.keyDown(inputElement, { code: 'KeyQ' });
+
+    // Assertions
+    await waitFor(() =>
+      expect(mockDispatch).toHaveBeenCalledWith(
+        emitSocketEvent({
+          eventName: 'game_over',
+          data: {
+            roomName: roomData.name,
+            roomAdmin: roomData.admin.socketId,
+          },
+        })
+      )
+    );
   });
 });
