@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react';
+import { act, renderHook } from '@testing-library/react';
 import { useGameStats } from '../../hooks/useGameStats';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
@@ -79,6 +79,39 @@ describe('useGameStats hook', () => {
       linesCompleted: 0,
       linesPerLevel: 10,
       points: 0
+    });
+  });
+
+  test('should update game stats correctly', () => {
+    const mockDispatch = jest.fn();
+
+    // Mock the useDispatch hook to return the mockDispatch function
+    require('react-redux').useDispatch.mockReturnValue(mockDispatch);
+
+    const { result } = renderHook(
+      () => useGameStats('competition', 'testRoom'),
+      {
+        wrapper: ({ children }) => (
+          <Provider store={store}>{children}</Provider> // Wrap with Provider
+        )
+      }
+    );
+
+    // Destructure addLinesCleared function from the result
+    const [, addLinesCleared] = result.current;
+
+    // Call addLinesCleared function
+    act(() => {
+      addLinesCleared(2); // Simulate clearing 2 lines
+    });
+
+    // Ensure game stats are updated correctly
+    const [gameStats] = result.current;
+    expect(gameStats).toEqual({
+      level: 1,
+      linesCompleted: 2,
+      linesPerLevel: 10,
+      points: 200
     });
   });
 });

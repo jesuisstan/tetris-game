@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render, act, waitFor, screen } from '@testing-library/react';
+import { render, act, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import GameLayout from '../../components/Game/GameLayout';
 import { BrowserRouter as Router } from 'react-router-dom';
@@ -8,7 +8,6 @@ import userSlice from '../../store/user-slice';
 import socketSlice from '../../store/socket-slice';
 import {
   emitSocketEvent,
-  listenSocketEvent,
   stopListeningSocketEvent
 } from '../../store/socket-slice';
 import { checkRoomPresence } from '../../utils/check-room-presence';
@@ -25,31 +24,22 @@ jest.mock('socket.io-client', () => {
     io: jest.fn()
   };
 });
-
-// Mock modules and components
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useNavigate: jest.fn()
 }));
-
 jest.mock('react-redux', () => ({
   ...jest.requireActual('react-redux'),
   useDispatch: jest.fn(),
   useSelector: jest.fn()
 }));
-
 jest.mock('../../components/UI/TetrisLoader', () => () => (
   <div>TetrisLoader</div>
 ));
-//jest.mock('../../components/UI/FloatingButton', () => () => (
-//  <div>FloatingButton</div>
-//));
 jest.mock('../../components/UI/TetrisConfetti', () => () => (
   <div>TetrisConfetti</div>
 ));
-
 jest.mock('../../utils/check-room-presence');
-
 jest.mock('../../utils/alerts', () => ({
   errorAlert: jest.fn()
 }));
