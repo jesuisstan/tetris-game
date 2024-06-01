@@ -62,7 +62,8 @@ const Tetris = ({
             data: {
               board,
               roomName: roomData.name,
-              nickname
+              nickname,
+              points: gameStats?.points
             }
           })
         );
@@ -74,7 +75,7 @@ const Tetris = ({
     const handleGetBoard = (data) => {
       setOthersBoards((prevBoards) => ({
         ...prevBoards,
-        [data.playerName]: data.board
+        [data.playerName]: { board: data.board, points: data.points ?? 0 }
       }));
     };
 
@@ -161,24 +162,34 @@ const Tetris = ({
               <div className={styles.observation}>
                 <p>Observation:</p>
                 <div className={styles.others}>
-                  {Object.entries(othersBoards).map(([playerName, board]) => (
-                    <div key={playerName}>
-                      <p
-                        style={{
-                          marginBottom: '7px',
-                          color: 'var(--TETRIS_WHITE)'
-                        }}
-                      >
-                        {playerName}
-                      </p>
-                      <div className={styles.eachOtherBoard}>
-                        <Board
-                          board={board}
-                          gameover={losers?.includes(playerName)}
-                        />
+                  {Object.entries(othersBoards).map(
+                    ([playerName, { board, points }]) => (
+                      <div key={playerName}>
+                        <p
+                          style={{
+                            marginBottom: '7px',
+                            color: 'var(--TETRIS_WHITE)'
+                          }}
+                        >
+                          {playerName}
+                        </p>
+                        <p
+                          style={{
+                            marginBottom: '7px',
+                            color: 'var(--TETRIS_WHITE)'
+                          }}
+                        >
+                          {points}
+                        </p>
+                        <div className={styles.eachOtherBoard}>
+                          <Board
+                            board={board}
+                            gameover={losers?.includes(playerName)}
+                          />
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    )
+                  )}
                 </div>
               </div>
             ))}

@@ -45,7 +45,7 @@ const GameController = ({ roomData, board, gameStats, player, setPlayer }) => {
           eventName: 'game_over',
           data: {
             roomName: roomData.name,
-            roomAdmin: roomData.admin.socketId
+            roomAdmin: roomData.admin.socketId,
           }
         })
       );
@@ -56,7 +56,7 @@ const GameController = ({ roomData, board, gameStats, player, setPlayer }) => {
           eventName: 'game_over',
           data: {
             roomName: roomData.name,
-            roomAdmin: roomData.admin.socketId
+            roomAdmin: roomData.admin.socketId,
           }
         })
       );
@@ -75,7 +75,7 @@ const GameController = ({ roomData, board, gameStats, player, setPlayer }) => {
       board,
       player,
       setPlayer,
-      roomData
+      roomData,
     });
   };
 

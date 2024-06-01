@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render, act, renderHook, screen } from '@testing-library/react';
+import { render, act, waitFor, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import GameLayout from '../../components/Game/GameLayout';
 import { BrowserRouter as Router } from 'react-router-dom';
@@ -219,21 +219,75 @@ describe('GameLayout', () => {
     expect(mockNavigate).not.toHaveBeenCalled(); // Ensure mockNavigate is not called
   });
 
-  //test('shows error if player_name does not match nickname', async () => {
-  //  const mockParams = { room: 'test-room', player_name: 'other-player' }; // Mocked params to match nickname
+  //test('renders MagicButton when socketId matches admin socketId', async () => {
+  //  // Mock initial state with socketId matching admin socketId
+  //  const initialStateWithAdminSocketId = {
+  //    ...initialState,
+  //    socket: {
+  //      socket: { emit: jest.fn(), id: 'admin-socket-id' } // Mock admin socketId
+  //    },
+  //    socket: {
+  //      socket: { id: 'admin-socket-id' } // Set socketId to match admin socketId
+  //    },
+  //    user: {
+  //      user: 'test-player'
+  //    }
+  //  };
 
-  //  checkRoomPresence.mockResolvedValue({ presence: false }); // Mock room presence check
+  //  const storeWithAdminSocketId = configureStore({
+  //    reducer: {
+  //      user: userSlice,
+  //      socket: socketSlice
+  //    },
+  //    preloadedState: initialStateWithAdminSocketId
+  //  });
 
-  //  const { container } = render(
-  //    <Provider store={store}>
+  //  render(
+  //    <Provider store={storeWithAdminSocketId}>
   //      <Router>
   //        <GameLayout />
   //      </Router>
   //    </Provider>
   //  );
 
-  //  //expect(errorAlert).toHaveBeenCalled(); // Ensure errorAlert is called
-  //  expect(mockNavigate).toHaveBeenCalled(); // Ensure mockNavigate is called
+  //  // Wait for the MagicButton to appear
+  //  await waitFor(() => {
+  //    expect(screen.getByText('Start')).toBeInTheDocument();
+  //  });
+  //});
+
+  //test('renders TetrisLoader when socketId does not match admin socketId', () => {
+  //  // Mock initial state with socketId not matching admin socketId
+  //  const initialStateWithoutAdminSocketId = {
+  //    ...initialState,
+  //    socket: {
+  //      socket: { emit: jest.fn(), id: 'user-socket-id' } // Mock user socketId
+  //    },
+  //    socket: {
+  //      socket: { id: 'user-socket-id' } // Set socketId to not match admin socketId
+  //    },
+  //    user: {
+  //      user: 'test-player'
+  //    }
+  //  };
+
+  //  const storeWithoutAdminSocketId = configureStore({
+  //    reducer: {
+  //      user: userSlice,
+  //      socket: socketSlice
+  //    },
+  //    preloadedState: initialStateWithoutAdminSocketId
+  //  });
+
+  //  render(
+  //    <Provider store={storeWithoutAdminSocketId}>
+  //      <Router>
+  //        <GameLayout />
+  //      </Router>
+  //    </Provider>
+  //  );
+
+  //  // Ensure TetrisLoader is rendered
+  //  expect(screen.getByText('Awaiting the start')).toBeInTheDocument();
   //});
 });
-

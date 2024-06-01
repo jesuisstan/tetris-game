@@ -457,14 +457,18 @@ class Game {
     }
   };
 
-  sendBoard = (io, exceptSocketId, roomName, board, playerName) => {
+  sendBoard = (io, exceptSocketId, roomName, board, playerName, points) => {
     return new Promise((resolve, reject) => {
       const room = io.sockets.adapter.rooms.get(roomName);
 
       if (room) {
         for (const socketId of room) {
           if (socketId !== exceptSocketId) {
-            io.to(socketId).emit('board_from_back', { board, playerName });
+            io.to(socketId).emit('board_from_back', {
+              board,
+              playerName,
+              points
+            });
           }
         }
       }

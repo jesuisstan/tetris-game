@@ -33,11 +33,6 @@
   font-size: x-small;
 }
 
-.transparent {
-  opacity: 0.3;
-  transition: opacity 0.3s ease;
-}
-
 .hideButton {
   position: absolute;
   top: 5px;

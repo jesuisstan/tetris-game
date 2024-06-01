@@ -157,13 +157,14 @@ const manageSocket = (server) => {
 
     socket.on('board_from_front', (data) => {
       const player = playersList.find((p) => p.socketId === socket.id);
-      if (player && player.room === data.roomName)
+      if (player && player.room === data?.roomName)
         gameTetris.sendBoard(
           io,
           socket.id,
-          data.roomName,
-          data.board,
-          data.nickname
+          data?.roomName,
+          data?.board,
+          data?.nickname,
+          data?.points
         );
     });
 
@@ -172,6 +173,7 @@ const manageSocket = (server) => {
     });
 
     socket.on('game_over', async (data) => {
+      console.log('Game over:', data); // todo delete
       try {
         await gameTetris.handleGameOver(
           io,

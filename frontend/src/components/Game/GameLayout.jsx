@@ -35,7 +35,6 @@ const GameLayout = () => {
   const [messages, setMessages] = useState([]);
   const [losers, setLosers] = useState([]);
   const [gameOver, setGameOver, resetGameOver] = useGameOver();
-
   const [tetrominoes, setTetrominoes] = useState([]);
   const popTetromino = () => tetrominoes.pop();
 
@@ -269,7 +268,7 @@ const GameLayout = () => {
               )}
               <div className={styles.infoBlock}>
                 {roomData.mode === 'competition' && (
-                  <Messenger messages={messages} roomData={roomData} />
+                  <Messenger messages={messages} roomData={roomData} hidable />
                 )}
                 <Rules />
               </div>

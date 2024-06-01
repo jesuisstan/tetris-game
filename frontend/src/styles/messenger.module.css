@@ -9,6 +9,8 @@
   text-align: left;
   gap: 21px;
   background: var(--TETRIS_BLACK_TRANS);
+  opacity: 1; /* Default state */
+  transition: opacity 0.5s ease-in-out;
 }
 
 .messagesContainer {
@@ -35,12 +37,14 @@
 
 .playersInRoom {
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: 10px;
+  right: 45px;
   z-index: 10;
   border: none;
   padding: 5px 10px;
   font-size: x-small;
+  opacity: 1; /* Default state */
+  transition: opacity 0.5s ease-in-out;
 }
 
 @keyframes typingAnimation {
@@ -54,4 +58,25 @@
       0
     ); /* Move the message back to its original position */
   }
+}
+
+.hideButton {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 10;
+
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: transform 1s ease-in-out;
+}
+
+.hideButtonMoved {
+  transform: translate(-465px);
+}
+
+.transparent {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
 }

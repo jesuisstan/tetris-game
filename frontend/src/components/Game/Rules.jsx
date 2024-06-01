@@ -16,7 +16,7 @@ const Rules = () => {
   return (
     <div style={{ position: 'relative' }}>
       {' '}
-      {/* This ensures the button can be positioned relative to this container */}
+      {/* This {' '} ensures the button can be positioned relative to this container */}
       <div
         data-testid="toggle-button"
         className={`${styles.hideButton} ${
