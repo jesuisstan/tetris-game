@@ -7,6 +7,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import userSlice from '../../store/user-slice';
 import socketSlice from '../../store/socket-slice';
 import {
+  listenSocketEvent,
   emitSocketEvent,
   stopListeningSocketEvent
 } from '../../store/socket-slice';
@@ -209,7 +210,7 @@ describe('GameLayout', () => {
     expect(mockNavigate).not.toHaveBeenCalled(); // Ensure mockNavigate is not called
   });
 
-  test('shows error if player_name does not match nickname', async () => {
+  test('shows error if checkRoomPresence is false', async () => {
     const mockParams = { room: 'test-room', player_name: 'test-player' }; // Mocked params to match nickname
 
     checkRoomPresence.mockResolvedValue({ presence: false }); // Mock room presence check
@@ -245,5 +246,80 @@ describe('GameLayout', () => {
       expect(errorAlert).toHaveBeenCalled();
     });
     expect(mockNavigate).toHaveBeenCalled(); // Ensure mockNavigate is called
+  });
+
+  test('listen to chat messages and unsubsribe on unmount', async () => {
+    const mockParams = { room: 'test-room', player_name: 'test-player' }; // Mocked params to match nickname
+
+    render(
+      <Provider store={store}>
+        <Router>
+          <GameLayout />
+        </Router>
+      </Provider>
+    );
+
+    await waitFor(() =>
+      expect(mockDispatch).toHaveBeenCalledWith(
+        listenSocketEvent({
+          eventName: 'chat',
+          callback: expect.any(Function)
+        })
+      )
+    );
+
+    const { unmount } = render(
+      <Provider store={store}>
+        <Router>
+          <GameLayout />
+        </Router>
+      </Provider>
+    );
+    act(() => {
+      jest.advanceTimersByTime(1000);
+    });
+
+    unmount();
+
+    expect(mockDispatch).toHaveBeenCalledWith(
+      stopListeningSocketEvent({
+        eventName: 'chat',
+        callback: null
+      })
+    );
+  });
+
+  test('shows confetti on winner message', async () => {
+    const mockParams = { room: 'test-room', player_name: 'test-player' }; // Mocked params to match nickname
+
+    render(
+      <Provider store={store}>
+        <Router>
+          <GameLayout />
+        </Router>
+      </Provider>
+    );
+
+    await waitFor(() => {
+      expect(mockDispatch).toHaveBeenCalledWith(
+        listenSocketEvent({
+          eventName: 'chat',
+          callback: expect.any(Function)
+        })
+      );
+    });
+
+    const handleNewMessage = mockDispatch.mock.calls.find(
+      (call) => call[0].type === listenSocketEvent.type
+    )[0].payload.callback;
+
+    act(() => {
+      handleNewMessage({
+        type: 'winner',
+        nickname: 'test-player'
+      });
+    });
+
+    expect(screen.getByText('TetrisConfetti')).toBeInTheDocument();
   });
 });
