@@ -1,11 +1,11 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
-import FloatingButton from '../../components/UI/FloatingButton';
+import FloatingButtonLeave from '../../components/UI/FloatingButtonLeave';
 
-describe('FloatingButton Component', () => {
+describe('FloatingButtonLeave Component', () => {
   test('renders the floating button with correct styling and title', () => {
-    render(<FloatingButton onClick={() => {}} />);
+    render(<FloatingButtonLeave onClick={() => {}} />);
 
     const floatingButton = screen.getByRole('button', { name: /edit/i });
     expect(floatingButton).toBeInTheDocument();
@@ -17,7 +17,7 @@ describe('FloatingButton Component', () => {
     // Create a mock function for onClick
     const onClickMock = jest.fn();
 
-    render(<FloatingButton onClick={onClickMock} />);
+    render(<FloatingButtonLeave onClick={onClickMock} />);
 
     fireEvent.click(screen.getByRole('button', { name: /edit/i }));
 

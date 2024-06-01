@@ -189,7 +189,7 @@ describe('GameLayout', () => {
     act(() => {
       jest.advanceTimersByTime(1000);
     });
-    expect(screen.getByTestId('floating-button')).toBeInTheDocument();
+    expect(screen.getByTestId('floating-button-leave')).toBeInTheDocument();
   });
 
   test('do not shows error if player_name does not match nickname', async () => {

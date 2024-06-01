@@ -18,7 +18,9 @@ import TetrisLoader from '../UI/TetrisLoader';
 import MagicButton from '../UI/MagicButton';
 import TetrisConfetti from '../UI/TetrisConfetti';
 import Rules from './Rules';
-import FloatingButton from '../UI/FloatingButton';
+import FloatingButtonLeave from '../UI/FloatingButtonLeave';
+import FloatingButtonQuit from '../UI/FloatingButtonQuit';
+import FloatingButtonBlur from '../UI/FloatingButtonBlur';
 
 import styles from '../../styles/game-layout.module.css';
 
@@ -36,6 +38,7 @@ const GameLayout = () => {
   const [losers, setLosers] = useState([]);
   const [gameOver, setGameOver, resetGameOver] = useGameOver();
   const [tetrominoes, setTetrominoes] = useState([]);
+  const [unBlur, setUnBlur] = useState(false);
   const popTetromino = () => tetrominoes.pop();
 
   const start = () => {
@@ -170,6 +173,7 @@ const GameLayout = () => {
             setTimeout(() => {
               setTetrominoes(createTetrominoes(data));
               setPending(false);
+              setUnBlur(false);
               setLosers([]);
               if (gameOver) {
                 resetGameOver();
@@ -230,24 +234,42 @@ const GameLayout = () => {
   }, []);
 
   const handleLeave = () => {
-    if (roomData?.state === true) {
-      dispatch(
-        emitSocketEvent({
-          eventName: 'game_over',
-          data: {
-            roomName: roomData.name,
-            roomAdmin: roomData.admin.socketId
-          }
-        })
-      );
-    }
+    dispatch(
+      emitSocketEvent({
+        eventName: 'game_over',
+        data: {
+          roomName: roomData.name,
+          roomAdmin: roomData.admin.socketId
+        }
+      })
+    );
     navigate('/lobby');
+  };
+
+  const handleQuit = () => {
+    dispatch(
+      emitSocketEvent({
+        eventName: 'game_over',
+        data: {
+          roomName: roomData.name,
+          roomAdmin: roomData.admin.socketId
+        }
+      })
+    );
   };
 
   return (
     <div style={{ marginTop: '21px' }}>
       <TetrisConfetti show={showConfetti} setShow={setShowConfetti} />
-      <FloatingButton onClick={handleLeave} />
+      <FloatingButtonLeave onClick={handleLeave} />
+      {pending && (
+        <FloatingButtonBlur
+          onClick={() => {
+            setUnBlur(!unBlur);
+          }}
+        />
+      )}
+      {!gameOver && <FloatingButtonQuit onClick={handleQuit} />}
       {loading ? (
         <div className={styles.centered}>
           <TetrisLoader />
@@ -274,7 +296,9 @@ const GameLayout = () => {
               </div>
             </div>
           )}
-          <div className={gameOver && pending ? styles.blurContent : ''}>
+          <div
+            className={gameOver && pending && !unBlur ? styles.blurContent : ''}
+          >
             {(!gameOver || (gameOver && pending)) && !loading && (
               <Tetris
                 nickname={nickname}

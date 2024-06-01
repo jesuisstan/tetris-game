@@ -8,7 +8,6 @@ import userSlice from '../../store/user-slice';
 import socketSlice from '../../store/socket-slice';
 import Tetris from '../../components/Game/Tetris';
 import {
-  emitSocketEvent,
   listenSocketEvent,
   stopListeningSocketEvent
 } from '../../store/socket-slice';
@@ -412,5 +411,64 @@ describe('Tetris Component', () => {
 
     // Expect GameController not to be rendered
     expect(screen.queryByTestId('game-controller')).not.toBeInTheDocument();
+  });
+
+  it('should update othersBoards state when handleGetBoard is called', () => {
+    let capturedCallback;
+
+    render(
+      <Provider store={store}>
+        <Router>
+          <Tetris
+            nickname={'nickname'}
+            roomData={{
+              mode: 'competition',
+              name: 'testRoom',
+              players: 3,
+              maxPlayers: 3,
+              state: true,
+              admin: { socketId: 'Jq1PN2NwNOqKHnZ5AAAF', nickname: 'acaren' }
+            }}
+            rows={20}
+            columns={10}
+            gameOver={false}
+            setGameOver={jest.fn()}
+            initialTetrominoes={[]}
+            popTetromino={jest.fn()}
+            messages={['messages']}
+            setPending={jest.fn()}
+            losers={['losers']}
+          />
+        </Router>
+      </Provider>
+    );
+
+    // Capture the handleGetBoard callback
+    mockDispatch.mock.calls.forEach((call) => {
+      if (
+        call[0].type === listenSocketEvent.type &&
+        call[0].payload.eventName === 'board_from_back'
+      ) {
+        capturedCallback = call[0].payload.callback;
+      }
+    });
+
+    const testData = {
+      playerName: 'player1',
+      board: [
+        [0, 0],
+        [1, 1]
+      ],
+      points: 100
+    };
+
+    // Simulate receiving the event
+    act(() => {
+      capturedCallback(testData);
+    });
+
+    // Use state inspection to assert the state update
+    const othersBoards = screen.getByTestId('othersBoards');
+    expect(othersBoards).toHaveTextContent('Observation:player1100');
   });
 });

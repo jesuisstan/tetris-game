@@ -159,7 +159,7 @@ const Tetris = ({
             (Object.keys(othersBoards).length === 0 ? (
               <TetrisLoader text="Loading observation bar..." />
             ) : (
-              <div className={styles.observation}>
+              <div className={styles.observation} data-testid="othersBoards">
                 <p>Observation:</p>
                 <div className={styles.others}>
                   {Object.entries(othersBoards).map(

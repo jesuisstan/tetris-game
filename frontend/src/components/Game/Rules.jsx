@@ -29,7 +29,10 @@ const Rules = () => {
         ) : (
           <DescriptionIcon
             titleAccess="Show the notes"
-            sx={{ color: 'var(--TETRIS_WHITE)' }}
+            sx={{
+              color: 'var(--TETRIS_WHITE)',
+              animation: 'pulse 1.5s infinite'
+            }}
           />
         )}
       </div>

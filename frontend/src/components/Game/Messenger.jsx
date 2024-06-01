@@ -39,7 +39,8 @@ const Messenger = ({ messages, roomData, hidable }) => {
         ? 'var(--TETRIS_GREEN)'
         : roomData.players >= 2
         ? 'var(--TETRIS_WHITE)'
-        : 'inherit'
+        : 'inherit',
+    transition: 'color 0.3s ease-in-out' // Smooth transition for color changes
   };
 
   return (
@@ -67,7 +68,10 @@ const Messenger = ({ messages, roomData, hidable }) => {
           ) : (
             <ChatIcon
               titleAccess="Show the last updates"
-              sx={{ color: 'var(--TETRIS_WHITE)' }}
+              sx={{
+                color: 'var(--TETRIS_WHITE)',
+                animation: 'pulse 1.5s infinite'
+              }}
             />
           )}
         </div>
