@@ -6,6 +6,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { configureStore } from '@reduxjs/toolkit';
 import GameController from '../../components/Game/GameController';
 import socketSlice, { emitSocketEvent } from '../../store/socket-slice';
+import { Action } from '../../utils/input';
 
 // Mock dependencies
 const mockDispatch = jest.fn();
@@ -113,5 +114,41 @@ describe('GameController Component', () => {
         })
       )
     );
+  });
+
+  test('handles general key actions', async () => {
+    const gameStats = { level: 1 }; // Define gameStats object with necessary properties
+    const roomData = { name: 'testRoom', admin: { socketId: 'adminId' } }; // Provide necessary roomData
+    const board = {}; // Define board object as needed
+    const player = { position: { row: 0, col: 0 } }; // Provide a valid player position
+    const setPlayer = jest.fn();
+    const dropTime = 1000; // Ensure dropTime is set
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <GameController
+            roomData={roomData}
+            board={board}
+            gameStats={gameStats}
+            player={player}
+            setPlayer={setPlayer}
+          />
+        </MemoryRouter>
+      </Provider>
+    );
+
+    // Ensure the input is focused to receive the keydown event
+    const inputElement = getByTestId('game-controller');
+    inputElement.focus();
+
+    // Simulate key press event with a key code that corresponds to a general action
+    fireEvent.keyDown(inputElement, { code: 'ArrowDown' }); // Replace 'ArrowDown' with the appropriate key code for your action
+
+    // Assertions
+    await waitFor(() => {
+      expect(mockDispatch).toHaveBeenCalled();
+      // Add additional assertions as needed to verify handleInput behavior
+    });
   });
 });
