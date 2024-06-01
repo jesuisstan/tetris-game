@@ -227,4 +227,23 @@ describe('GameLayout', () => {
     });
     expect(mockNavigate).toHaveBeenCalled(); // Ensure mockNavigate is called
   });
+
+  test('shows error if an error occurs while checking room presence', async () => {
+    const mockParams = { room: 'test-room', player_name: 'test-player' }; // Mocked params to match nickname
+
+    checkRoomPresence.mockRejectedValue(); // Mock room presence check
+
+    render(
+      <Provider store={store}>
+        <Router>
+          <GameLayout />
+        </Router>
+      </Provider>
+    );
+
+    await waitFor(() => {
+      expect(errorAlert).toHaveBeenCalled();
+    });
+    expect(mockNavigate).toHaveBeenCalled(); // Ensure mockNavigate is called
+  });
 });
