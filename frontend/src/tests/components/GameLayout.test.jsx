@@ -1,5 +1,12 @@
 import '@testing-library/jest-dom';
-import { render, act, screen, waitFor } from '@testing-library/react';
+import {
+  cleanup,
+  render,
+  act,
+  screen,
+  waitFor,
+  fireEvent
+} from '@testing-library/react';
 import { Provider } from 'react-redux';
 import GameLayout from '../../components/Game/GameLayout';
 import { BrowserRouter as Router } from 'react-router-dom';
@@ -94,10 +101,11 @@ beforeEach(() => {
 
 afterEach(() => {
   jest.clearAllMocks();
+  cleanup();
 });
 
 describe('GameLayout', () => {
-  it('renders without crashing', () => {
+  test('renders without crashing', () => {
     render(
       <Provider store={store}>
         <Router>
@@ -107,7 +115,7 @@ describe('GameLayout', () => {
     );
   });
 
-  it('stops listening to socket event on unmount', () => {
+  test('stops listening to socket event on unmount', () => {
     const { unmount } = render(
       <Provider store={store}>
         <Router>
@@ -224,7 +232,7 @@ describe('GameLayout', () => {
     );
 
     await waitFor(() => {
-      expect(errorAlert).toHaveBeenCalled();
+      expect(errorAlert).toHaveBeenCalledWith('Room not found');
     });
     expect(mockNavigate).toHaveBeenCalled(); // Ensure mockNavigate is called
   });
@@ -243,7 +251,9 @@ describe('GameLayout', () => {
     );
 
     await waitFor(() => {
-      expect(errorAlert).toHaveBeenCalled();
+      expect(errorAlert).toHaveBeenCalledWith(
+        'Something went wrong while checking room presence'
+      );
     });
     expect(mockNavigate).toHaveBeenCalled(); // Ensure mockNavigate is called
   });
@@ -321,5 +331,85 @@ describe('GameLayout', () => {
     });
 
     expect(screen.getByText('TetrisConfetti')).toBeInTheDocument();
+  });
+
+  test('shows FloatingButtonBlur when pending is true', () => {
+    // Render the component
+    render(
+      <Provider store={store}>
+        <Router>
+          <GameLayout />
+        </Router>
+      </Provider>
+    );
+
+    // Update the state to set pending to true
+    store.dispatch = jest.fn(() => {
+      store.getState().pending = true;
+      return Promise.resolve();
+    });
+
+    // Ensure the FloatingButtonBlur is in the document and visible
+    const floatingButtonBlur = screen.getByTestId('floating-button-blur');
+    expect(floatingButtonBlur).toBeInTheDocument();
+    expect(floatingButtonBlur).toBeVisible();
+  });
+
+  test('shows FloatingButtonLeave when pending is false', async () => {
+    const mockParams = { room: 'test-room', player_name: 'test-player' }; // Mocked params to match nickname
+    const mockAdmin = { socketId: 'xxx' };
+
+    // Render the component
+    render(
+      <Provider store={store}>
+        <Router>
+          <GameLayout />
+        </Router>
+      </Provider>
+    );
+
+    // Ensure the FloatingButtonLeave is in the document and visible
+    const floatingButtonLeave = screen.getByTestId('floating-button-leave');
+    expect(floatingButtonLeave).toBeInTheDocument();
+    expect(floatingButtonLeave).toBeVisible();
+
+    //act(() => {
+    //  jest.advanceTimersByTime(1000);
+    //});
+
+    const x = fireEvent.click(floatingButtonLeave);
+    expect(x).toBe(true);
+    //act(() => {
+    //  jest.advanceTimersByTime(2000);
+    //});
+
+    //await waitFor(() => {
+    //  expect(mockNavigate).toHaveBeenCalled(); // Ensure mockNavigate is called
+    //});
+  });
+
+  test('listen chat', async () => {
+    const mockParams = { room: 'test-room', player_name: 'test-player' }; // Mocked params to match nickname
+
+    checkRoomPresence.mockResolvedValue({ presence: true }); // Mock room presence check
+
+    render(
+      <Provider store={store}>
+        <Router>
+          <GameLayout />
+        </Router>
+      </Provider>
+    );
+
+    await waitFor(() => {
+      expect(errorAlert).not.toHaveBeenCalledWith('Room not found');
+    });
+
+    expect(mockDispatch).toHaveBeenCalledWith(
+      listenSocketEvent({
+        eventName: 'chat',
+        callback: expect.any(Function)
+      })
+    );
   });
 });

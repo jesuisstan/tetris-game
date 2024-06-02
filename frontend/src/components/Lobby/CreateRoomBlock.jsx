@@ -70,6 +70,7 @@ const CreateRoomBlock = () => {
 
   return (
     <div
+      data-testid="create-room-block"
       style={{
         display: 'flex',
         flexDirection: 'column',

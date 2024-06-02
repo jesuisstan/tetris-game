@@ -259,7 +259,7 @@ const GameLayout = () => {
   };
 
   return (
-    <div style={{ marginTop: '21px' }}>
+    <div style={{ marginTop: '21px' }} data-testid="game-layout">
       <TetrisConfetti show={showConfetti} setShow={setShowConfetti} />
       <FloatingButtonLeave onClick={handleLeave} />
       {pending && (
@@ -269,7 +269,12 @@ const GameLayout = () => {
           }}
         />
       )}
-      {!gameOver && <FloatingButtonQuit onClick={handleQuit} />}
+      {!gameOver && (
+        <FloatingButtonQuit
+          onClick={handleQuit}
+          data-testid="floating-button-quit"
+        />
+      )}
       {loading ? (
         <div className={styles.centered}>
           <TetrisLoader />

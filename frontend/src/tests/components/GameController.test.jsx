@@ -147,7 +147,6 @@ describe('GameController Component', () => {
     // Assertions
     await waitFor(() => {
       expect(mockDispatch).toHaveBeenCalled();
-      // Add additional assertions as needed to verify handleInput behavior
     });
   });
 });

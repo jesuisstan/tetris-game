@@ -24,6 +24,44 @@ import Diversity3Icon from '@mui/icons-material/Diversity3';
 
 import styles from '../../styles/lobby.module.css';
 
+export const createData = (
+  roomName,
+  mode,
+  admin,
+  maxPlayers,
+  players,
+  adminSocketId,
+  state
+) => {
+  const details = `${players} / ${maxPlayers}`;
+  const status = state === true ? 'Playing' : 'Pending';
+
+  return {
+    roomName,
+    mode,
+    admin,
+    details,
+    players,
+    maxPlayers,
+    adminSocketId,
+    status
+  };
+};
+
+export const checkAccess = (roomData, socketId) => {
+  if (!roomData) return false;
+  if (roomData.status === 'Playing') {
+    return false;
+  } else if (roomData.mode === 'solo') {
+    return roomData.adminSocketId === socketId ? true : false;
+  } else if (roomData.mode === 'competition') {
+    return roomData.maxPlayers === roomData.players ||
+      roomData.status === 'Playing'
+      ? false
+      : true;
+  }
+};
+
 const JoinRoomBlock = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -73,30 +111,6 @@ const JoinRoomBlock = () => {
     }
   ];
 
-  const createData = (
-    roomName,
-    mode,
-    admin,
-    maxPlayers,
-    players,
-    adminSocketId,
-    state
-  ) => {
-    const details = `${players} / ${maxPlayers}`;
-    const status = state === true ? 'Playing' : 'Pending';
-
-    return {
-      roomName,
-      mode,
-      admin,
-      details,
-      players,
-      maxPlayers,
-      adminSocketId,
-      status
-    };
-  };
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -104,20 +118,6 @@ const JoinRoomBlock = () => {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
-  };
-
-  const checkAccess = (roomData, socketId) => {
-    if (!roomData) return false;
-    if (roomData.status === 'Playing') {
-      return false;
-    } else if (roomData.mode === 'solo') {
-      return roomData.adminSocketId === socketId ? true : false;
-    } else if (roomData.mode === 'competition') {
-      return roomData.maxPlayers === roomData.players ||
-        roomData.status === 'Playing'
-        ? false
-        : true;
-    }
   };
 
   const joinRoom = (roomData) => {
@@ -236,6 +236,7 @@ const JoinRoomBlock = () => {
                                     align={column.align}
                                   >
                                     <SportsEsportsIcon
+                                      data-testid="access-icon"
                                       sx={{
                                         color: checkAccess(row, socketId)
                                           ? 'var(--TETRIS_GREEN)'
