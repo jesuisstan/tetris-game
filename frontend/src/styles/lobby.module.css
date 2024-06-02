@@ -69,7 +69,7 @@
   display: flex;
 }
 
-.table{
+.table {
   width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
@@ -104,14 +104,12 @@
 
 @media (max-width: 700px) {
   .table {
-    transform: scale(0.70);
-    margin-top: -21px;
+    transform: scale(0.7) translateY(-20%);
   }
 }
 
 @media (max-width: 415px) {
   .table {
-    transform: scale(0.57);
-    margin-top: -31px;
+    transform: scale(0.6) translateY(-30%);
   }
 }

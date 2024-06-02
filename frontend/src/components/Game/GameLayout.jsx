@@ -238,8 +238,8 @@ const GameLayout = () => {
       emitSocketEvent({
         eventName: 'game_over',
         data: {
-          roomName: roomData.name,
-          roomAdmin: roomData.admin.socketId
+          roomName: roomData?.name,
+          roomAdmin: roomData?.admin?.socketId
         }
       })
     );
@@ -251,8 +251,8 @@ const GameLayout = () => {
       emitSocketEvent({
         eventName: 'game_over',
         data: {
-          roomName: roomData.name,
-          roomAdmin: roomData.admin.socketId
+          roomName: roomData?.name,
+          roomAdmin: roomData?.admin?.socketId
         }
       })
     );
@@ -294,7 +294,7 @@ const GameLayout = () => {
                 <TetrisLoader text="Awaiting the start" />
               )}
               <div className={styles.infoBlock}>
-                {roomData.mode === 'competition' && (
+                {roomData?.mode === 'competition' && (
                   <Messenger messages={messages} roomData={roomData} hidable />
                 )}
                 <Rules />

@@ -35,8 +35,8 @@
 }
 
 .boardContainer {
-  min-width: 41vh;
-  min-height: 82vh;
+  min-width: 40vh;
+  min-height: 80vh;
 }
 
 .observation {
@@ -61,8 +61,8 @@
 }
 
 .eachOtherBoard {
-  width: 21vh;
-  height: 42vh;
+  width: 17vh;
+  height: 34vh;
   animation: zoomIn 0.3s ease-in;
 }
 
@@ -80,21 +80,18 @@
 
 @media (max-width: 768px) {
   .tetrisMain {
-    transform: scale(0.8);
-    margin-top: -81px;
+    transform: scale(0.8) translateY(-10%);
   }
 }
 
 @media (max-width: 600px) {
   .tetrisMain {
-    transform: scale(0.7);
-    margin-top: -111px;
+    transform: scale(0.7) translateY(-20%);
   }
 }
 
 @media (max-width: 415px) {
   .tetrisMain {
-    transform: scale(0.6);
-    margin-top: -131px;
+    transform: scale(0.6) translateY(-30%);
   }
 }

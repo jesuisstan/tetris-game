@@ -43,7 +43,6 @@
 
 @media (max-width: 768px) {
   .infoBlock {
-    transform: scale(0.7);
-    margin-top: -55px;
+    transform: scale(0.7) translateY(-20%);
   }
 }

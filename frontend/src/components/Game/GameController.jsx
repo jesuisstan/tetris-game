@@ -44,8 +44,8 @@ const GameController = ({ roomData, board, gameStats, player, setPlayer }) => {
         emitSocketEvent({
           eventName: 'game_over',
           data: {
-            roomName: roomData.name,
-            roomAdmin: roomData.admin.socketId,
+            roomName: roomData?.name,
+            roomAdmin: roomData?.admin?.socketId,
           }
         })
       );
@@ -55,8 +55,8 @@ const GameController = ({ roomData, board, gameStats, player, setPlayer }) => {
         emitSocketEvent({
           eventName: 'game_over',
           data: {
-            roomName: roomData.name,
-            roomAdmin: roomData.admin.socketId,
+            roomName: roomData?.name,
+            roomAdmin: roomData?.admin?.socketId,
           }
         })
       );
