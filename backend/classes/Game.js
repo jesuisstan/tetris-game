@@ -3,30 +3,6 @@ import { MAX_PLAYERS_IN_ROOM, playersList } from '../index.js';
 class Game {
   constructor() {}
 
-  // Send a list of a room players to a client:
-  sendRoomPlayersList = (io, room, playersList) => {
-    return new Promise((resolve, reject) => {
-      const socketIds = [];
-      const roomPlayersList = [];
-      const clientsList = io.sockets.adapter.rooms.get(room);
-
-      if (clientsList) {
-        for (const clientId of clientsList) {
-          socketIds.push(clientId);
-        }
-
-        for (let i = 0; i < playersList.length; i++) {
-          for (let j = 0; j < socketIds.length; j++) {
-            if (playersList[i].socketId === socketIds[j]) {
-              roomPlayersList.push(playersList[i].nickname);
-            }
-          }
-        }
-      }
-      io.to(room).emit('room_players', roomPlayersList); // todo
-    });
-  };
-
   // Get an array of player objects:
   getRoomPlayersDetails = (io, roomName, playersList) => {
     return new Promise((resolve, reject) => {
@@ -107,7 +83,6 @@ class Game {
       };
 
       await this.sendMessageToRoom(io, messageData);
-      this.sendRoomPlayersList(io, roomName, playersList);
       return;
     } catch (error) {
       throw error;
@@ -169,7 +144,6 @@ class Game {
         playerOnSocket.setRoom(roomData.name);
         playerOnSocket.setAdminStatus(false);
         socket.join(roomData.name);
-        this.sendRoomPlayersList(io, roomData.name, playersList);
 
         const messageData = {
           room: roomData.name,

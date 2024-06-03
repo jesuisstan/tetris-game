@@ -173,7 +173,6 @@ const manageSocket = (server) => {
     });
 
     socket.on('game_over', async (data) => {
-      console.log('Game over:', data); // todo delete
       try {
         await gameTetris.handleGameOver(
           io,
