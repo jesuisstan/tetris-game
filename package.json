@@ -6,7 +6,6 @@
     "@reduxjs/toolkit": "^1.9.7",
     "concurrently": "^6.0.0",
     "cross-env": "^7.0.3",
-    "react-confetti": "^6.1.0",
     "rimraf": "^5.0.5"
   },
   "scripts": {

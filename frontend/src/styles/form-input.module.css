@@ -24,12 +24,16 @@
 }
 
 .helper {
-  font-size: 12px;
+  font-size: 11px;
   padding: 3px;
   color: var(--TETRIS_PINK);
   display: none;
   position: absolute;
   bottom: -18px;
+}
+
+.error {
+  font-size: 10px;
 }
 
 /*input:invalid[focused='true'] {
@@ -38,4 +42,15 @@
 
 input:invalid[focused='true'] ~ span {
   display: block;
+}
+
+.showPasswordButton {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-15%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--TETRIS_BLACK);
 }

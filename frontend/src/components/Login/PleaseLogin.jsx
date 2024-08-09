@@ -119,7 +119,11 @@ const PleaseLogin = () => {
                 justifyContent: 'center'
               }}
             >
-              <form onSubmit={handleLogin} className={styles.formList}  data-testid="login-form">
+              <form
+                onSubmit={handleLogin}
+                className={styles.formList}
+                data-testid="login-form"
+              >
                 <FormInput
                   {...{
                     id: 1,
@@ -133,7 +137,7 @@ const PleaseLogin = () => {
                   }}
                   value={values.email}
                   onChange={onChange}
-                  data-testid="email" 
+                  data-testid="email"
                 />
                 <FormInput
                   {...{
@@ -141,14 +145,17 @@ const PleaseLogin = () => {
                     name: 'password',
                     type: 'password',
                     placeholder: 'Password',
-                    errorMessage: '3-20: 1 letter, 1 number, 1 symbol',
+                    errorMessage:
+                      '8-21: 1 ⬆️, 1 ⬇️, 1 digit, 1 of @$!%*?&,.^=_+',
                     label: 'Password',
-                    pattern: `^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{3,20}$`,
+                    //pattern: `^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{3,20}$`,
+                    pattern:
+                      '^(?=.*[a-z])(?=.*[0-9])(?=.*[A-Z])(?=.*d)(?=.*[@$!%*?&,.^=_+])[A-Za-z0-9d@$!%*?&,.^=_+]{8,21}$',
                     required: true
                   }}
                   value={values.password}
                   onChange={onChange}
-                  data-testid="password" 
+                  data-testid="password"
                 />
                 <LoadingButton
                   type="submit"
