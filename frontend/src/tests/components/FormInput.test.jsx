@@ -9,6 +9,7 @@ describe('FormInput Component', () => {
     label: 'Test Label',
     onChange: jest.fn(),
     value: '',
+    type: 'text',
     errorMessage: ''
   };
 
@@ -28,8 +29,9 @@ describe('FormInput Component', () => {
     render(<FormInput {...defaultProps} />);
     const inputElement = screen.getByLabelText('Test Label:');
     fireEvent.focus(inputElement);
+    expect(inputElement).toHaveAttribute('focused', 'true');
     fireEvent.blur(inputElement);
-    expect(inputElement).not.toHaveFocus();
+    expect(inputElement).toHaveAttribute('focused', 'false');
   });
 
   test('displays error message when provided', () => {
@@ -49,5 +51,32 @@ describe('FormInput Component', () => {
     render(<FormInput {...defaultProps} value="test value" />);
     const inputElement = screen.getByLabelText('Test Label:');
     expect(inputElement).toHaveValue('test value');
+  });
+
+  test('toggles password visibility when button is clicked', () => {
+    render(<FormInput {...defaultProps} type="password" />);
+    const inputElement = screen.getByLabelText('Test Label:');
+    const toggleButton = screen.getByRole('button');
+    expect(inputElement).toHaveAttribute('type', 'password');
+
+    fireEvent.click(toggleButton);
+    expect(inputElement).toHaveAttribute('type', 'text');
+
+    fireEvent.click(toggleButton);
+    expect(inputElement).toHaveAttribute('type', 'password');
+  });
+
+  test('password visibility button is not rendered for non-password inputs', () => {
+    render(<FormInput {...defaultProps} />);
+    const toggleButton = screen.queryByRole('button');
+    expect(toggleButton).not.toBeInTheDocument();
+  });
+
+  test('focused state is correctly set on focus', () => {
+    render(<FormInput {...defaultProps} />);
+    const inputElement = screen.getByLabelText('Test Label:');
+
+    fireEvent.focus(inputElement);
+    expect(inputElement).toHaveAttribute('focused', 'true');
   });
 });
