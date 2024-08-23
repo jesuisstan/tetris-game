@@ -28,23 +28,15 @@ const Footer = () => {
             </>
           )}
           {`Created by `}
-          <a
-            href="http://krivtsoff.me/"
+          Ecole 42 students
+          {/*<a
+            href="https://www.krivtsoff.site/"
             className={styles.footerLink}
             target="_blank"
             rel="noopener noreferrer"
           >
             Stan Krivtsoff
-          </a>
-          {` & `}
-          <a
-            href="https://www.linkedin.com/in/rustam-khafizov-7944971bb/"
-            className={styles.footerLink}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Rustam Khafizov
-          </a>
+          </a>*/}
         </p>
       </footer>
     </div>
