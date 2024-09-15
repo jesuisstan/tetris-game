@@ -172,12 +172,12 @@
 }
 
 .poweredByLogo {
-  max-width: 60px;
-  max-height: 60px;
+  max-width: 50px;
+  max-height: 50px;
 }
 
 .logoItem p {
   margin-top: 15px;
-  font-size: 13px;
+  font-size: 11px;
   color: var(--TETRIS_WHITE);
 }
