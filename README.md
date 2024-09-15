@@ -10,13 +10,17 @@ The project was implemented using functional components and popular hooks in Rea
 
 1.  **Backend + MongoDB implementation**: Backend was built with Node.js (express). Database (MongoDB) was attached to backend to store all user accounts data. Authentication (sign up and sign in) with user's email and password (encrypted) is also implemented.
 
-2. **Frontend + MongoDB implementation**: Backend was built with Node.js (express). Database (MongoDB) was attached to backend to store all user accounts data. Authentication (sign up and sign in) with user's email and password (encrypted) is also implemented.
+2.  **Frontend**: Front part of the application was build with React library for Javascript, using React Router and Redux to store the application states.
 
 3.  **Material UI, Custom Styling with CSS Modules & Custom Fonts**: Material UI components were utilized to achieve a consistent and visually appealing design. Components such as TextField, Drawer, LoadingButton and others were used to create responsive and user-friendly web-app and related elements. The Google font was applied to the project to improve attractiveness of the App.
 
-4.  **Version Control**: The code was hosted on GitHub and made publicly accessible. The repository can be found at https://github.com/jesuisstan/tetris-game.
+4.  **Socket**: The communication between the server and the clients is bi-directional, Socket.io is used for the implementation.
 
-5.  **Deployment**: Not yet  
+5.  **Version Control**: The code was hosted on GitHub and made publicly accessible. The repository can be found at https://github.com/jesuisstan/tetris-game.
+
+6.  **Testing**: Increase the reliability of the delivered versions, Jest is used as a tool for unit testing. Covered at least 70% of the statements, functions, lines and at least 50% of the branches.
+
+7.  **Deployment**: Not yet
 
 ## Results
 
@@ -33,6 +37,7 @@ Deployed version of the App allows user to:
 ##### 1. Install general dependencies (JS, package manager, etc):
 
 - install Node version manager (nvm):
+
 ```sh
 sudo apt install curl
 ```

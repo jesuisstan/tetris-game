@@ -16,6 +16,7 @@ import logoRedux from '../../assets/powered-by/logo-redux.png';
 import logoJWT from '../../assets/powered-by/logo-jwt.png';
 import logoSocketIO from '../../assets/powered-by/logo-socket-io.png';
 import logoSweetalert2 from '../../assets/powered-by/logo-sweetalert2.png';
+import logoJest from '../../assets/powered-by/logo-jest.png';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -177,6 +178,14 @@ const Home = () => {
               className={styles.poweredByLogo}
             />
             <p>Sweetalert2</p>
+          </div>
+          <div className={styles.logoItem}>
+            <img
+              src={logoJest}
+              alt="Jest Logo"
+              className={styles.poweredByLogo}
+            />
+            <p>Jest</p>
           </div>
         </div>
       </div>
