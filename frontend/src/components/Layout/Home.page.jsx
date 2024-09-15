@@ -5,6 +5,17 @@ import DeviderTetris from '../UI/DeviderTetris';
 import MagicButton from '../UI/MagicButton';
 
 import styles from '../../styles/home-page.module.css';
+import logoCSS from '../../assets/powered-by/logo-css.png';
+import logoHTML from '../../assets/powered-by/logo-html.png';
+import logoJS from '../../assets/powered-by/logo-js.png';
+import logoMaterialUI from '../../assets/powered-by/logo-material-ui.png';
+import logoMongoDB from '../../assets/powered-by/logo-mongodb.png';
+import logoNode from '../../assets/powered-by/logo-node.png';
+import logoReact from '../../assets/powered-by/logo-react.png';
+import logoRedux from '../../assets/powered-by/logo-redux.png';
+import logoJWT from '../../assets/powered-by/logo-jwt.png';
+import logoSocketIO from '../../assets/powered-by/logo-socket-io.png';
+import logoSweetalert2 from '../../assets/powered-by/logo-sweetalert2.png';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -74,6 +85,101 @@ const Home = () => {
           navigate('/lobby');
         }}
       />
+
+      {/* POWERED BY */}
+      <div className={styles.poweredByBlock}>
+        <h3>Powered by:</h3>
+        <div className={styles.logoContainer}>
+          <div className={styles.logoItem}>
+            <img
+              src={logoCSS}
+              alt="CSS Logo"
+              className={styles.poweredByLogo}
+            />
+            <p>CSS</p>
+          </div>
+          <div className={styles.logoItem}>
+            <img
+              src={logoHTML}
+              alt="HTML Logo"
+              className={styles.poweredByLogo}
+            />
+            <p>HTML</p>
+          </div>
+          <div className={styles.logoItem}>
+            <img
+              src={logoJS}
+              alt="JavaScript Logo"
+              className={styles.poweredByLogo}
+            />
+            <p>JavaScript</p>
+          </div>
+          <div className={styles.logoItem}>
+            <img
+              src={logoMongoDB}
+              alt="MongoDB Logo"
+              className={styles.poweredByLogo}
+            />
+            <p>MongoDB</p>
+          </div>
+          <div className={styles.logoItem}>
+            <img
+              src={logoNode}
+              alt="Node.js Logo"
+              className={styles.poweredByLogo}
+            />
+            <p>Node.js</p>
+          </div>
+          <div className={styles.logoItem}>
+            <img
+              src={logoReact}
+              alt="React Logo"
+              className={styles.poweredByLogo}
+            />
+            <p>React</p>
+          </div>
+          <div className={styles.logoItem}>
+            <img
+              src={logoRedux}
+              alt="Redux Logo"
+              className={styles.poweredByLogo}
+            />
+            <p>Redux</p>
+          </div>
+          <div className={styles.logoItem}>
+            <img
+              src={logoJWT}
+              alt="JWT Logo"
+              className={styles.poweredByLogo}
+            />
+            <p>JWT</p>
+          </div>
+          <div className={styles.logoItem}>
+            <img
+              src={logoSocketIO}
+              alt="Socket.io Logo"
+              className={styles.poweredByLogo}
+            />
+            <p>Socket.io</p>
+          </div>
+          <div className={styles.logoItem}>
+            <img
+              src={logoMaterialUI}
+              alt="Material UI Logo"
+              className={styles.poweredByLogo}
+            />
+            <p>Material UI</p>
+          </div>
+          <div className={styles.logoItem}>
+            <img
+              src={logoSweetalert2}
+              alt="Sweetalert2 Logo"
+              className={styles.poweredByLogo}
+            />
+            <p>Sweetalert2</p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

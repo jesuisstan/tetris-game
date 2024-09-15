@@ -3,13 +3,11 @@
   "version": "1.0.0",
   "description": "amazing tetris game",
   "dependencies": {
-    "@reduxjs/toolkit": "^1.9.7",
-    "concurrently": "^9.0.0",
+    "concurrently": "^9.0.1",
     "cross-env": "^7.0.3",
-    "rimraf": "^5.0.5"
+    "rimraf": "^6.0.1"
   },
   "scripts": {
-    "postinstall": "npm install -g rimraf",
     "copy-env:backend": "node -e \"require('fs').copyFileSync('.env', 'backend/.env')\"",
     "copy-env:frontend": "node -e \"require('fs').copyFileSync('.env', 'frontend/.env')\"",
     "copy-env": "npm run copy-env:backend && npm run copy-env:frontend",
@@ -19,8 +17,8 @@
     "clean:all": "npx rimraf node_modules && npx rimraf package-lock.json && npm run clean:backend && npm run clean:frontend",
     "start:backend": "npm run copy-env:backend && cd backend && npm start",
     "dev:frontend": "npm run copy-env:frontend && cd frontend && npm run dev",
-    "dev": "concurrently -n backend,frontend -c blue,magenta \"npm run start:backend\" \"npm run dev:frontend\"",
-    "start": "concurrently -n backend,frontend -c blue,magenta \"npm run start:backend\" \"npm run copy-env:frontend && cd frontend && npm run build:serve\"",
+    "dev": "npx concurrently -n backend,frontend -c blue,magenta \"npm run start:backend\" \"npm run dev:frontend\"",
+    "start": "npx concurrently -n backend,frontend -c blue,magenta \"npm run start:backend\" \"npm run copy-env:frontend && cd frontend && npm run build:serve\"",
     "test": "cd frontend && npm run test",
     "coverage": "cd frontend && npm run coverage",
     "test:clean": "npx rimraf ./frontend/coverage && cd frontend && npm run test"

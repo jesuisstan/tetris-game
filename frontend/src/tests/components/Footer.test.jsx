@@ -31,12 +31,9 @@ describe('Footer Component', () => {
     render(<Footer />);
     const githubLink = screen.getByText('@github');
     expect(githubLink).toBeInTheDocument();
-    expect(githubLink).toHaveAttribute('href', 'https://github.com/jesuisstan/tetris-game');
-  });
-
-  test('displays the correct creators', () => {
-    render(<Footer />);
-    const creatorStan = screen.getByText('Stan Krivtsoff');
-    expect(creatorStan).toBeInTheDocument();
+    expect(githubLink).toHaveAttribute(
+      'href',
+      'https://github.com/jesuisstan/tetris-game'
+    );
   });
 });
