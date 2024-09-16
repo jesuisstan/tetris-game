@@ -5,6 +5,32 @@ import Home from '../../components/Layout/Home.page';
 import { TETROMINOES } from '../../utils/tetrominoes';
 import Preview from '../../components/Game/Preview';
 
+// Mock static assets
+jest.mock('../../assets/powered-by/logo-css.png', () => 'logo-css.png');
+jest.mock('../../assets/powered-by/logo-html.png', () => 'logo-html.png');
+jest.mock('../../assets/powered-by/logo-js.png', () => 'logo-js.png');
+jest.mock(
+  '../../assets/powered-by/logo-material-ui.png',
+  () => 'logo-material-ui.png'
+);
+jest.mock('../../assets/powered-by/logo-mongodb.png', () => 'logo-mongodb.png');
+jest.mock('../../assets/powered-by/logo-node.png', () => 'logo-node.png');
+jest.mock('../../assets/powered-by/logo-react.png', () => 'logo-react.png');
+jest.mock('../../assets/powered-by/logo-redux.png', () => 'logo-redux.png');
+jest.mock('../../assets/powered-by/logo-jwt.png', () => 'logo-jwt.png');
+jest.mock(
+  '../../assets/powered-by/logo-socket-io.png',
+  () => 'logo-socket-io.png'
+);
+jest.mock(
+  '../../assets/powered-by/logo-sweetalert2.png',
+  () => 'logo-sweetalert2.png'
+);
+jest.mock('../../assets/powered-by/logo-jest.png', () => 'logo-jest.png');
+
+// Mock CSS modules
+jest.mock('../../styles/home-page.module.css', () => ({}));
+
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useNavigate: jest.fn()
