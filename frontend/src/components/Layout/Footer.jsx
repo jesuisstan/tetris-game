@@ -28,15 +28,14 @@ const Footer = () => {
             </>
           )}
           {`Created by `}
-          Ecole 42 students
-          {/*<a
+          <a
             href="https://www.krivtsoff.site/"
             className={styles.footerLink}
             target="_blank"
             rel="noopener noreferrer"
           >
             Stan Krivtsoff
-          </a>*/}
+          </a>
         </p>
       </footer>
     </div>
