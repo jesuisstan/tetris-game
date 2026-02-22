@@ -32,9 +32,15 @@ const port = process.env.PORT || process.env.REACT_APP_FRONTEND_PORT || 4040;
 
 console.log(`Starting production server on port ${port}...`);
 
-// Build the project first
-console.log('Building React app...');
-execSync('npm run build', { stdio: 'inherit' });
+// Check if build directory exists
+const buildPath = path.resolve(__dirname, 'build');
+if (!fs.existsSync(buildPath)) {
+  // Build the project only if build directory doesn't exist
+  console.log('Build directory not found. Building React app...');
+  execSync('npm run build', { stdio: 'inherit' });
+} else {
+  console.log('Build directory found. Skipping build step.');
+}
 
 // Serve the build directory
 console.log(`Serving build directory on port ${port}...`);
