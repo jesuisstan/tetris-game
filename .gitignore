@@ -6,9 +6,9 @@
 /backend/node_modules
 
 ##env
-.env
-/backend/.env
-/frontend/.env
+#.env
+#/backend/.env
+#/frontend/.env
 
 # dependencies
 /.pnp
