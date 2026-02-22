@@ -32,10 +32,23 @@ const getAllowedOrigins = () => {
 };
 
 const manageSocket = (server) => {
+  const allowedOrigins = getAllowedOrigins();
+  
   const io = new Server(server, {
     cors: {
-      origin: getAllowedOrigins(),
-      methods: ['GET', 'POST', 'PUT', 'DELETE'],
+      origin: (origin, callback) => {
+        // Allow requests with no origin
+        if (!origin) return callback(null, true);
+        
+        // Check if origin is in allowed list
+        if (allowedOrigins.indexOf(origin) !== -1) {
+          callback(null, true);
+        } else {
+          callback(new Error('Not allowed by CORS'));
+        }
+      },
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+      allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
       credentials: true
     },
     //path: '/socket',

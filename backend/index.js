@@ -73,12 +73,28 @@ const getAllowedOrigins = () => {
   return origins.length > 0 ? origins : ['http://localhost:4040'];
 };
 
-// Configure CORS middleware
+// Get allowed origins array
+const allowedOrigins = getAllowedOrigins();
+
+// Configure CORS middleware with function for dynamic origin checking
 app.use(
   cors({
-    origin: getAllowedOrigins(),
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+      
+      // Check if origin is in allowed list
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+    credentials: true,
+    preflightContinue: false,
+    optionsSuccessStatus: 204
   })
 );
 
