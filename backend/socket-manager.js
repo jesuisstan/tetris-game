@@ -9,13 +9,32 @@ import {
   tetromino
 } from './index.js';
 
+// Configure Socket.IO allowed origins
+const getAllowedOrigins = () => {
+  const origins = [];
+  
+  // Add FRONTEND_URL if provided (for production like Render.com)
+  if (process.env.FRONTEND_URL) {
+    origins.push(process.env.FRONTEND_URL);
+  }
+  
+  // Add localhost origins for local development
+  if (process.env.REACT_APP_FRONTEND_PORT) {
+    origins.push(`http://localhost:${process.env.REACT_APP_FRONTEND_PORT}`);
+  }
+  
+  // Add host-based origin if FRONTEND_URL is not set (backward compatibility)
+  if (!process.env.FRONTEND_URL && process.env.REACT_APP_HOST && process.env.REACT_APP_FRONTEND_PORT) {
+    origins.push(`http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_FRONTEND_PORT}`);
+  }
+  
+  return origins.length > 0 ? origins : ['http://localhost:4040'];
+};
+
 const manageSocket = (server) => {
   const io = new Server(server, {
     cors: {
-      origin: [
-        `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_FRONTEND_PORT}`,
-        `http://localhost:${process.env.REACT_APP_FRONTEND_PORT}`
-      ],
+      origin: getAllowedOrigins(),
       methods: ['GET', 'POST', 'PUT', 'DELETE'],
       credentials: true
     },

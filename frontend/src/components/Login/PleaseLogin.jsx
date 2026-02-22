@@ -15,6 +15,8 @@ import { useSelector } from 'react-redux';
 import * as MUI from '../../styles/MUIstyles';
 import styles from '../../styles/login.module.css';
 
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_BACKEND_PORT}`;
+
 const PleaseLogin = () => {
   const socket = useSelector((state) => state.socket.socket);
 
@@ -40,7 +42,7 @@ const PleaseLogin = () => {
     setLoadingLogin(true);
     try {
       const response = await axios.post(
-        `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_BACKEND_PORT}/api/auth/signin`,
+        `${BACKEND_URL}/api/auth/signin`,
         values,
         {
           withCredentials: true

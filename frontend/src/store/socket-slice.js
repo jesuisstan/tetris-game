@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import io from 'socket.io-client';
 
-const BASE_URL = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_BACKEND_PORT}`;
+const BASE_URL = process.env.REACT_APP_BACKEND_URL || `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_BACKEND_PORT}`;
 
 const initialSocketState = {
   socket: null

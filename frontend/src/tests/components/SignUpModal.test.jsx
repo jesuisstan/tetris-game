@@ -7,7 +7,7 @@ import MockAdapter from 'axios-mock-adapter';
 import SignUpModal from '../../components/Login/SignUpModal';
 import * as alerts from '../../utils/alerts';
 
-const baseUrl = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_BACKEND_PORT}`;
+const baseUrl = process.env.REACT_APP_BACKEND_URL || `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_BACKEND_PORT}`;
 
 const mockAxios = new MockAdapter(axios);
 const mockNavigate = jest.fn();

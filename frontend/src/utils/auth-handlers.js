@@ -15,10 +15,12 @@ export const getCookieValue = (name, documentObj = document) => {
   return null;
 };
 
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_BACKEND_PORT}`;
+
 export const getUserData = async () => {
   try {
     const response = await axios.get(
-      `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_BACKEND_PORT}/api/users/getuser`,
+      `${BACKEND_URL}/api/users/getuser`,
       {
         withCredentials: true
       }
@@ -34,7 +36,7 @@ export const getUserData = async () => {
 export const logout = async () => {
   try {
     await axios.get(
-      `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_BACKEND_PORT}/api/auth/logout`,
+      `${BACKEND_URL}/api/auth/logout`,
       {
         withCredentials: true
       }

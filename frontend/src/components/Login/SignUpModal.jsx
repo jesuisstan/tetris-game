@@ -12,7 +12,7 @@ import { errorAlert, saveAlert } from '../../utils/alerts';
 import * as MUI from '../../styles/MUIstyles';
 import styles from '../../styles/login.module.css';
 
-const baseUrl = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_BACKEND_PORT}`;
+const baseUrl = process.env.REACT_APP_BACKEND_URL || `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_BACKEND_PORT}`;
 
 const SignUpModal = ({ open, setOpen }) => {
   const navigate = useNavigate();
