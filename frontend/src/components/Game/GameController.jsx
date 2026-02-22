@@ -14,7 +14,7 @@ import '../../styles/tetris-styles/game-controller.css';
 const GameController = ({ roomData, board, gameStats, player, setPlayer }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [dropTime, resumeDropTime] = useDropTime({
+  const [dropTime, pauseDropTime, resumeDropTime] = useDropTime({
     gameStats
   });
   const inputRef = useRef(null);

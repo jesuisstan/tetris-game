@@ -162,7 +162,7 @@ const Tetris = ({
               <TetrisLoader text="Loading observation bar..." />
             ) : (
               <div className={styles.observation} data-testid="othersBoards">
-                <p style={{ userSelect: 'none' }}>Observation:</p>
+                <p>Observation:</p>
                 <div className={styles.others}>
                   {Object.entries(othersBoards).map(
                     ([playerName, { board, points }]) => (

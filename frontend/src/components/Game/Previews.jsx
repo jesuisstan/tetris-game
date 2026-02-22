@@ -24,7 +24,7 @@ const Previews = ({ tetrominoes }) => {
       {isFirstRender.current ? (
         <div>
           <TetrisLoader>
-            <span style={{ fontSize: 'x-small', userSelect: 'none' }}>
+            <span style={{ fontSize: 'x-small' }}>
               Make your 1st drop
               <br /> and see the tips...
             </span>
