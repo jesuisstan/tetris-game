@@ -8,17 +8,14 @@
     "rimraf": "^6.0.1"
   },
   "scripts": {
-    "copy-env:backend": "node -e \"require('fs').copyFileSync('.env', 'backend/.env')\"",
-    "copy-env:frontend": "node -e \"require('fs').copyFileSync('.env', 'frontend/.env')\"",
-    "copy-env": "npm run copy-env:backend && npm run copy-env:frontend",
-    "install:all": "npm install && npm run copy-env:backend && npm run copy-env:frontend && cd backend && npm install && cd ../frontend && npm install",
-    "clean:backend": "npx rimraf ./backend/node_modules && npx rimraf ./backend/package-lock.json && npx rimraf ./backend/.env",
-    "clean:frontend": "npx rimraf ./frontend/node_modules && npx rimraf ./frontend/package-lock.json && npx rimraf ./frontend/.env && npx rimraf ./frontend/coverage && npx rimraf ./frontend/build",
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "clean:backend": "npx rimraf ./backend/node_modules && npx rimraf ./backend/package-lock.json",
+    "clean:frontend": "npx rimraf ./frontend/node_modules && npx rimraf ./frontend/package-lock.json && npx rimraf ./frontend/coverage && npx rimraf ./frontend/build",
     "clean:all": "npx rimraf node_modules && npx rimraf package-lock.json && npm run clean:backend && npm run clean:frontend",
-    "start:backend": "npm run copy-env:backend && cd backend && npm start",
-    "dev:frontend": "npm run copy-env:frontend && cd frontend && npm run dev",
+    "start:backend": "cd backend && npm start",
+    "dev:frontend": "cd frontend && npm run dev",
     "dev": "npx concurrently -n backend,frontend -c blue,magenta \"npm run start:backend\" \"npm run dev:frontend\"",
-    "start": "npx concurrently -n backend,frontend -c blue,magenta \"npm run start:backend\" \"npm run copy-env:frontend && cd frontend && npm run build:serve\"",
+    "start": "npx concurrently -n backend,frontend -c blue,magenta \"npm run start:backend\" \"cd frontend && npm run build:serve\"",
     "test": "cd frontend && npm run test",
     "coverage": "cd frontend && npm run coverage",
     "test:clean": "npx rimraf ./frontend/coverage && cd frontend && npm run test"

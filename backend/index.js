@@ -1,6 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
 import userRoutes from './routes/users-route.js';
 import authRoutes from './routes/auth-route.js';
 import cookieParser from 'cookie-parser';
@@ -12,7 +14,10 @@ import Game from './classes/Game.js';
 import Tetromino from './classes/Tetromino.js';
 import manageSocket from './socket-manager.js';
 
-dotenv.config();
+// Load .env from project root
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+dotenv.config({ path: resolve(__dirname, '../.env') });
 
 const parsedMaxPlayers = Number(process.env.REACT_APP_MAX_PLAYERS_IN_ROOM);
 export const MAX_PLAYERS_IN_ROOM =

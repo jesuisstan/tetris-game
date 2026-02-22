@@ -6,9 +6,11 @@
 /backend/node_modules
 
 ##env
-#.env
-#/backend/.env
-#/frontend/.env
+.env
+# Keep .env.example files for reference
+!.env.example
+!frontend/.env.example
+!backend/.env.example
 
 # dependencies
 /.pnp
