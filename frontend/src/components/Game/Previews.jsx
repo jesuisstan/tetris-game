@@ -26,7 +26,7 @@ const Previews = ({ tetrominoes }) => {
           <TetrisLoader>
             <span style={{ fontSize: 'x-small' }}>
               Make your 1st drop
-              <br /> and see the light...
+              <br /> and see the tips...
             </span>
           </TetrisLoader>
         </div>

@@ -1,0 +1,26 @@
+name: Keep Render.com Services Alive
+
+on:
+  schedule:
+    # Run every 8 minutes
+    - cron: '*/8 * * * *'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  ping-services:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Frontend
+        run: |
+          echo "Pinging frontend..."
+          curl -f https://tetris-game-frontend.onrender.com || echo "Frontend ping failed"
+        
+      - name: Ping Backend API
+        run: |
+          echo "Pinging backend API..."
+          curl -f https://tetris-game-backend-verb.onrender.com/api/check || echo "Backend API ping failed"
+        
+      - name: Ping Backend Socket.IO
+        run: |
+          echo "Pinging backend Socket.IO..."
+          curl -f "https://tetris-game-backend-verb.onrender.com/socket.io/?EIO=4&transport=polling" || echo "Backend Socket.IO ping failed"
