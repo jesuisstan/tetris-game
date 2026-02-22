@@ -102,7 +102,8 @@ const PleaseLogin = () => {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            gap: '21px'
+            gap: '21px',
+            userSelect: 'none'
           }}
         >
           <SignUpModal open={signUpOpen} setOpen={setSignUpOpen} />
@@ -118,7 +119,8 @@ const PleaseLogin = () => {
                 flexDirection: 'column',
                 gap: '21px',
                 alignItems: 'center',
-                justifyContent: 'center'
+                justifyContent: 'center',
+                userSelect: 'none'
               }}
             >
               <form

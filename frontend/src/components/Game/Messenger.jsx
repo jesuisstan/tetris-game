@@ -77,7 +77,7 @@ const Messenger = ({ messages, roomData, hidable }) => {
         </div>
       )}
       <div className={`${styles.wrapper} ${hidden ? styles.transparent : ''}`}>
-        <p>Last updates:</p>
+        <p style={{ userSelect: 'none' }}>Last updates:</p>
         {messages.length === 0 && (
           <p className={styles.singleMessage}>No news</p>
         )}

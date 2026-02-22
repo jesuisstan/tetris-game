@@ -3,6 +3,7 @@
   flex-direction: column;
   gap: 21px;
   margin: 21px 21px 0;
+  user-select: none;
 }
 
 .centered {
@@ -11,4 +12,5 @@
   justify-content: center;
   align-items: center;
   min-height: 82.2vh;
+  user-select: none;
 }

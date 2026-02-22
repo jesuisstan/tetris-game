@@ -69,6 +69,7 @@ const GameLayout = () => {
     } else {
       checkRoom();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [room, navigate]);
 
   // handling chat messaging:
@@ -95,6 +96,7 @@ const GameLayout = () => {
     return () => {
       dispatch(stopListeningSocketEvent({ eventName: 'chat', callback: null }));
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -112,6 +114,7 @@ const GameLayout = () => {
         setGameOver(true);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roomData]);
 
   useEffect(() => {
@@ -231,6 +234,7 @@ const GameLayout = () => {
       );
       dispatch(emitSocketEvent({ eventName: 'leave_room', data: null }));
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleLeave = () => {

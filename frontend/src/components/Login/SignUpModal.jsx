@@ -84,7 +84,8 @@ const SignUpModal = ({ open, setOpen }) => {
               flexDirection: 'column',
               gap: '21px',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              userSelect: 'none'
             }}
           >
             <form onSubmit={handleSignUp} className={styles.formList}>

@@ -14,7 +14,7 @@ import '../../styles/tetris-styles/game-controller.css';
 const GameController = ({ roomData, board, gameStats, player, setPlayer }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [dropTime, pauseDropTime, resumeDropTime] = useDropTime({
+  const [dropTime, resumeDropTime] = useDropTime({
     gameStats
   });
   const inputRef = useRef(null);
@@ -45,7 +45,7 @@ const GameController = ({ roomData, board, gameStats, player, setPlayer }) => {
           eventName: 'game_over',
           data: {
             roomName: roomData?.name,
-            roomAdmin: roomData?.admin?.socketId,
+            roomAdmin: roomData?.admin?.socketId
           }
         })
       );
@@ -56,7 +56,7 @@ const GameController = ({ roomData, board, gameStats, player, setPlayer }) => {
           eventName: 'game_over',
           data: {
             roomName: roomData?.name,
-            roomAdmin: roomData?.admin?.socketId,
+            roomAdmin: roomData?.admin?.socketId
           }
         })
       );
@@ -75,7 +75,7 @@ const GameController = ({ roomData, board, gameStats, player, setPlayer }) => {
       board,
       player,
       setPlayer,
-      roomData,
+      roomData
     });
   };
 

@@ -69,6 +69,7 @@ const Tetris = ({
         );
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameOver, board]);
 
   useEffect(() => {
@@ -128,6 +129,7 @@ const Tetris = ({
         })
       );
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameOver]);
 
   return (
@@ -160,7 +162,7 @@ const Tetris = ({
               <TetrisLoader text="Loading observation bar..." />
             ) : (
               <div className={styles.observation} data-testid="othersBoards">
-                <p>Observation:</p>
+                <p style={{ userSelect: 'none' }}>Observation:</p>
                 <div className={styles.others}>
                   {Object.entries(othersBoards).map(
                     ([playerName, { board, points }]) => (

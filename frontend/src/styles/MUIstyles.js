@@ -22,7 +22,8 @@ export const modalHeader = {
   letterSpacing: '0.02857em',
   textAlign: 'center',
   fontWeight: 'bold',
-  color: 'var(--TETRIS_PINK)'
+  color: 'var(--TETRIS_PINK)',
+  userSelect: 'none'
 };
 
 export const modalClose = {
