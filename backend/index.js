@@ -134,3 +134,38 @@ server.listen(process.env.REACT_APP_BACKEND_PORT || 4444, () => {
   );
   connectToDatabase();
 });
+
+// Keep-alive ping to prevent Render.com from sleeping
+const ping = async (url) => {
+  try {
+    await fetch(url);
+    console.log(`Ping success: ${url}`);
+  } catch (error) {
+    console.error(`Ping failed: ${url}`, error);
+  }
+};
+
+// Start keep-alive pings every 5 minutes
+const startKeepAlive = () => {
+  const frontendUrl = process.env.FRONTEND_URL;
+  const backendUrl = process.env.BACKEND_URL 
+    ? `${process.env.BACKEND_URL}/api/check`
+    : `http://localhost:${process.env.REACT_APP_BACKEND_PORT || 4444}/api/check`;
+
+  if (frontendUrl || process.env.NODE_ENV === 'production') {
+    setInterval(() => {
+      if (frontendUrl) {
+        ping(frontendUrl);
+      }
+      ping(backendUrl);
+    }, 5 * 60 * 1000); // every 5 minutes
+    
+    console.log('Keep-alive ping started (every 5 minutes)');
+    if (frontendUrl) {
+      console.log(`Frontend URL: ${frontendUrl}`);
+    }
+    console.log(`Backend URL: ${backendUrl}`);
+  }
+};
+
+startKeepAlive();
