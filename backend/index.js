@@ -149,7 +149,7 @@ const ping = async (url) => {
 const startKeepAlive = () => {
   const frontendUrl = process.env.FRONTEND_URL;
   const backendUrl = process.env.REACT_APP_BACKEND_URL 
-    ? `${process.env.BACKEND_URL}/api/check`
+    ? `${process.env.REACT_APP_BACKEND_URL}/api/check`
     : `http://localhost:${process.env.REACT_APP_BACKEND_PORT || 4444}/api/check`;
 
   if (frontendUrl || process.env.NODE_ENV === 'production') {
